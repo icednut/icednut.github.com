@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang=Ko>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="들은 세션 목차 Keynote Reactive Spring ( Spring 5 &amp;amp; Reactor ) 이벤트 소싱 (Event Sourcing) 소개 Implementing EventSourcing &amp;amp; CQRS (구현부) Indroductory RxJava Spring Data Envers  Keynote발표자료: http://benelog.g">
+<meta name="keywords" content="spring,springcamp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="스프링캠프 2017 둘째날 메모">
+<meta property="og:url" content="http://icednut.github.io/2017/04/23/20170423-spring-camp-day02/index.html">
+<meta property="og:site_name" content="Icednut&#39;s Note">
+<meta property="og:description" content="들은 세션 목차 Keynote Reactive Spring ( Spring 5 &amp;amp; Reactor ) 이벤트 소싱 (Event Sourcing) 소개 Implementing EventSourcing &amp;amp; CQRS (구현부) Indroductory RxJava Spring Data Envers  Keynote발표자료: http://benelog.g">
+<meta property="og:locale" content="Korean">
+<meta property="og:updated_time" content="2018-09-29T06:00:58.101Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="스프링캠프 2017 둘째날 메모">
+<meta name="twitter:description" content="들은 세션 목차 Keynote Reactive Spring ( Spring 5 &amp;amp; Reactor ) 이벤트 소싱 (Event Sourcing) 소개 Implementing EventSourcing &amp;amp; CQRS (구현부) Indroductory RxJava Spring Data Envers  Keynote발표자료: http://benelog.g">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>스프링캠프 2017 둘째날 메모</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/05/25/20170525-spark-lecture-day01/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/04/22/20170422-spring-camp-day01/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2017/04/23/20170423-spring-camp-day02/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2017/04/23/20170423-spring-camp-day02/&text=스프링캠프 2017 둘째날 메모"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2017/04/23/20170423-spring-camp-day02/&title=스프링캠프 2017 둘째날 메모"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2017/04/23/20170423-spring-camp-day02/&is_video=false&description=스프링캠프 2017 둘째날 메모"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=스프링캠프 2017 둘째날 메모&body=Check out this article: http://icednut.github.io/2017/04/23/20170423-spring-camp-day02/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2017/04/23/20170423-spring-camp-day02/&title=스프링캠프 2017 둘째날 메모"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2017/04/23/20170423-spring-camp-day02/&title=스프링캠프 2017 둘째날 메모"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2017/04/23/20170423-spring-camp-day02/&title=스프링캠프 2017 둘째날 메모"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2017/04/23/20170423-spring-camp-day02/&title=스프링캠프 2017 둘째날 메모"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2017/04/23/20170423-spring-camp-day02/&name=스프링캠프 2017 둘째날 메모&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#들은-세션-목차"><span class="toc-number">1.</span> <span class="toc-text">들은 세션 목차</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Keynote"><span class="toc-number">1.1.</span> <span class="toc-text">Keynote</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reactive-Spring-Spring-5-amp-Reactor-발표자-정윤진"><span class="toc-number">1.2.</span> <span class="toc-text">Reactive Spring: Spring 5 &amp; Reactor (발표자: 정윤진)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#이벤트-소싱-Event-Sourcing-소개-발표자-이규원"><span class="toc-number">1.3.</span> <span class="toc-text">이벤트 소싱 (Event Sourcing) 소개 (발표자: 이규원)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Implementing-EventSourcing-amp-CQRS-구현부-발표자-심천보"><span class="toc-number">1.4.</span> <span class="toc-text">Implementing EventSourcing &amp; CQRS 구현부 (발표자: 심천보)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Indroductory-RxJava-발표자-김인태"><span class="toc-number">1.5.</span> <span class="toc-text">Indroductory RxJava (발표자: 김인태)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring-Data-Envers-발표자-김영한"><span class="toc-number">1.6.</span> <span class="toc-text">Spring Data Envers (발표자: 김영한)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#그-외"><span class="toc-number">1.7.</span> <span class="toc-text">그 외</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        스프링캠프 2017 둘째날 메모
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">Icednut's Note</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-04-23T03:16:51.000Z" itemprop="datePublished">2017-04-23</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/spring/">spring</a>, <a class="tag-link" href="/tags/springcamp/">springcamp</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="들은-세션-목차"><a href="#들은-세션-목차" class="headerlink" title="들은 세션 목차"></a>들은 세션 목차</h1><ul>
+<li>Keynote</li>
+<li>Reactive Spring ( Spring 5 &amp; Reactor )</li>
+<li>이벤트 소싱 (Event Sourcing) 소개</li>
+<li>Implementing EventSourcing &amp; CQRS (구현부)</li>
+<li>Indroductory RxJava</li>
+<li>Spring Data Envers</li>
+</ul>
+<h2 id="Keynote"><a href="#Keynote" class="headerlink" title="Keynote"></a>Keynote</h2><p>발표자료: <a href="http://benelog.github.io/docs/spring-camp-2017/" target="_blank" rel="noopener">http://benelog.github.io/docs/spring-camp-2017/</a></p>
+<ul>
+<li>spring-composed?</li>
+</ul>
+<h2 id="Reactive-Spring-Spring-5-amp-Reactor-발표자-정윤진"><a href="#Reactive-Spring-Spring-5-amp-Reactor-발표자-정윤진" class="headerlink" title="Reactive Spring: Spring 5 &amp; Reactor (발표자: 정윤진)"></a>Reactive Spring: Spring 5 &amp; Reactor (발표자: 정윤진)</h2><p>발표자료: <a href="https://www.slideshare.net/PivotalKorea/reactive-spring5-springcamp2017-23th-of-april" target="_blank" rel="noopener">https://www.slideshare.net/PivotalKorea/reactive-spring5-springcamp2017-23th-of-april</a></p>
+<ul>
+<li>Spring 5가 어떤 모양으로 될지, Reactor가 어떻게 적용될지 소개</li>
+<li>Ice Breaking<ul>
+<li><a href="http://www.slideshare.net/KevinMcEntee/netflix-incloudsmarch8-2011forwiki" target="_blank" rel="noopener">http://www.slideshare.net/KevinMcEntee/netflix-incloudsmarch8-2011forwiki</a></li>
+<li>데이터베이스의 장애가 서비스 전체 장애로 이어짐 -&gt; 서비스 분리가 안됨</li>
+<li>Reactive로 분산된 서비스에 대한 요청 처리를 어떻게 할 수 있을지 소개 (Spring 5 reactor)</li>
+</ul>
+</li>
+<li>Spring 5<ul>
+<li>JDK 9, HTTP/2, Reactive 차용</li>
+</ul>
+</li>
+<li>Project Reactor<ul>
+<li>왜 필요한가? 2000년대에 의존하는 기술이 많음 -&gt; 요청 처리에 대한 처리를 Thread별로 진행 (요청 지연이 각각 다름) -&gt; 요청이 더 많아지는 것을 처리하기 위해 Load Balancer를 앞에 둠(Are you dead?) -&gt; 어플리케이션이 통으로 하나가 되어 있는 경우라서 처리할 서버만 늘리는 꼴</li>
+<li>이 구조를 탈피할순 없을까? Nonblocking Runtime -&gt; 요청 처리만큼 스레드를 만들지 말자라는 아이디어에서 출발 -&gt; 요청을 받을 때마다 가용한 스레드가 뭔지 알 필요없이 Pub/Sub으로 Worker Thread에게 요청처리를 알림</li>
+<li>JVM을 위한 Reactive Streams</li>
+</ul>
+</li>
+<li>Reactive Manifesto<ul>
+<li>응답성: 모든 요청에 대해 적시에 응답, 문제에 대해 빠르고 효율적으로 응답</li>
+<li>탄력성: 시스템 부하, 자원 변경에도 응답성을 유지</li>
+<li>회복성: 시스템이 장애에도 응답성을 유지 (Circuit Breaker, 응답 불가 상태를 감지하여 미리 지정한 응답으로 전달)</li>
+<li>메세지 중심: 리액티브 시스템은 느슨한 결합을 사용, 컴포넌트들은 비동기 방법으로 메세지 드리븐으로 동작</li>
+</ul>
+</li>
+<li>Reactive System, Reactive Programming -&gt; 복수개의 서비스로 이루어진 분산 시스템에 대한 해법, Microservice가 지향하는 방향</li>
+<li>Reactive Streams<ul>
+<li>인프라간의 상호 운용성에 집중 (웹서버, 데이터 저장소 드라이버, 프레임워크)</li>
+<li>NonBlocking Backpressure 지원 -&gt; 응답 못하면 다른 곳에서 처리할 수 있게 -&gt; 백프레셔는 응답을 처리하지 못하면 역류</li>
+<li>RxJava, Project Reactor, Vert.x, Akka</li>
+<li>Subscriber가 처리를 못하면 Publisher가 큐에 담아놓고 Subscriber를 확보한다.</li>
+<li>크게 Mono와 Flux를 보면 됨</li>
+<li>docker run -p 127.0.0.1:27017:27017 mongo</li>
+</ul>
+</li>
+<li>Reactive 디버깅은? 뭐 있었는데 못봄…</li>
+<li>Managing State with RxJava By Jake Wharton</li>
+</ul>
+<h2 id="이벤트-소싱-Event-Sourcing-소개-발표자-이규원"><a href="#이벤트-소싱-Event-Sourcing-소개-발표자-이규원" class="headerlink" title="이벤트 소싱 (Event Sourcing) 소개 (발표자: 이규원)"></a>이벤트 소싱 (Event Sourcing) 소개 (발표자: 이규원)</h2><p>발표자료: <a href="http://doc.co/fggswS" target="_blank" rel="noopener">http://doc.co/fggswS</a></p>
+<ul>
+<li>이벤트 소싱<ul>
+<li>이벤트 소싱하면 착각하는거? 이벤트 드리븐 아키텍쳐와 착각 -&gt; 이벤트 소싱은 이벤트를 저장하는 것에 대한 것이지 이벤트를 주고 받는다는 것이 아님</li>
+<li>장비구니에 대한 상태는 마지막 것만 저장됨 -&gt; 넣었다가 뻈다가 하는 것에 대한 것은? 이걸 캐치해야지 추천이 가능하지 않을까?</li>
+<li>이벤트는 도메인에 대한 사실을 기록하진 않음</li>
+<li>이벤트 소싱은 변화를 나타내는 이벤트를 저장하고 이 이벤트를 재생해서 일련의 상태를 만들어냄? -&gt; 도메인에서 발생하는 모든 이벤트를 기록하는 일 -&gt; 외부에서 명령을 받으면 결과로 이벤트를 저장 (ex: 장바구니에 물건을 담았다라는 행위를 기록) -&gt; 상태는 영속 대상이 아니며 이벤트가 영속 대상, 상태는 추가될 뿐</li>
+<li>이벤트 소싱의 예) AWS, GIT</li>
+</ul>
+</li>
+<li>데이터 영속<ul>
+<li>이벤트 저장소는 하나의 거대한 이벤트 스트림이 아님 -&gt; 이벤트 저장소는 수많은 이벤트 스트림으로 구성됨 -&gt; 도메인 오브젝트 하나 당 이벤트 스트림이 저장됨</li>
+<li>커맨드와 이벤트는 하나의 데이터 명령(Cammand)는 유효한지 검증이 필요, 반면 이벤트는 이미 지나간 사실 그러므로 검증 대상이 아님 -&gt; 이벤트는 정책이 바뀌어도 실패라는게 없음 -&gt; 이벤트는 재생하면 항상 성공해야함</li>
+<li>이벤트 소싱은 데이터베이스가 뭔지 상관없이 모두 구현 가능 -&gt; 임피던스 미스매치가 발생하지 않음</li>
+<li>CompoundPrimary Key: ShoppingCartId (Object Id), Version | Value: EventType, Payload</li>
+</ul>
+</li>
+<li>백만개의 이벤트를 가지는 도메인 개체일 경우에는? 성능이 이슈가 될 수 있다.<ul>
+<li>스냅샷을 사용 -&gt; 특정 상황이 있을 떄마다 이벤트를 스냅샷으로 남긴다. 스냅샷 이후의 이벤트만 재생하기 때문에 성능 이슈가 나타나지 않음</li>
+<li>Key: ObjectId | value: Version, payload</li>
+</ul>
+</li>
+<li>Messaging<ul>
+<li>이벤트 소싱에서는 정확히 한 번 배달이 어렵다. 메세지 누락이 있을 수가 있어서 비지니스에서는 쓰기 어렵다? 메세지를 한 번 이상 보낼 수도 있다라는 것 때문에 멱등성 문제가 있을 수 있다.</li>
+<li>이벤트 소싱은 정확히 한 번 배달은 어렵지만 최소 한 번 배달은 쉬울 수 있다.</li>
+<li>이벤트 스트림은 순서를 보장</li>
+</ul>
+</li>
+<li>CQRS<ul>
+<li>재고가 10개 미만인 상품 조회 -&gt; 이벤트 스토어를 풀스캔하여 찾는다?</li>
+<li>이벤트 스토어는 다양한 비지니스에 대한 조회를 충족할 수 없다. 그러므로 무조건 CQRS를 적용해야 함</li>
+<li>Command Query Seperation: 질문은 대답을 변경하지 않는다. 질문에 대한 답만 하는 메서드, 저장은 하되 응답은 하지 않는 메서드 이렇게 둘로 나누는 기법</li>
+<li>CQS를 DDD에 적용하다가 더 발전해서 Command Side / Query Side와 같이 시스템 자체를 나누는 CQRS로 발전</li>
+<li>Command Side의 이벤트 스토어에 모두 저장 Query Side의 Materialized Store에 복사해서 사용 (정규화, 중복 데이터는 신경 안씀)</li>
+</ul>
+</li>
+<li>고려사항<ul>
+<li>익숙하지 않아 학습 곡선이 좀 있다.</li>
+<li>비동기와 씨름해야 된다.</li>
+<li><a href="https://github.com/Reacture/Khala.EventSourcing" target="_blank" rel="noopener">https://github.com/Reacture/Khala.EventSourcing</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="Implementing-EventSourcing-amp-CQRS-구현부-발표자-심천보"><a href="#Implementing-EventSourcing-amp-CQRS-구현부-발표자-심천보" class="headerlink" title="Implementing EventSourcing &amp; CQRS 구현부 (발표자: 심천보)"></a>Implementing EventSourcing &amp; CQRS 구현부 (발표자: 심천보)</h2><p>발표자료: <a href="https://github.com/jaceshim/springcamp2017/blob/master/springcamp2017_implementing_es_cqrs.pdf" target="_blank" rel="noopener">https://github.com/jaceshim/springcamp2017/blob/master/springcamp2017_implementing_es_cqrs.pdf</a><br>예제소스: <a href="https://github.com/jaceshim/springcamp2017" target="_blank" rel="noopener">https://github.com/jaceshim/springcamp2017</a></p>
+<ul>
+<li>이벤트 소싱은 데이터 저장 방식의 새로운 패턴!</li>
+<li>스냅샷은 인메모리로 관리? </li>
+<li>구현 소스: <a href="https://github.com/jaceshim/springcamp2017" target="_blank" rel="noopener">https://github.com/jaceshim/springcamp2017</a><ul>
+<li>데이터 변경 시 버전을 먼저 체크</li>
+</ul>
+</li>
+<li>Axon/Eventuate Framework</li>
+</ul>
+<h2 id="Indroductory-RxJava-발표자-김인태"><a href="#Indroductory-RxJava-발표자-김인태" class="headerlink" title="Indroductory RxJava (발표자: 김인태)"></a>Indroductory RxJava (발표자: 김인태)</h2><ul>
+<li>RxJava를 이해하려면… 비동기, Java 8 Lamda, High-order function</li>
+<li>메인스레드에서 Sub 스레드 수행 시 Sub 스레드의 종료 로그가 안찍힘 왜?<ul>
+<li>setDaemon(boolean)</li>
+<li>join()</li>
+<li>블로킹 방식이기 때문에 notify를 사용</li>
+</ul>
+</li>
+<li>Java에서 스레드 생성 시 스택 공간을 잡음 (1MB)<ul>
+<li>Multi-Thread를 직접할 때 문제가 될 수 있음 (without threadPool)</li>
+</ul>
+</li>
+</ul>
+<h2 id="Spring-Data-Envers-발표자-김영한"><a href="#Spring-Data-Envers-발표자-김영한" class="headerlink" title="Spring Data Envers (발표자: 김영한)"></a>Spring Data Envers (발표자: 김영한)</h2><ul>
+<li>변경 이력을 어떻게 할 것인가?</li>
+<li>RevisionRepository를 다른 데이터베이스 서버의 DataSource를 쓸 순 없을까?</li>
+</ul>
+<h2 id="그-외"><a href="#그-외" class="headerlink" title="그 외"></a>그 외</h2><p>이번 스프링캠프의 이벤트소싱 주제는 실로 충격이었다. 마이크로서비스, Reactive Programming, Spring Cloud Data Flow와 같은 것들이 이벤트 소싱을 하기 위한 발판 같아 보였다. (어쩌면 나의 오해일수도..^^;) 아무튼 내가 하고 있는 업무에 대해서는 규모가 커지면 터질게 분명했다. 개선은? 예전 방식과 비슷한 새로 개발이라는 어리석은 선택을 하지 않기 위해 미리 공부해 대비해놔야겠다.</p>
+<ul>
+<li>Thread의 이해</li>
+<li>Reactive Programming (Project Reactor or RxJava)</li>
+<li>DDD</li>
+<li>Event Sourcing</li>
+</ul>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#들은-세션-목차"><span class="toc-number">1.</span> <span class="toc-text">들은 세션 목차</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Keynote"><span class="toc-number">1.1.</span> <span class="toc-text">Keynote</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reactive-Spring-Spring-5-amp-Reactor-발표자-정윤진"><span class="toc-number">1.2.</span> <span class="toc-text">Reactive Spring: Spring 5 &amp; Reactor (발표자: 정윤진)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#이벤트-소싱-Event-Sourcing-소개-발표자-이규원"><span class="toc-number">1.3.</span> <span class="toc-text">이벤트 소싱 (Event Sourcing) 소개 (발표자: 이규원)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Implementing-EventSourcing-amp-CQRS-구현부-발표자-심천보"><span class="toc-number">1.4.</span> <span class="toc-text">Implementing EventSourcing &amp; CQRS 구현부 (발표자: 심천보)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Indroductory-RxJava-발표자-김인태"><span class="toc-number">1.5.</span> <span class="toc-text">Indroductory RxJava (발표자: 김인태)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring-Data-Envers-발표자-김영한"><span class="toc-number">1.6.</span> <span class="toc-text">Spring Data Envers (발표자: 김영한)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#그-외"><span class="toc-number">1.7.</span> <span class="toc-text">그 외</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2017/04/23/20170423-spring-camp-day02/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2017/04/23/20170423-spring-camp-day02/&text=스프링캠프 2017 둘째날 메모"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2017/04/23/20170423-spring-camp-day02/&title=스프링캠프 2017 둘째날 메모"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2017/04/23/20170423-spring-camp-day02/&is_video=false&description=스프링캠프 2017 둘째날 메모"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=스프링캠프 2017 둘째날 메모&body=Check out this article: http://icednut.github.io/2017/04/23/20170423-spring-camp-day02/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2017/04/23/20170423-spring-camp-day02/&title=스프링캠프 2017 둘째날 메모"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2017/04/23/20170423-spring-camp-day02/&title=스프링캠프 2017 둘째날 메모"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2017/04/23/20170423-spring-camp-day02/&title=스프링캠프 2017 둘째날 메모"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2017/04/23/20170423-spring-camp-day02/&title=스프링캠프 2017 둘째날 메모"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2017/04/23/20170423-spring-camp-day02/&name=스프링캠프 2017 둘째날 메모&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Icednut
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'icednut';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

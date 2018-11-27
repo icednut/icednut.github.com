@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang=Ko>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="CQRS를 언제, 왜, 그리고 어떻게 사용할 것인가? CQRS Motivation: 기존 방식의 CRUD Application으로는 상태 정보를 관리하기 힘듬 (따로 구현해야 됨). 상태 정보를 저장할 수 있도록 구현이 필요. DB를 하나만 쓰는 것이 아닌 확장성을 고려한 개발 필요 Event Sourcing: DB에 현재 상태를 계속 저장. 이에 따라 상">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle Code Seoul">
+<meta property="og:url" content="http://icednut.github.io/2017/08/30/20170830-oracle-code-seoul/index.html">
+<meta property="og:site_name" content="Icednut&#39;s Note">
+<meta property="og:description" content="CQRS를 언제, 왜, 그리고 어떻게 사용할 것인가? CQRS Motivation: 기존 방식의 CRUD Application으로는 상태 정보를 관리하기 힘듬 (따로 구현해야 됨). 상태 정보를 저장할 수 있도록 구현이 필요. DB를 하나만 쓰는 것이 아닌 확장성을 고려한 개발 필요 Event Sourcing: DB에 현재 상태를 계속 저장. 이에 따라 상">
+<meta property="og:locale" content="Korean">
+<meta property="og:updated_time" content="2018-09-29T06:00:58.101Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Oracle Code Seoul">
+<meta name="twitter:description" content="CQRS를 언제, 왜, 그리고 어떻게 사용할 것인가? CQRS Motivation: 기존 방식의 CRUD Application으로는 상태 정보를 관리하기 힘듬 (따로 구현해야 됨). 상태 정보를 저장할 수 있도록 구현이 필요. DB를 하나만 쓰는 것이 아닌 확장성을 고려한 개발 필요 Event Sourcing: DB에 현재 상태를 계속 저장. 이에 따라 상">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Oracle Code Seoul</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/09/02/20170902-spark-sql-with-avro-parquet/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/07/22/20170722-angular-seminar-note/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2017/08/30/20170830-oracle-code-seoul/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2017/08/30/20170830-oracle-code-seoul/&text=Oracle Code Seoul"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2017/08/30/20170830-oracle-code-seoul/&title=Oracle Code Seoul"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2017/08/30/20170830-oracle-code-seoul/&is_video=false&description=Oracle Code Seoul"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Oracle Code Seoul&body=Check out this article: http://icednut.github.io/2017/08/30/20170830-oracle-code-seoul/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2017/08/30/20170830-oracle-code-seoul/&title=Oracle Code Seoul"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2017/08/30/20170830-oracle-code-seoul/&title=Oracle Code Seoul"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2017/08/30/20170830-oracle-code-seoul/&title=Oracle Code Seoul"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2017/08/30/20170830-oracle-code-seoul/&title=Oracle Code Seoul"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2017/08/30/20170830-oracle-code-seoul/&name=Oracle Code Seoul&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#CQRS를-언제-왜-그리고-어떻게-사용할-것인가"><span class="toc-number">1.</span> <span class="toc-text">CQRS를 언제, 왜, 그리고 어떻게 사용할 것인가?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-9와-Spring-5로-바라보는-Java의-미래"><span class="toc-number">2.</span> <span class="toc-text">Java 9와 Spring 5로 바라보는 Java의 미래</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Oracle Code Seoul
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">Icednut's Note</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-08-30T00:00:12.000Z" itemprop="datePublished">2017-08-30</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Java/">Java</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="CQRS를-언제-왜-그리고-어떻게-사용할-것인가"><a href="#CQRS를-언제-왜-그리고-어떻게-사용할-것인가" class="headerlink" title="CQRS를 언제, 왜, 그리고 어떻게 사용할 것인가?"></a>CQRS를 언제, 왜, 그리고 어떻게 사용할 것인가?</h3><ul>
+<li>CQRS Motivation: 기존 방식의 CRUD Application으로는 상태 정보를 관리하기 힘듬 (따로 구현해야 됨). 상태 정보를 저장할 수 있도록 구현이 필요. DB를 하나만 쓰는 것이 아닌 확장성을 고려한 개발 필요</li>
+<li>Event Sourcing: DB에 현재 상태를 계속 저장. 이에 따라 상태 재생이 가능하게 되고 테스팅이 용이해진다. (Event는 atomic, immutable 해야 된다.)</li>
+<li>Event Driven Architecture<ul>
+<li>collaboration needed. 주문 시스템을 보면 주문 시 모든 시스템이 Lock이 걸린 뒤 주문을 처리하지 않는다. 각 시스템이 용이하게 운영될 수 있도록 이벤트를 통해 분산 시스템이 될 수 있어야 함. (comminication via events, published reliably)</li>
+<li>split-up transations. 주문이 시작되면 여러 개의 트랜잭션으로 나눠지는데 이 때문에 일관성 확보가 가능해짐(?)</li>
+</ul>
+</li>
+<li>Command Query Responsability Segregation<ul>
+<li>읽기와 쓰기를 분리.</li>
+<li>command는 이벤트 방식으로 전달.</li>
+<li>읽기와 쓰기를 연결하는 것은 Event Store. Event Store에서의 상태 정보는 IMDG로도 관리할 수 있다. (ex: 커피 주문 시작은 CommandService에서 처리하면 이벤트 스토어로 이벤트를 날린 뒤 QueryService로 이벤트를 전달하여 주문 정보를 저장.)</li>
+<li>분산 시스템이 아닌 단일 시스템에 CQRS를 적용하는 것은 오버헤드를 늘리는 꼴이 될 수도 있다.</li>
+<li>CQRS에서는 읽기 DB와 쓰기 DB 등 서비스 별로 여러 개가 있을 수 있는데 동기화를 할 필요가 없다. (동기화는 좋은 생각이 아님) 오히려 이벤트를 통한 일관성 확보가 중요.</li>
+</ul>
+</li>
+<li>CQRS를 통해 어떤 문제를 해결할 수 있을까? 일반적인 CRUD 방식보다 확장성이 좋다. 또한 읽기서비스에서 failover가 가능해진다.</li>
+<li>Demo 시연<ul>
+<li>Java EE &amp; Kafka를 활용한 커피 주문 시스템 구현</li>
+<li><a href="https://github.com/sdaschner/scalable-coffee-shop" target="_blank" rel="noopener">https://github.com/sdaschner/scalable-coffee-shop</a></li>
+<li>참고로 Oracld Event Hub에서 카프카를 사용할 수 있다.</li>
+<li>더 자세한 데모 설명은 sebastian-daschner.com을 참조.</li>
+</ul>
+</li>
+</ul>
+<h3 id="Java-9와-Spring-5로-바라보는-Java의-미래"><a href="#Java-9와-Spring-5로-바라보는-Java의-미래" class="headerlink" title="Java 9와 Spring 5로 바라보는 Java의 미래"></a>Java 9와 Spring 5로 바라보는 Java의 미래</h3><ul>
+<li>2017/09/21 java 9과 spring 5이 출시될 예정</li>
+<li>Java는 위기를 맞이하면서 발전을 거듭해 왔다.</li>
+<li>Java 위기 1<ul>
+<li>서블릿, EJB, JSP, 크고 무거운 WAS, 다양한 웹 프레임워크 등 코드가 복잡해짐.</li>
+<li>자바 객체지향의 기본으로 돌아가자는 움직임이 일어남.</li>
+</ul>
+</li>
+<li>Java 위기 2<ul>
+<li>언어 발전의 요구와 호환성</li>
+<li>언어 발전과 구버전의 하위 호환성 둘 다 잡아야 되는 상황 발생. 다행히 Java는 언어 발전과 함께 하위 호환성도 지킴.</li>
+</ul>
+</li>
+<li>Java 위기 3<ul>
+<li>간결하고 관례를 통한 개발 움직임이 대두되기 시작. (특히 Ruby)</li>
+<li>Java에서도 Annotation이 등장하면서 관례 적용이 시작됨</li>
+</ul>
+</li>
+<li>Java 위기 4<ul>
+<li>함수형 프로그래밍과 비동기 논블로킹 개발의 도전 대두</li>
+<li>대용량 비동기 논블로킹 프로그래밍으로는 함수형 프로그래밍이 좋다고 보는 시각이 늘어남.</li>
+</ul>
+</li>
+<li>Java 9과 Spring 5<ul>
+<li>새로운 위기: 애노테이션, 메타프로그래밍, 관례의 범람</li>
+<li>어노테이션은 코드 행위를 규정하는 것이 아닌 메타 정보를 담는다. 상속, 확장이 없음. 따라서 어노테이션은 테스트가 불가.</li>
+<li>또한 메타 어노테이션에 대한 동작 규정이 없음 (ex: @Controller)</li>
+<li>Relection과 런타임 바이트코드 생성의 문제는 테스트, 디버깅이 힘들고 성능이 저하됨</li>
+<li>이 위기를 어떻게 극복할까? 함수형 스타일의 자바 웹 코드로 전환 (리액티브, 함수의 조함, 불변객체 사용)</li>
+<li>Spring 5에서는 더 이상 서블릿을 안써도 된다. HandlerFunction, RouterFunction을 사용</li>
+</ul>
+</li>
+<li>Java 9<ul>
+<li>Java 9에는 Flow API와 Reactive Streams가 추가 된다고 한다.</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#CQRS를-언제-왜-그리고-어떻게-사용할-것인가"><span class="toc-number">1.</span> <span class="toc-text">CQRS를 언제, 왜, 그리고 어떻게 사용할 것인가?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-9와-Spring-5로-바라보는-Java의-미래"><span class="toc-number">2.</span> <span class="toc-text">Java 9와 Spring 5로 바라보는 Java의 미래</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2017/08/30/20170830-oracle-code-seoul/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2017/08/30/20170830-oracle-code-seoul/&text=Oracle Code Seoul"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2017/08/30/20170830-oracle-code-seoul/&title=Oracle Code Seoul"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2017/08/30/20170830-oracle-code-seoul/&is_video=false&description=Oracle Code Seoul"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Oracle Code Seoul&body=Check out this article: http://icednut.github.io/2017/08/30/20170830-oracle-code-seoul/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2017/08/30/20170830-oracle-code-seoul/&title=Oracle Code Seoul"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2017/08/30/20170830-oracle-code-seoul/&title=Oracle Code Seoul"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2017/08/30/20170830-oracle-code-seoul/&title=Oracle Code Seoul"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2017/08/30/20170830-oracle-code-seoul/&title=Oracle Code Seoul"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2017/08/30/20170830-oracle-code-seoul/&name=Oracle Code Seoul&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Icednut
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'icednut';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

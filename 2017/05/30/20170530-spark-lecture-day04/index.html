@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang=Ko>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Machine Learing With SparkK-Means 주어진 데이터를 K개의 클러스터로 묶는 알고리즘 (Clustering, unsupervised learning) Center 값을 기준으로 분포를 구분함 PIC, K-means 참조   ML 코딩 (RDD-based API) Setting SparkContext Load Data (ex: RDD[">
+<meta name="keywords" content="Spark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="스파크 강의 노트 Day 4">
+<meta property="og:url" content="http://icednut.github.io/2017/05/30/20170530-spark-lecture-day04/index.html">
+<meta property="og:site_name" content="Icednut&#39;s Note">
+<meta property="og:description" content="Machine Learing With SparkK-Means 주어진 데이터를 K개의 클러스터로 묶는 알고리즘 (Clustering, unsupervised learning) Center 값을 기준으로 분포를 구분함 PIC, K-means 참조   ML 코딩 (RDD-based API) Setting SparkContext Load Data (ex: RDD[">
+<meta property="og:locale" content="Korean">
+<meta property="og:updated_time" content="2018-09-29T06:00:58.146Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="스파크 강의 노트 Day 4">
+<meta name="twitter:description" content="Machine Learing With SparkK-Means 주어진 데이터를 K개의 클러스터로 묶는 알고리즘 (Clustering, unsupervised learning) Center 값을 기준으로 분포를 구분함 PIC, K-means 참조   ML 코딩 (RDD-based API) Setting SparkContext Load Data (ex: RDD[">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>스파크 강의 노트 Day 4</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/06/16/20170616-web-page-lecture/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/05/29/20170529-spark-lecture-day03/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2017/05/30/20170530-spark-lecture-day04/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2017/05/30/20170530-spark-lecture-day04/&text=스파크 강의 노트 Day 4"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2017/05/30/20170530-spark-lecture-day04/&title=스파크 강의 노트 Day 4"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2017/05/30/20170530-spark-lecture-day04/&is_video=false&description=스파크 강의 노트 Day 4"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=스파크 강의 노트 Day 4&body=Check out this article: http://icednut.github.io/2017/05/30/20170530-spark-lecture-day04/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2017/05/30/20170530-spark-lecture-day04/&title=스파크 강의 노트 Day 4"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2017/05/30/20170530-spark-lecture-day04/&title=스파크 강의 노트 Day 4"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2017/05/30/20170530-spark-lecture-day04/&title=스파크 강의 노트 Day 4"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2017/05/30/20170530-spark-lecture-day04/&title=스파크 강의 노트 Day 4"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2017/05/30/20170530-spark-lecture-day04/&name=스파크 강의 노트 Day 4&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Machine-Learing-With-Spark"><span class="toc-number">1.</span> <span class="toc-text">Machine Learing With Spark</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#K-Means"><span class="toc-number">1.1.</span> <span class="toc-text">K-Means</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Logistic-Regression"><span class="toc-number">1.2.</span> <span class="toc-text">Logistic Regression</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exercise"><span class="toc-number">1.3.</span> <span class="toc-text">Exercise</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SparkR-Sparklyr"><span class="toc-number">1.4.</span> <span class="toc-text">SparkR, Sparklyr</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        스파크 강의 노트 Day 4
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">Icednut's Note</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-05-30T00:08:40.000Z" itemprop="datePublished">2017-05-30</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Spark/">Spark</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="Machine-Learing-With-Spark"><a href="#Machine-Learing-With-Spark" class="headerlink" title="Machine Learing With Spark"></a>Machine Learing With Spark</h1><h2 id="K-Means"><a href="#K-Means" class="headerlink" title="K-Means"></a>K-Means</h2><ul>
+<li>주어진 데이터를 K개의 클러스터로 묶는 알고리즘 (Clustering, unsupervised learning)<ul>
+<li>Center 값을 기준으로 분포를 구분함</li>
+<li>PIC, K-means 참조</li>
+</ul>
+</li>
+<li>ML 코딩 (RDD-based API)<ol>
+<li>Setting SparkContext</li>
+<li>Load Data (ex: RDD[String] -&gt; RDD[Vector], CSV 파일을 읽어서 한 줄씩 Vector로 변환)</li>
+<li>Train Model<ul>
+<li>ex)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val model: KMeansModel = KMeans.train(parsedData, 2, 20)</span><br><span class="line">model.clusterCenters.foreach(println)</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>Show Results</li>
+<li>Evaluate (평가)<ul>
+<li>ex)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val cost: Double = model.computeCost(parsedData)</span><br></pre></td></tr></table></figure></li>
+<li>cost 값이 0에 수렴할수록 좋은 모델</li>
+</ul>
+</li>
+<li>Predict<ul>
+<li>ex)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val predictions1: Int = model.predict(Vectors.dense(0.5, 0.5, 0.5))</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ol>
+</li>
+<li>ML 코딩 순서 (DataFrame-based APIs)<ol>
+<li>Setting SparkContext<ul>
+<li>ex)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val conf: SparkConf = ...</span><br><span class="line">val sc: SparkContext = new SparkContext(conf)</span><br><span class="line">val sqlContext: SQLContext = new SQLContext(sc) // RDD 프로그래밍과 차이점</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>Load Data<ul>
+<li>ex)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">val dataSet: DataFrame = sqlContext.createDataFrame(Seq(</span><br><span class="line">    (1, Vectors.dense(0.0, 0.0, 0.0)),</span><br><span class="line">    (2, Vectors.dense(0.1, 0.1, 0.1))</span><br><span class="line">).toDF(&quot;id&quot;, &quot;features&quot;)</span><br><span class="line"></span><br><span class="line">// CSV 파일을 읽어서 String을 Vector로 변환해도 된다.</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>Train Model<ul>
+<li>ex)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">val model: KMeans = new KMeans()</span><br><span class="line">  .setK(2)</span><br><span class="line">  .setFeaturesCol(&quot;features&quot;)</span><br><span class="line">  .setPredictionCol(&quot;prediction&quot;)</span><br><span class="line">val model: KMeansModel = kmeans.fit(dataSet)</span><br><span class="line"></span><br><span class="line">model.clusterCenters.foreach(println)</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>Show Results</li>
+<li>Evaluate (평가)<ul>
+<li>ex)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val cost: Double = model.computeCost(dataSet)</span><br></pre></td></tr></table></figure></li>
+<li>cost 값이 0에 수렴할수록 좋은 모델</li>
+</ul>
+</li>
+<li>Predict<ul>
+<li>ex)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val predictions1: Int = model.predict(Vectors.dense(0.5, 0.5, 0.5))</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="Logistic-Regression"><a href="#Logistic-Regression" class="headerlink" title="Logistic Regression"></a>Logistic Regression</h2><ul>
+<li>독립변수의 선형 결합을 이용하여 사건의 발생 가능성을 예측하는 분석 기법<ol>
+<li>Term Frequency: 단어 분포 파악</li>
+<li>Classification Model: 모델 생성</li>
+<li>Predict</li>
+</ol>
+</li>
+<li>모델을 PMML 파일로 디스크에 저장할 수 도 있다.</li>
+</ul>
+<h2 id="Exercise"><a href="#Exercise" class="headerlink" title="Exercise"></a>Exercise</h2><ul>
+<li><a href="https://github.com/sryza/spark-timeseries" target="_blank" rel="noopener">https://github.com/sryza/spark-timeseries</a></li>
+<li>Spark GraphX: 네트워크 분석, 스팸필터 개발에 쓰임</li>
+<li>PCA: 차원 축소 알고리즘</li>
+<li>Scailing: 데이터를 평탄화하는 작업</li>
+<li>Hyper Parameter</li>
+</ul>
+<h2 id="SparkR-Sparklyr"><a href="#SparkR-Sparklyr" class="headerlink" title="SparkR, Sparklyr"></a>SparkR, Sparklyr</h2><ul>
+<li>Sparklyr는 R코드를 분산해서 실행시킬 수 없다.</li>
+<li>DataFrame에서 DataSet으로 변환하는 방법: case class</li>
+</ul>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Machine-Learing-With-Spark"><span class="toc-number">1.</span> <span class="toc-text">Machine Learing With Spark</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#K-Means"><span class="toc-number">1.1.</span> <span class="toc-text">K-Means</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Logistic-Regression"><span class="toc-number">1.2.</span> <span class="toc-text">Logistic Regression</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exercise"><span class="toc-number">1.3.</span> <span class="toc-text">Exercise</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SparkR-Sparklyr"><span class="toc-number">1.4.</span> <span class="toc-text">SparkR, Sparklyr</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2017/05/30/20170530-spark-lecture-day04/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2017/05/30/20170530-spark-lecture-day04/&text=스파크 강의 노트 Day 4"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2017/05/30/20170530-spark-lecture-day04/&title=스파크 강의 노트 Day 4"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2017/05/30/20170530-spark-lecture-day04/&is_video=false&description=스파크 강의 노트 Day 4"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=스파크 강의 노트 Day 4&body=Check out this article: http://icednut.github.io/2017/05/30/20170530-spark-lecture-day04/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2017/05/30/20170530-spark-lecture-day04/&title=스파크 강의 노트 Day 4"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2017/05/30/20170530-spark-lecture-day04/&title=스파크 강의 노트 Day 4"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2017/05/30/20170530-spark-lecture-day04/&title=스파크 강의 노트 Day 4"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2017/05/30/20170530-spark-lecture-day04/&title=스파크 강의 노트 Day 4"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2017/05/30/20170530-spark-lecture-day04/&name=스파크 강의 노트 Day 4&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Icednut
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'icednut';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang=Ko>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Druid란 무엇인가?  Druid is a system built to allow fast (“real-time”) access to large sets of seldom-changing data. Druid is an open-source data store designed for sub-second queries on real-time and hist">
+<meta name="keywords" content="IT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Druid 파헤치기 - 입문">
+<meta property="og:url" content="http://icednut.github.io/2018/03/05/20180305-start-druid/index.html">
+<meta property="og:site_name" content="Icednut&#39;s Note">
+<meta property="og:description" content="Druid란 무엇인가?  Druid is a system built to allow fast (“real-time”) access to large sets of seldom-changing data. Druid is an open-source data store designed for sub-second queries on real-time and hist">
+<meta property="og:locale" content="Korean">
+<meta property="og:image" content="http://icednut.github.io/images/20180305-start-druid/OLAP_Cube.svg">
+<meta property="og:image" content="http://icednut.github.io/images/20180305-start-druid/olap_cube.png">
+<meta property="og:image" content="http://icednut.github.io/images/20180305-start-druid/olap_cube_2.jpg">
+<meta property="og:image" content="http://icednut.github.io/images/20180305-start-druid/oltp-olap.png">
+<meta property="og:image" content="http://icednut.github.io/images/20180305-start-druid/dt_wh.png">
+<meta property="og:image" content="http://icednut.github.io/images/20180305-start-druid/druid-dataflow-3.png">
+<meta property="og:image" content="http://icednut.github.io/images/20180305-start-druid/druid-manage-1.png">
+<meta property="og:updated_time" content="2018-11-25T11:21:15.338Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Druid 파헤치기 - 입문">
+<meta name="twitter:description" content="Druid란 무엇인가?  Druid is a system built to allow fast (“real-time”) access to large sets of seldom-changing data. Druid is an open-source data store designed for sub-second queries on real-time and hist">
+<meta name="twitter:image" content="http://icednut.github.io/images/20180305-start-druid/OLAP_Cube.svg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Druid 파헤치기 - 입문</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/03/25/20180325-about-java-garbage-collection/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/09/04/20170904-java-web-develop-with-spring/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2018/03/05/20180305-start-druid/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2018/03/05/20180305-start-druid/&text=Druid 파헤치기 - 입문"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2018/03/05/20180305-start-druid/&title=Druid 파헤치기 - 입문"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2018/03/05/20180305-start-druid/&is_video=false&description=Druid 파헤치기 - 입문"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Druid 파헤치기 - 입문&body=Check out this article: http://icednut.github.io/2018/03/05/20180305-start-druid/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2018/03/05/20180305-start-druid/&title=Druid 파헤치기 - 입문"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2018/03/05/20180305-start-druid/&title=Druid 파헤치기 - 입문"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2018/03/05/20180305-start-druid/&title=Druid 파헤치기 - 입문"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2018/03/05/20180305-start-druid/&title=Druid 파헤치기 - 입문"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2018/03/05/20180305-start-druid/&name=Druid 파헤치기 - 입문&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Druid란-무엇인가"><span class="toc-number">1.</span> <span class="toc-text">Druid란 무엇인가?</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#여기서-잠깐-OLAP-On-Line-Analytical-Processing-가-뭐지"><span class="toc-number">1.1.</span> <span class="toc-text">여기서 잠깐! OLAP(On-Line Analytical Processing)가 뭐지?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Druid의-Key-Features"><span class="toc-number">1.2.</span> <span class="toc-text">Druid의 Key Features</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Druid는-언제-써야할까"><span class="toc-number">1.3.</span> <span class="toc-text">Druid는 언제 써야할까?</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Druid-Architecture"><span class="toc-number">2.</span> <span class="toc-text">Druid Architecture</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Historical-Nodes"><span class="toc-number">2.0.1.</span> <span class="toc-text">Historical Nodes</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Broker-Nodes"><span class="toc-number">2.0.2.</span> <span class="toc-text">Broker Nodes</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Coordinator-Nodes"><span class="toc-number">2.0.3.</span> <span class="toc-text">Coordinator Nodes</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Realtime-Nodes"><span class="toc-number">2.0.4.</span> <span class="toc-text">Realtime Nodes</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#여기서-잠깐-세그먼트가-뭐지-세그먼트와-딥-스토리지"><span class="toc-number">2.1.</span> <span class="toc-text">여기서 잠깐! 세그먼트가 뭐지? (세그먼트와 딥 스토리지)</span></a></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#Batch-Ingestion-in-Druid"><span class="toc-number">3.</span> <span class="toc-text">Batch Ingestion in Druid</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Roll-up"><span class="toc-number">3.1.</span> <span class="toc-text">Roll-up</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Batch-Ingestion-Example"><span class="toc-number">3.2.</span> <span class="toc-text">Batch Ingestion Example</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Druid-Querying"><span class="toc-number">4.</span> <span class="toc-text">Druid Querying</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Aggregation-Queries"><span class="toc-number">4.1.</span> <span class="toc-text">Aggregation Queries</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Metadata-Queries"><span class="toc-number">4.2.</span> <span class="toc-text">Metadata Queries</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Search-Queries"><span class="toc-number">4.3.</span> <span class="toc-text">Search Queries</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#참고-자료"><span class="toc-number">5.</span> <span class="toc-text">참고 자료</span></a></li>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Druid 파헤치기 - 입문
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">Icednut's Note</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-03-05T05:47:15.000Z" itemprop="datePublished">2018-03-05</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="Druid란-무엇인가"><a href="#Druid란-무엇인가" class="headerlink" title="Druid란 무엇인가?"></a>Druid란 무엇인가?</h3><blockquote>
+<ul>
+<li>Druid is a system built to allow fast (“real-time”) access to large sets of seldom-changing data.</li>
+<li>Druid is an open-source data store designed for sub-second queries on real-time and historical data. It is primarily used for business intelligence (OLAP) queries on event data.</li>
+<li>Druid is a good fit for products that require real-time data ingestion of a single, large data stream. Especially if you are targeting no-downtime operation and are building your product on top of a time-oriented summarization of the incoming data stream. </li>
+<li>with Druid it is entirely within the realm of possibility (we have done it) to achieve queries that run in less than a second across trillions of rows of data.<br><br></li>
+<li>드루이드는 변하지 않는 대규모 데이터셋에 빠르게 (실시간으로) 액세스하기 위해 만들어진 시스템이다.</li>
+<li>드루이드는 실시간과 시계열 데이터에서 1초 미만의 쿼리를 위해 설계된 오픈소스 데이터 저장소이다. 주로 이벤트 데이터에 대한 BI쿼리(OLAP)에 사용된다.</li>
+<li>드루이드는 싱글 혹은 대규모 데이터 스트림에서 실시간 데이터 입수(ingestion)이 필요한 제품에 적합하다. 특히 무중단 운영과 데이터 스트림 입수에서 시간 기반 요약을 제공하는 제품을 개발할 때 특히 그렇다.</li>
+<li>드루이드를 사용하면 수십억 데이터 행에서 1초 이내에 쿼리를 실행할 수 있게 된다.<br><br><br>출처: Druid 공식 사이트 (<a href="http://druid.io/docs/0.11.0/design/design.html" target="_blank" rel="noopener">http://druid.io/docs/0.11.0/design/design.html</a>)</li>
+</ul>
+</blockquote>
+<p>드루이드 공식 사이트에 소개된 드루이드 소개글을 보면 대용량의 시계열 데이터를 실시간으로 빠르게 분석하고 싶을 때 사용하는 데이터 저장소라고 소개하고 있다. 다른 여러 저장소도 있지만 오픈소스 진영에서는 드루이드가 주목 받고 있는 것 같다. (<a href="http://xyz.insightdataengineering.com/blog/pipeline_map/" target="_blank" rel="noopener">http://xyz.insightdataengineering.com/blog/pipeline_map/</a> 여기에도 Druid를 소개하고 있음)</p>
+<h4 id="여기서-잠깐-OLAP-On-Line-Analytical-Processing-가-뭐지"><a href="#여기서-잠깐-OLAP-On-Line-Analytical-Processing-가-뭐지" class="headerlink" title="여기서 잠깐! OLAP(On-Line Analytical Processing)가 뭐지?"></a>여기서 잠깐! OLAP(On-Line Analytical Processing)가 뭐지?</h4><blockquote>
+<ul>
+<li>Online analytical processing, or OLAP, is an approach to answering multi-dimensional analytical (MDA) queries swiftly in computing.</li>
+<li>OLAP is part of the broader category of business intelligence, which also encompasses relational database, report writing and data mining. Typical applications of OLAP include business reporting for sales, marketing, management reporting, business process management (BPM), budgeting and forecasting, financial reporting and similar areas, with new applications coming up, such as agriculture.</li>
+<li>At the core of any OLAP system is an OLAP cube (also called a ‘multidimensional cube’ or a hypercube).<br><br></li>
+<li>OLAP (Online Analytical Processing, 온라인 분석 처리)는 다차원 컬럼 분석(MDA, Multi-dimensional analytical) 쿼리에 신속하게 응답하는 방법이다.</li>
+<li>OLAP는 관계형 데이터베이스, 리포트 작성 및 데이터 마이닝을 포함하는 비지니스 인텔리전스의 광범위한 카테고리 중 한 부분이다. 일반적인 OLAP 어플리케이션으로는 영업, 마케팅, 리포팅 관리, 비지니스 프로세스 관리, 예산 및 예측, 예산 보고 등과 같은 영역이 포함되며 농업과 같은 분야에서도 쓰일 수 있다.</li>
+<li>OLAP 시스템의 핵심은 OLAP 큐브(다른 말로 다차원 큐브 혹은 하이퍼큐브)이다.<br><img src="/images/20180305-start-druid/OLAP_Cube.svg" title="OLAP 큐브의 예시"><br><br><br>출처: <a href="https://en.wikipedia.org/wiki/Online_analytical_processing#cite_note-22" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Online_analytical_processing#cite_note-22</a></li>
+</ul>
+</blockquote>
+<p>OLAP는 최종 사용자가 다차원 정보에 직접 접근하여 대화식으로 정보를 분석 및 활용하는 과정으로 정의 할 수 있다. OLAP에서는 다음과 같이 대화식 질문들에 대한 답을 빠르게 해결하는 것이 목적이다.</p>
+<ul>
+<li>35세 이상의 고객들은 작년에 얼마나 지출했고 시간에 따라 어떻게 변했는가?</li>
+<li>각 연령 집단의 경우 제품 범주별 수익 내역(차익금 비율, 전체 수익 모두)은 어떠한가?</li>
+</ul>
+<p>BI 분야에서는 단순히 ‘이번 달 매출액이 얼마인가?’ 이렇게 물어보지 않고 여러 각도로 정보를 구성하여 원하는 정보를 추출하기를 원한다. OLAP는 결과 산출을 빠르게 하기 위해 다양한 차원들에 대해 선계산 값을 미리 산출하여 OLAP 큐브라는 데이터 구조로 측정값을 저장한다. 즉, 큐브는 시간, 지역, 제품군 등 여러 차원(Dimension)을 판매량, 재고량과 같은 측정값(Measure)으로 요약한 데이터이다.<br><br></p>
+<p>[OLAP Cube example 1]<br><img src="/images/20180305-start-druid/olap_cube.png" title="OLAP 큐브의 예시"><br><br></p>
+<p>[OLAP Cube example 2]<br><img src="/images/20180305-start-druid/olap_cube_2.jpg" title="OLAP 큐브의 예시"></p>
+<p>위와 같은 OLAP 큐브가 구축되어 있다면 다음과 같은 쿼리를 처리할 수 있게 된다.</p>
+<ul>
+<li>올해 가장 매출이 저조한 대리점과 저조한 상품 품목은?</li>
+<li>서울지역에서 가장 매출이 높은 상품과 순이익이 가장 높은 상품은?</li>
+<li>지역별로 전월 대비 매출이 가장 높은 상품은?<br><br></li>
+</ul>
+<p>OLAP을 하기 위해서는 OLTP(On-Line Transaction Processing)이 선행되어야 한다.<br><img src="/images/20180305-start-druid/oltp-olap.png" title="OLTP와 OLAP의 차이"><br><img src="/images/20180305-start-druid/dt_wh.png" title="OLTP와 OLAP의 차이"><br>OLAP 큐브를 만들기 위해서는 여러 관계형 데이터들을 집약한 Data Warehouse가 필요하다. 관계형 데이터는 OLTP라는 영역에서 데이터를 수집한다.</p>
+<ul>
+<li><p>OLTP (OnLine Transaction Processing)<br>Batch 와 반대되는 개념으로 실시간으로 db의 데이터를 트랜잭션 단위로 갱신/조회하는 처리방식. 은행, 증권사 등에서 씀. 기존과 달리 다수의 client가 거의 동시에 이용할수 있도록 송수신자료를 트랜잭션단위로 압축한것이 특징.</p>
+</li>
+<li><p>DW (Data Warehouse)<br>OLTP에서 발생한 데이터를 모아서 주제별로 합쳐 분석하기 편한 형태로 통합한 데이터 시스템</p>
+</li>
+</ul>
+<p>OLAP의 더 자세한 내용에 대해서는 다음 링크들을 참조하자.</p>
+<ul>
+<li><a href="http://12bme.tistory.com/144" target="_blank" rel="noopener">http://12bme.tistory.com/144</a></li>
+<li><a href="http://egloos.zum.com/carrpediem/v/2459408" target="_blank" rel="noopener">http://egloos.zum.com/carrpediem/v/2459408</a></li>
+<li><a href="http://118k.tistory.com/66" target="_blank" rel="noopener">http://118k.tistory.com/66</a></li>
+<li><a href="http://olap.com/olap-definition/" target="_blank" rel="noopener">http://olap.com/olap-definition/</a></li>
+<li><a href="http://i-bada.blogspot.kr/2014/01/olap-online-analytical-processing.html" target="_blank" rel="noopener">http://i-bada.blogspot.kr/2014/01/olap-online-analytical-processing.html</a></li>
+<li><a href="https://galaktikasoft.com/blog/olap-glossary.html" target="_blank" rel="noopener">https://galaktikasoft.com/blog/olap-glossary.html</a></li>
+<li><a href="https://support.office.com/ko-kr/article/olap-online-analytical-processing-%EA%B0%9C%EC%9A%94-15d2cdde-f70b-4277-b009-ed732b75fdd6" target="_blank" rel="noopener">https://support.office.com/ko-kr/article/olap-online-analytical-processing-%EA%B0%9C%EC%9A%94-15d2cdde-f70b-4277-b009-ed732b75fdd6</a></li>
+<li><a href="https://en.wikipedia.org/wiki/OLAP_cube" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/OLAP_cube</a></li>
+</ul>
+<h4 id="Druid의-Key-Features"><a href="#Druid의-Key-Features" class="headerlink" title="Druid의 Key Features"></a>Druid의 Key Features</h4><ul>
+<li>1초 미만의 OLAP 쿼리 가능 (Sub-second OLAP Queries): 드루이드는 신속한 다차원 필터링, 임시 어트리뷰트 그룹핑 및 매우 빠른 집계(Aggregation)가 가능하다.</li>
+<li>실시간 스트리밍 집계 (Real-time Streaming Ingestion): 드루이드는 락(Lock)없는 실시간 수집을 사용하여 대량의 데이터를 받음과 동시에 쿼리 실행이 가능하다.</li>
+<li>강력한 분석 도구 (Power Analytic Applications): 드루이드는 수천 명의 동시 사용자가 사용할 수 있도록 설계된 강력한 사용자 지향 분석 어플리케이션이다.</li>
+<li>효율적인 비용 (Cost Effective)</li>
+<li>높은 가용성 (Highly Available)</li>
+<li>확장성 (Scalable)</li>
+</ul>
+<h4 id="Druid는-언제-써야할까"><a href="#Druid는-언제-써야할까" class="headerlink" title="Druid는 언제 써야할까?"></a>Druid는 언제 써야할까?</h4><p>드루이드는 다음과 같은 요구사항에 적합하다.</p>
+<ul>
+<li>빠른 집계 및 OLAP 쿼리가 필요한 응용 프로그램을 개발할 때</li>
+<li>실시간 분석을 원하면서 굉장히 많은 데이터를 다룰 때 (조 단위의 이벤트 로우 수, 페타 바이트의 데이터)</li>
+<li>실패 없이 항상 사용할 수 있는 데이터 저장소가 필요할 때</li>
+</ul>
+<p>현재 드루이드 공식 사이트에서 소개하고 있는 <a href="http://www.marketwired.com/press-release/metamarkets-clients-analyzing-100-billion-programmatic-events-daily-on-track-surpass-2061596.htm" target="_blank" rel="noopener">프로덕션 드루이드 클러스터 성공 사례</a>의 규모는 다음과 같다고 한다.</p>
+<ul>
+<li>3+ trillion events/month (3조 이벤트/1개월)</li>
+<li>3M+ events/sec through Druid’s real-time ingestion (초당 3백만 이벤트를 드루이드에 실시간 입수)</li>
+<li>100+ PB of raw data (100 페타 바이트의 로우 데이터)</li>
+<li>50+ trillion events (50조 이벤트)</li>
+<li>Thousands of queries per second for applications used by thousands of users (수천명 유저에 의한 초당 수천 쿼리 실행)</li>
+<li>Tens of thousands of cores (수만 개의 코어)</li>
+</ul>
+<p>다만 주의할 점은 드루이드는 현재 Dremel 및 PowerDrill과 유사한 방식으로 싱글 테이블 쿼리만 허용하며 테이블 간 JOIN은 할 수 없다. 하지만 아래와 같은 장점이 추가되었다.</p>
+<ol>
+<li>중첩된 데이터 구조를 가지는 컬럼 기반의 스토리지 포멧</li>
+<li>중간 정리가 있는 계층적인 쿼리 분산</li>
+<li>빠른 필터링을 위한 인덱싱</li>
+<li>실시간 집계 (집계된 데이터는 즉시 쿼리가 가능함)</li>
+<li>내장애성을 지닌 데이터 손실염려가 없는 분산 구조<br><br></li>
+</ol>
+<h3 id="Druid-Architecture"><a href="#Druid-Architecture" class="headerlink" title="Druid Architecture"></a>Druid Architecture</h3><p>드루이드는 각기 다른 역할을 가진 서비스로 구성되어 있다. 각 서비스는 작은 일을 잘 처리하도록 설계되어 있다.</p>
+<p><img src="/images/20180305-start-druid/druid-dataflow-3.png"></p>
+<h5 id="Historical-Nodes"><a href="#Historical-Nodes" class="headerlink" title="Historical Nodes"></a>Historical Nodes</h5><p>히스토리컬 노드는 드루이드 클러스터의 핵심이다. 히스토리컬 노드는 딥 스토리지에서 세그먼트를 다운로드하고 이러한 세그먼트에 대한 브로커 노드의 쿼리 실행을 하여 결과를 브로커 노드에 반환한다. 히스토리컬 노드는 데이터를 공유하지 않으며 Zookeeper를 통하여 세그먼트 로드, 세그먼트 삭제를 모니터링한다.</p>
+<h5 id="Broker-Nodes"><a href="#Broker-Nodes" class="headerlink" title="Broker Nodes"></a>Broker Nodes</h5><p>브로커 노드를 통해 쿼리를 받고 데이터를 제공한다. 브로커 노드는 쿼리 분산 실행 및 결과 수집, 병합을 담당한다. 브로커 노드도 쿼리 실행을 위해 Real-time 노드와 히스토리컬 노드가 어떤 것인지를 판단할 때 Zookeeper를 사용한다.</p>
+<h5 id="Coordinator-Nodes"><a href="#Coordinator-Nodes" class="headerlink" title="Coordinator Nodes"></a>Coordinator Nodes</h5><p>코디네이터 노드는 드루이드 클러스터의 히스토리컬 노드에 있는 세그먼트를 관리한다. 코디네이터 노드는 히스토리컬 노드에 새로운 세그먼트를 로드, 이전 세그먼트 삭제 및 균형을 맞추기 위한 세그먼트 이동을 지시한다. (히스토리컬 노드에 지시하기 위해 Zookeeper를 사용)</p>
+<h5 id="Realtime-Nodes"><a href="#Realtime-Nodes" class="headerlink" title="Realtime Nodes"></a>Realtime Nodes</h5><p>드루이드에서 실시간 처리는 독립형 실시간 노드를 사용하거나 인덱싱 서비스로 할 수 있다. 실시간 처리 로직은 두 서비스가 동일하다. 실시간 처리는 데이터 수집, 데이터 인덱싱 (세그먼트 작성) 및 세그먼트를 히스토리컬 노드에 전달한다. 실시간 처리 로직에 의해 집계된 데이터는 즉시 질의가 가능하다.</p>
+<p>그 외 드루이드는 3가지 외부 디펜던시가 포함된다.</p>
+<ol>
+<li>Zookeeper: 클러스터 내부에서의 서비스 디스커버리 및 데이터 토폴로지의 운영</li>
+<li>Metadata storage instance: 세그먼트에 대한 메타데이터를 관리하기 위한 메타 데이터 저장소</li>
+<li>Deep Storage LOB store/file system: 세그먼트를 저장하기 위한 딥 스토리지 LOB 저장소/파일 시스템</li>
+</ol>
+<p><img src="/images/20180305-start-druid/druid-manage-1.png"></p>
+<h4 id="여기서-잠깐-세그먼트가-뭐지-세그먼트와-딥-스토리지"><a href="#여기서-잠깐-세그먼트가-뭐지-세그먼트와-딥-스토리지" class="headerlink" title="여기서 잠깐! 세그먼트가 뭐지? (세그먼트와 딥 스토리지)"></a>여기서 잠깐! 세그먼트가 뭐지? (세그먼트와 딥 스토리지)</h4><p>드루이드로 데이터가 입수(Batch Ingestion or Streaming Ingestion)되면 인덱싱 처리가 진행된다. 여기서 인덱싱 작업이란 다음과 같다.</p>
+<ul>
+<li>데이터를 컬럼 기반 포멧의 형태로 변경</li>
+<li>비트맵 인덱스를 활용한 데이터 색인 작업</li>
+<li>다양한 알고리즘을 이용한 데이터 압축</li>
+</ul>
+<p>이러한 인덱싱 작업을 거친 결과물을 드루이드에서는 <code>세그먼트(Segment)</code>라고 부른다. 세그먼트는 드루이드에서 데이터를 저장하는 기본 구조인 것이다. 세그먼트는 컬럼 기반으로 저장된 여러 개의 차원(Dimension)과 측정값(Metrics)를 포함하며 각 컬럼별로 인덱싱이 되어 있다.<br><br><br>세그먼트는 딥 스토리지(Deep Storage)라는 LOB / 파일 시스템에 저장된다. 그 후 데이터는 히스토리컬 노드의 로컬에 다운로드 되고 쿼리 실행하기 전에 메모리에 로딩된다. 히스토리컬 노드 하나가 죽어도 딥 스토리지에는 세그먼트가 있기 때문에 다른 히스토리컬 노드에서 쿼리 서비스를 제공한다.<br><br></p>
+<h3 id="Batch-Ingestion-in-Druid"><a href="#Batch-Ingestion-in-Druid" class="headerlink" title="Batch Ingestion in Druid"></a>Batch Ingestion in Druid</h3><p>먼저 아래와 같은 이벤트 데이터가 있다고 가정하자.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">timestamp             publisher          advertiser  gender  country  click  price</span><br><span class="line">2011-01-01T01:01:35Z  bieberfever.com    google.com  Male    USA      0      0.65</span><br><span class="line">2011-01-01T01:03:63Z  bieberfever.com    google.com  Male    USA      0      0.62</span><br><span class="line">2011-01-01T01:04:51Z  bieberfever.com    google.com  Male    USA      1      0.45</span><br><span class="line">2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Female  UK       0      0.87</span><br><span class="line">2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Female  UK       0      0.99</span><br><span class="line">2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Female  UK       1      1.53</span><br></pre></td></tr></table></figure></p>
+<p>드루이드는 이 데이터의 구조를 세 가지 요소로 분류한다.</p>
+<ul>
+<li>Timestamp columns</li>
+<li>Dimension columns</li>
+<li>Metric columns</li>
+</ul>
+<p>Timestamp 컬럼은 말 그대로 시간이 저장된 컬럼을 말하며 Dimension은 이벤트에서 각각의 컬럼을 말하며 필터링에 사용된다. 위 예에서 Dimension은 publisher, advertiser, gender, country를 말한다. Metric은 결합(Aggregation)과 계산(Computation)에서 사용되는 컬럼이다. 위 예에서는 click, price가 해당된다. Metric은 보통 count, sum, mean을 계산할 수 있는 숫자 타입이다. 드루이드는 기본적으로 데이터를 세그먼트 단위로 샤딩하며 샤딩 기준은 시간이다. (데이터 파편화에 대해서는 추후 다시 설명)</p>
+<h4 id="Roll-up"><a href="#Roll-up" class="headerlink" title="Roll-up"></a>Roll-up</h4><p>예제 데이터가 하루에 조 단위로 들어온다면 우리가 원하는 분석 결과를 빠르게 얻어서 인사이트를 찾아낼 수 있을까? 이러한 이벤트 데이터의 분석을 좀 더 빠르게 하기 위해 요약하는 작업을 <code>Roll-up</code>이라고 부른다.<br>드루이드에서 아래와 같이 롤업 규칙을 정하면 규칙에 따라 요약 데이터가 생성된다. (여기서 아래 규칙은 수도코드임)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GROUP BY timestamp, publisher, advertiser, gender, country</span><br><span class="line">  :: impressions = COUNT(1),  clicks = SUM(click),  revenue = SUM(price)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">timestamp             publisher          advertiser  gender country impressions clicks revenue</span><br><span class="line">2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Male   USA     1800        25     15.70</span><br><span class="line">2011-01-01T01:00:00Z  bieberfever.com    google.com  Male   USA     2912        42     29.18</span><br><span class="line">2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Male   UK      1953        17     17.31</span><br><span class="line">2011-01-01T02:00:00Z  bieberfever.com    google.com  Male   UK      3194        170    34.01</span><br></pre></td></tr></table></figure>
+<p>이렇게 데이터를 롤업하면 데이터의 크기를 줄일 수 있다. 롤업 시간기준은 최대 밀리 초까지 지원한다고 한다.<br><br></p>
+<h4 id="Batch-Ingestion-Example"><a href="#Batch-Ingestion-Example" class="headerlink" title="Batch Ingestion Example"></a>Batch Ingestion Example</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;type&quot; : &quot;index_hadoop&quot;,</span><br><span class="line">  &quot;spec&quot; : &#123;</span><br><span class="line">    &quot;ioConfig&quot; : &#123;</span><br><span class="line">      &quot;type&quot; : &quot;hadoop&quot;,</span><br><span class="line">      &quot;inputSpec&quot; : &#123;</span><br><span class="line">        &quot;type&quot; : &quot;granularity&quot;,</span><br><span class="line">        &quot;dataGranularity&quot;: &quot;day&quot;,</span><br><span class="line">        &quot;inputPath&quot;: &quot;/path/to/hdfs/hive_table&quot;,</span><br><span class="line">        &quot;filePattern&quot;: &quot;.+&quot;,</span><br><span class="line">        &quot;pathFormat&quot;: &quot;&apos;time&apos;=yyyyMMdd&apos;00&apos;&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;dataSchema&quot; : &#123;</span><br><span class="line">      &quot;dataSource&quot; : &quot;hive_table_druid_data_source&quot;,</span><br><span class="line">      &quot;granularitySpec&quot; : &#123;</span><br><span class="line">        &quot;type&quot; : &quot;uniform&quot;,</span><br><span class="line">        &quot;rollup&quot;: &quot;false&quot;,</span><br><span class="line">        &quot;segmentGranularity&quot; : &#123;</span><br><span class="line">          &quot;type&quot;: &quot;period&quot;,</span><br><span class="line">          &quot;period&quot;: &quot;P1D&quot;,</span><br><span class="line">          &quot;timeZone&quot;: &quot;Asia/Seoul&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;queryGranularity&quot; : &quot;none&quot;,</span><br><span class="line">        &quot;intervals&quot; : [&quot;2017-11-26/2018-02-26&quot;]</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;parser&quot; : &#123;</span><br><span class="line">        &quot;type&quot; : &quot;hadoopyString&quot;,</span><br><span class="line">        &quot;parseSpec&quot; : &#123;</span><br><span class="line">          &quot;format&quot; : &quot;tsv&quot;,</span><br><span class="line">          &quot;listDelimiter&quot;:&quot;,&quot;,</span><br><span class="line">          &quot;columns&quot;: [</span><br><span class="line">            &quot;user_id&quot;,</span><br><span class="line">            &quot;col001&quot;,&quot;col002&quot;,&quot;col003&quot;,&quot;col004&quot;,&quot;col005&quot;,&quot;col006&quot;,&quot;col007&quot;,&quot;col008&quot;,&quot;col009&quot;,&quot;col010&quot;,</span><br><span class="line">            &quot;product_id&quot;,&quot;log_time&quot;</span><br><span class="line">          ],</span><br><span class="line">          &quot;dimensionsSpec&quot; : &#123;</span><br><span class="line">            &quot;dimensions&quot; : [</span><br><span class="line">              &quot;user_id&quot;,</span><br><span class="line">              &quot;col004&quot;,&quot;col005&quot;,&quot;col009&quot;,</span><br><span class="line">              &quot;product_id&quot;,&quot;log_time&quot;</span><br><span class="line">            ]</span><br><span class="line">          &#125;,</span><br><span class="line">          &quot;timestampSpec&quot; : &#123;</span><br><span class="line">            &quot;format&quot; : &quot;yyyyMMddHH&quot;,</span><br><span class="line">            &quot;column&quot; : &quot;log_time&quot;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;metricsSpec&quot; : [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;type&quot; : &quot;longSum&quot;,</span><br><span class="line">          &quot;name&quot; : &quot;audience_count&quot;,</span><br><span class="line">          &quot;fieldName&quot;: &quot;user_id&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;tuningConfig&quot; : &#123;</span><br><span class="line">      &quot;type&quot; : &quot;hadoop&quot;,</span><br><span class="line">      &quot;partitionsSpec&quot; : &#123;</span><br><span class="line">        &quot;type&quot; : &quot;hashed&quot;,</span><br><span class="line">        &quot;targetPartitionSize&quot; : 100000</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;jobProperties&quot; : &#123;</span><br><span class="line">        &quot;mapreduce.user.classpath.first&quot;: &quot;true&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h3 id="Druid-Querying"><a href="#Druid-Querying" class="headerlink" title="Druid Querying"></a>Druid Querying</h3><p>드루이드에서는 먼저 브로커에서 쿼리 실행을 받으면 세그먼트에 따라 쿼리를 재작성하여 히스토리컬 노드 혹은 리얼타임 노드에게 쿼리 실행을 위임한다. 브로커 노드는 결국 결과를 모으로 머지하여 최종 결과를 반환한다. Druid에서 할 수 있는 쿼리는 다음과 같다.</p>
+<h4 id="Aggregation-Queries"><a href="#Aggregation-Queries" class="headerlink" title="Aggregation Queries"></a>Aggregation Queries</h4><ul>
+<li>Timeseries</li>
+<li>TopN</li>
+<li>GroupBy</li>
+</ul>
+<h4 id="Metadata-Queries"><a href="#Metadata-Queries" class="headerlink" title="Metadata Queries"></a>Metadata Queries</h4><ul>
+<li>Time Boundary</li>
+<li>Segment Metadata</li>
+<li>Datasource Metadata</li>
+</ul>
+<h4 id="Search-Queries"><a href="#Search-Queries" class="headerlink" title="Search Queries"></a>Search Queries</h4><ul>
+<li>Search<br><br></li>
+</ul>
+<h3 id="참고-자료"><a href="#참고-자료" class="headerlink" title="참고 자료"></a>참고 자료</h3><ul>
+<li><a href="http://12bme.tistory.com/144" target="_blank" rel="noopener">http://12bme.tistory.com/144</a></li>
+<li><a href="http://egloos.zum.com/carrpediem/v/2459408" target="_blank" rel="noopener">http://egloos.zum.com/carrpediem/v/2459408</a></li>
+<li><a href="http://118k.tistory.com/66" target="_blank" rel="noopener">http://118k.tistory.com/66</a></li>
+<li><a href="http://olap.com/olap-definition/" target="_blank" rel="noopener">http://olap.com/olap-definition/</a></li>
+<li><a href="http://i-bada.blogspot.kr/2014/01/olap-online-analytical-processing.html" target="_blank" rel="noopener">http://i-bada.blogspot.kr/2014/01/olap-online-analytical-processing.html</a></li>
+<li><a href="https://galaktikasoft.com/blog/olap-glossary.html" target="_blank" rel="noopener">https://galaktikasoft.com/blog/olap-glossary.html</a></li>
+<li><a href="https://support.office.com/ko-kr/article/olap-online-analytical-processing-%EA%B0%9C%EC%9A%94-15d2cdde-f70b-4277-b009-ed732b75fdd6" target="_blank" rel="noopener">https://support.office.com/ko-kr/article/olap-online-analytical-processing-%EA%B0%9C%EC%9A%94-15d2cdde-f70b-4277-b009-ed732b75fdd6</a></li>
+<li><a href="https://en.wikipedia.org/wiki/OLAP_cube-" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/OLAP_cube-</a> <a href="http://egloos.zum.com/carrpediem/v/2459408" target="_blank" rel="noopener">http://egloos.zum.com/carrpediem/v/2459408</a></li>
+<li><a href="http://druid.io" target="_blank" rel="noopener">http://druid.io</a></li>
+<li><a href="https://github.com/druid-io/druid" target="_blank" rel="noopener">https://github.com/druid-io/druid</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Online_analytical_processing" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Online_analytical_processing</a></li>
+<li><a href="http://www.popit.kr/time-series-olap-druid-%EC%9E%85%EB%AC%B8/" target="_blank" rel="noopener">http://www.popit.kr/time-series-olap-druid-%EC%9E%85%EB%AC%B8/</a></li>
+</ul>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Druid란-무엇인가"><span class="toc-number">1.</span> <span class="toc-text">Druid란 무엇인가?</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#여기서-잠깐-OLAP-On-Line-Analytical-Processing-가-뭐지"><span class="toc-number">1.1.</span> <span class="toc-text">여기서 잠깐! OLAP(On-Line Analytical Processing)가 뭐지?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Druid의-Key-Features"><span class="toc-number">1.2.</span> <span class="toc-text">Druid의 Key Features</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Druid는-언제-써야할까"><span class="toc-number">1.3.</span> <span class="toc-text">Druid는 언제 써야할까?</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Druid-Architecture"><span class="toc-number">2.</span> <span class="toc-text">Druid Architecture</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Historical-Nodes"><span class="toc-number">2.0.1.</span> <span class="toc-text">Historical Nodes</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Broker-Nodes"><span class="toc-number">2.0.2.</span> <span class="toc-text">Broker Nodes</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Coordinator-Nodes"><span class="toc-number">2.0.3.</span> <span class="toc-text">Coordinator Nodes</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Realtime-Nodes"><span class="toc-number">2.0.4.</span> <span class="toc-text">Realtime Nodes</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#여기서-잠깐-세그먼트가-뭐지-세그먼트와-딥-스토리지"><span class="toc-number">2.1.</span> <span class="toc-text">여기서 잠깐! 세그먼트가 뭐지? (세그먼트와 딥 스토리지)</span></a></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#Batch-Ingestion-in-Druid"><span class="toc-number">3.</span> <span class="toc-text">Batch Ingestion in Druid</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Roll-up"><span class="toc-number">3.1.</span> <span class="toc-text">Roll-up</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Batch-Ingestion-Example"><span class="toc-number">3.2.</span> <span class="toc-text">Batch Ingestion Example</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Druid-Querying"><span class="toc-number">4.</span> <span class="toc-text">Druid Querying</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Aggregation-Queries"><span class="toc-number">4.1.</span> <span class="toc-text">Aggregation Queries</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Metadata-Queries"><span class="toc-number">4.2.</span> <span class="toc-text">Metadata Queries</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Search-Queries"><span class="toc-number">4.3.</span> <span class="toc-text">Search Queries</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#참고-자료"><span class="toc-number">5.</span> <span class="toc-text">참고 자료</span></a></li>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2018/03/05/20180305-start-druid/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2018/03/05/20180305-start-druid/&text=Druid 파헤치기 - 입문"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2018/03/05/20180305-start-druid/&title=Druid 파헤치기 - 입문"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2018/03/05/20180305-start-druid/&is_video=false&description=Druid 파헤치기 - 입문"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Druid 파헤치기 - 입문&body=Check out this article: http://icednut.github.io/2018/03/05/20180305-start-druid/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2018/03/05/20180305-start-druid/&title=Druid 파헤치기 - 입문"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2018/03/05/20180305-start-druid/&title=Druid 파헤치기 - 입문"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2018/03/05/20180305-start-druid/&title=Druid 파헤치기 - 입문"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2018/03/05/20180305-start-druid/&title=Druid 파헤치기 - 입문"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2018/03/05/20180305-start-druid/&name=Druid 파헤치기 - 입문&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Icednut
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'icednut';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang=Ko>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="들어가기 전에최근에 Deadlock이 뭔지 고민해보는 시간이 있었다. 뭐 요즘 들어서 Reactor다 Akka다 뭐다 해서 비동기 프로그래밍을 손쉽게 할 수 있는 프레임워크나 라이브러리가 있어서 Deadlock에 대해 신경을 안쓰고 살고 있어 대답이 선뜻 나오질 못했다. Deadlock이 뭔가요에 대한 질문에 그냥 막연히 다수의 Thread가 서로의 Loc">
+<meta name="keywords" content="java,Thread,Deadlock">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Deadlock이 뭐지? (Java Thread와 Deadlock에 대한 고찰)">
+<meta property="og:url" content="http://icednut.github.io/2016/08/06/20160806-about_deadlock/index.html">
+<meta property="og:site_name" content="Icednut&#39;s Note">
+<meta property="og:description" content="들어가기 전에최근에 Deadlock이 뭔지 고민해보는 시간이 있었다. 뭐 요즘 들어서 Reactor다 Akka다 뭐다 해서 비동기 프로그래밍을 손쉽게 할 수 있는 프레임워크나 라이브러리가 있어서 Deadlock에 대해 신경을 안쓰고 살고 있어 대답이 선뜻 나오질 못했다. Deadlock이 뭔가요에 대한 질문에 그냥 막연히 다수의 Thread가 서로의 Loc">
+<meta property="og:locale" content="Korean">
+<meta property="og:image" content="http://icednut.github.io/image/20160806-about_deadlock/deadlock.jpg">
+<meta property="og:updated_time" content="2018-11-25T11:10:59.178Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Deadlock이 뭐지? (Java Thread와 Deadlock에 대한 고찰)">
+<meta name="twitter:description" content="들어가기 전에최근에 Deadlock이 뭔지 고민해보는 시간이 있었다. 뭐 요즘 들어서 Reactor다 Akka다 뭐다 해서 비동기 프로그래밍을 손쉽게 할 수 있는 프레임워크나 라이브러리가 있어서 Deadlock에 대해 신경을 안쓰고 살고 있어 대답이 선뜻 나오질 못했다. Deadlock이 뭔가요에 대한 질문에 그냥 막연히 다수의 Thread가 서로의 Loc">
+<meta name="twitter:image" content="http://icednut.github.io/image/20160806-about_deadlock/deadlock.jpg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Deadlock이 뭐지? (Java Thread와 Deadlock에 대한 고찰)</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2016/12/01/20161201-front_end_themes/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2016/08/03/20160803-ddd_reading_memo/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2016/08/06/20160806-about_deadlock/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2016/08/06/20160806-about_deadlock/&text=Deadlock이 뭐지? (Java Thread와 Deadlock에 대한 고찰)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2016/08/06/20160806-about_deadlock/&title=Deadlock이 뭐지? (Java Thread와 Deadlock에 대한 고찰)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2016/08/06/20160806-about_deadlock/&is_video=false&description=Deadlock이 뭐지? (Java Thread와 Deadlock에 대한 고찰)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Deadlock이 뭐지? (Java Thread와 Deadlock에 대한 고찰)&body=Check out this article: http://icednut.github.io/2016/08/06/20160806-about_deadlock/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2016/08/06/20160806-about_deadlock/&title=Deadlock이 뭐지? (Java Thread와 Deadlock에 대한 고찰)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2016/08/06/20160806-about_deadlock/&title=Deadlock이 뭐지? (Java Thread와 Deadlock에 대한 고찰)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2016/08/06/20160806-about_deadlock/&title=Deadlock이 뭐지? (Java Thread와 Deadlock에 대한 고찰)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2016/08/06/20160806-about_deadlock/&title=Deadlock이 뭐지? (Java Thread와 Deadlock에 대한 고찰)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2016/08/06/20160806-about_deadlock/&name=Deadlock이 뭐지? (Java Thread와 Deadlock에 대한 고찰)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#들어가기-전에"><span class="toc-number">1.</span> <span class="toc-text">들어가기 전에</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Deadlock의-원인"><span class="toc-number">2.</span> <span class="toc-text">Deadlock의 원인</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Deadlock-예방하기"><span class="toc-number">3.</span> <span class="toc-text">Deadlock 예방하기</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#방법-1-Lock이-발생하는-순서를-정해놓는다"><span class="toc-number">3.1.</span> <span class="toc-text">방법 1. Lock이 발생하는 순서를 정해놓는다.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#방법-2-오픈-호출"><span class="toc-number">3.2.</span> <span class="toc-text">방법 2. 오픈 호출</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#방법-3-락의-시간-제한"><span class="toc-number">3.3.</span> <span class="toc-text">방법 3. 락의 시간 제한</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#스레드-덤프를-활용한-Deadlock-분석하기"><span class="toc-number">4.</span> <span class="toc-text">스레드 덤프를 활용한 Deadlock 분석하기</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Deadlock이 뭐지? (Java Thread와 Deadlock에 대한 고찰)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">Icednut's Note</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2016-08-05T15:00:00.000Z" itemprop="datePublished">2016-08-06</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Deadlock/">Deadlock</a>, <a class="tag-link" href="/tags/Thread/">Thread</a>, <a class="tag-link" href="/tags/java/">java</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="들어가기-전에"><a href="#들어가기-전에" class="headerlink" title="들어가기 전에"></a>들어가기 전에</h2><p>최근에 Deadlock이 뭔지 고민해보는 시간이 있었다. 뭐 요즘 들어서 Reactor다 Akka다 뭐다 해서 비동기 프로그래밍을 손쉽게 할 수 있는 프레임워크나 라이브러리가 있어서 Deadlock에 대해 신경을 안쓰고 살고 있어 대답이 선뜻 나오질 못했다. Deadlock이 뭔가요에 대한 질문에 그냥 막연히 다수의 Thread가 서로의 Lock을 기다리는 상황이라고만 대답했는데, 이참에 좀 더 구체적으로 Deadlock이 뭐고 원인, 해결에는 뭐가 있는지 알아봐야 겠다. 정리 하는김에 Java Fork &amp; Join, ThreadLocal, stream parallel에 대해서도 살펴봐야겠다.  </p>
+<h2 id="Deadlock의-원인"><a href="#Deadlock의-원인" class="headerlink" title="Deadlock의 원인"></a>Deadlock의 원인</h2><p><img src="/image/20160806-about_deadlock/deadlock.jpg" title="현실에서 Deadlock 상황"></p>
+<blockquote>
+<p>데드락은 예전부터 <code>식사하는 철학자 dining philosophers</code> 문제로 널리 알려져 왔다. 다섯 명의 철학자가 중국 음식점에 저녁 식사를 하러 가서 둥그런 테이블에 앉았다. 테이블에는 다섯 개의 젓가락(다섯 쌍이 아닌 다섯 개)이 개인별 접시 사이에 하나씩 놓여있다. 철학자는 ‘먹는’ 동작과 ‘생각하는’ 동작을 차례대로 반복한다. 먹는 동안에는 접시 양쪽에 있는 젓가락 두 개를 모아 한 쌍을 만들어야 자신의 접시에 놓인 음식을 먹을 수 있고, 음식을 먹은 이후에는 젓가락을 다시 양쪽에 하나씩 내려 놓고 생각을 시작한다.  </p>
+<p>(중략)</p>
+<p>모든 철학자가 각자 자기 왼쪽에 있는 젓가락을 집은 다음 오른쪽 젓가락을 사용할 수 있을 때까지 기다렸다가 오른쪽 젓가락을 집어서 식사를 한다면, 모든 철학자가 더 이상 먹지 못하는 상황에 다다를 수 있다. 철학자 모두가 먹지 못하는 상황은 음식을 먹는 데 필요한 자원을 모두 다른 곳에서 확보하고 놓지 않기 때문에 모두가 서로 상대방이 자원을 놓기만을 기다리는, 이른바 <code>데드락</code>이 걸린다.<br><code>자바 병렬 프로그래밍 P.305</code></p>
+</blockquote>
+<p>식사하는 철학자의 문제를 Java Thread에 접목하여 Deadlock이 생기는 과정을 살펴보면 다음과 같다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">// 데드락 위험이 있는 코드</span><br><span class="line">public class LeftRightDeadlock &#123;</span><br><span class="line">  private final Object left = new Object();</span><br><span class="line">  private final Object right = new Object();</span><br><span class="line"></span><br><span class="line">  public void leftRight() &#123;</span><br><span class="line">    synchronized (left) &#123;</span><br><span class="line">      synchronized (right) &#123;</span><br><span class="line">        doSomething();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public void rightLeft() &#123;</span><br><span class="line">    synchronized (right) &#123;</span><br><span class="line">      synchronized (left) &#123;</span><br><span class="line">        doSomethingElse();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>스레드 A가 락 left을 확보한 상태에서 락 right을 확보하려 대기</li>
+<li>스레드 B가 락 right을 확보한 상태에서 락 left을 확보하려고 대기</li>
+<li>양쪽 스레드 A, B는 서로가 락을 풀기를 영원히 기다리게 됨</li>
+</ul>
+<p>위와 같이 Java Thread에서도 스레드 하나가 특정 락(Lock)을 놓지 않고 계속 잡고 있으면 그 락을 확보하려는 다른 스레드는 락이 풀릴 때까지 기다리는 수 밖에 없다. Deadlock은 Thread가 두 개의 락을 획득하려 하는 코드에서 나타난다. 학교에서 배울 때는 이 정도 수준에서 멈추는 경우가 많은데 데드락은 상용 서비스를 시작하고 나서 시스템에 부하가 걸리는 경우와 같이 최악의 상황에서 그 모습을 드러내곤 한다. 더군다나 아주 심도있는 방법으로 부하 테스트(load-testing)을 진행했다 하더라도 발생 가능한 데드락 모두 찾아낼 수는 없다. JVM에서는 데이터베이스 서버와 같이 데드락 상태 추적 기능이 없기 때문에 Java Application에서 데드락이 발생했을 때 정상으로 되돌리려 한다면 애플리케이션을 종료하고 다시 실행하는 것밖에 없다.</p>
+<h2 id="Deadlock-예방하기"><a href="#Deadlock-예방하기" class="headerlink" title="Deadlock 예방하기"></a>Deadlock 예방하기</h2><h3 id="방법-1-Lock이-발생하는-순서를-정해놓는다"><a href="#방법-1-Lock이-발생하는-순서를-정해놓는다" class="headerlink" title="방법 1. Lock이 발생하는 순서를 정해놓는다."></a>방법 1. Lock이 발생하는 순서를 정해놓는다.</h3><blockquote>
+<p>프로그램 내부의 모든 스레드에서 필요한 락을 모두 같은 순서로만 사용한다면, 락 순서에 의한 데드락은 발생하지 않는다.<br><code>자바 병렬 프로그래밍 P.307</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 해결 전: 데드락 위험이 있는 코드</span><br><span class="line">public void transferMoney (Account fromAccount, Account toAccount, DollarAmount amount) &#123;</span><br><span class="line">  synchronized (fromAccount) &#123;</span><br><span class="line">    synchronized (toAccount) &#123;</span><br><span class="line">      if (fromAccount.getBalance().compareTo(amount) &lt; 0) &#123;</span><br><span class="line">        throw new InsufficientFundsException();</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        fromAccount.debit(amount);</span><br><span class="line">        toAccount.credit(amount);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>위 코드를 얼핏보면 경합이 일어나지 않을 코드 같다. 하지만 파라미터 fromAccount와 toAccount에 순서만 달리해서 동시 호출이 일어난다면 데드락이 걸릴 확률이 증가하게 된다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">// 해결 후: Lock이 발생하는 순서를 제어한 경우</span><br><span class="line">private static final Object tieLock = new Object();</span><br><span class="line"></span><br><span class="line">public void transferMoney(final Account fromAccount, final Account toAccount, final DollarAmount amount) &#123;</span><br><span class="line"></span><br><span class="line">  class Helper &#123;</span><br><span class="line">    public void transfer() &#123;</span><br><span class="line">      if (fromAccount.getBalance().compareTo(acmount) &lt; 0) &#123;</span><br><span class="line">        throw new InsufficientFuncsException();</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        fromAccount.debit(amount);</span><br><span class="line">        toAccount.credit(ammount);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  int fromHash = System.identityHashCode(fromAccount);</span><br><span class="line">  int toHash = System.identityHashCode(toAccount);</span><br><span class="line"></span><br><span class="line">  if (fromHash &lt; toHash) &#123;</span><br><span class="line">    synchronized(fromAccount) &#123;</span><br><span class="line">      synchronized(toAccount) &#123;</span><br><span class="line">        new Helper().transfer();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; else if (fromHash &gt; toHash) &#123;</span><br><span class="line">    synchronized(toAccount) &#123;</span><br><span class="line">      synchronized(fromAccount) &#123;</span><br><span class="line">        new Helper().transfer();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    synchronized (tieLock) &#123;</span><br><span class="line">      synchronized(fromAccount) &#123;</span><br><span class="line">        synchronized(toAccount) &#123;</span><br><span class="line">          new Helper().transfer();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="방법-2-오픈-호출"><a href="#방법-2-오픈-호출" class="headerlink" title="방법 2. 오픈 호출"></a>방법 2. 오픈 호출</h3><p>메소드 호출이라는 것은 그 너머에 어떤 일이 일어나는지 모르게 막아주는 추상화 방법이다. 하지만 호출한 메소드 내부에서 어떤 일이 일어나는지 알지 못하기 때문에 특정 락을 확보한 상태에서 다른 메소드를 호출한다는 것은 파급 효과를 분석하기가 어렵고 위험한 일이다. 이에 따라 락을 전혀 확보하지 않은 상태에서 메소드를 호출하는 것이 좋은데 이것을 오픈 호출이라고 한다. (스레드 안정성을 확보하기 위해 캡슐화 기법encapsulation을 사용하는 것과 비슷)  </p>
+<p>락을 확보하지 않은 상태에서 메소드를 호출하는게 관건!  </p>
+<h3 id="방법-3-락의-시간-제한"><a href="#방법-3-락의-시간-제한" class="headerlink" title="방법 3. 락의 시간 제한"></a>방법 3. 락의 시간 제한</h3><p>암묵적인 락 synchronized 말고 락 시간을 제한할 있는 Lock 클래스의 tryLock 메소드를 사용한다. 암묵적인 락은 락을 확보할 때까지 영원히 기다리지만, Lock 클래스 등의 명시적인 락은 일정 시간을 정해두고 그 시간 동안 락을 확보하지 못한다면 tryLock 메소드가 오류를 발생시키도록 할 수 있다.</p>
+<h2 id="스레드-덤프를-활용한-Deadlock-분석하기"><a href="#스레드-덤프를-활용한-Deadlock-분석하기" class="headerlink" title="스레드 덤프를 활용한 Deadlock 분석하기"></a>스레드 덤프를 활용한 Deadlock 분석하기</h2><p>스레드 덤프 분석이라면 여기 훌륭한 글이 이미 있다.<br><a href="http://d2.naver.com/helloworld/10963" target="_blank" rel="noopener">http://d2.naver.com/helloworld/10963</a></p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#들어가기-전에"><span class="toc-number">1.</span> <span class="toc-text">들어가기 전에</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Deadlock의-원인"><span class="toc-number">2.</span> <span class="toc-text">Deadlock의 원인</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Deadlock-예방하기"><span class="toc-number">3.</span> <span class="toc-text">Deadlock 예방하기</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#방법-1-Lock이-발생하는-순서를-정해놓는다"><span class="toc-number">3.1.</span> <span class="toc-text">방법 1. Lock이 발생하는 순서를 정해놓는다.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#방법-2-오픈-호출"><span class="toc-number">3.2.</span> <span class="toc-text">방법 2. 오픈 호출</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#방법-3-락의-시간-제한"><span class="toc-number">3.3.</span> <span class="toc-text">방법 3. 락의 시간 제한</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#스레드-덤프를-활용한-Deadlock-분석하기"><span class="toc-number">4.</span> <span class="toc-text">스레드 덤프를 활용한 Deadlock 분석하기</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2016/08/06/20160806-about_deadlock/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2016/08/06/20160806-about_deadlock/&text=Deadlock이 뭐지? (Java Thread와 Deadlock에 대한 고찰)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2016/08/06/20160806-about_deadlock/&title=Deadlock이 뭐지? (Java Thread와 Deadlock에 대한 고찰)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2016/08/06/20160806-about_deadlock/&is_video=false&description=Deadlock이 뭐지? (Java Thread와 Deadlock에 대한 고찰)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Deadlock이 뭐지? (Java Thread와 Deadlock에 대한 고찰)&body=Check out this article: http://icednut.github.io/2016/08/06/20160806-about_deadlock/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2016/08/06/20160806-about_deadlock/&title=Deadlock이 뭐지? (Java Thread와 Deadlock에 대한 고찰)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2016/08/06/20160806-about_deadlock/&title=Deadlock이 뭐지? (Java Thread와 Deadlock에 대한 고찰)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2016/08/06/20160806-about_deadlock/&title=Deadlock이 뭐지? (Java Thread와 Deadlock에 대한 고찰)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2016/08/06/20160806-about_deadlock/&title=Deadlock이 뭐지? (Java Thread와 Deadlock에 대한 고찰)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2016/08/06/20160806-about_deadlock/&name=Deadlock이 뭐지? (Java Thread와 Deadlock에 대한 고찰)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Icednut
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'icednut';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

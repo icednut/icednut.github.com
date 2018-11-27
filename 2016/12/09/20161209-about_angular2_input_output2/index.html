@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang=Ko>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="문제123456789101112.├── first-tab│   ├── first-tab.component.css│   ├── first-tab.component.html│   └── first-tab.component.ts├── second-tab│   ├── second-tab.component.css│   ├── second-tab.component.">
+<meta name="keywords" content="angular2,input,output">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular 2 - 사례로 살펴보는 @Input과 @Output의 이해 2">
+<meta property="og:url" content="http://icednut.github.io/2016/12/09/20161209-about_angular2_input_output2/index.html">
+<meta property="og:site_name" content="Icednut&#39;s Note">
+<meta property="og:description" content="문제123456789101112.├── first-tab│   ├── first-tab.component.css│   ├── first-tab.component.html│   └── first-tab.component.ts├── second-tab│   ├── second-tab.component.css│   ├── second-tab.component.">
+<meta property="og:locale" content="Korean">
+<meta property="og:image" content="http://icednut.github.io/images/20161209-about_angular2_input_output2/sample_app_01.png">
+<meta property="og:image" content="http://icednut.github.io/images/20161209-about_angular2_input_output2/sample_app_02.png">
+<meta property="og:updated_time" content="2018-11-25T11:13:19.912Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Angular 2 - 사례로 살펴보는 @Input과 @Output의 이해 2">
+<meta name="twitter:description" content="문제123456789101112.├── first-tab│   ├── first-tab.component.css│   ├── first-tab.component.html│   └── first-tab.component.ts├── second-tab│   ├── second-tab.component.css│   ├── second-tab.component.">
+<meta name="twitter:image" content="http://icednut.github.io/images/20161209-about_angular2_input_output2/sample_app_01.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Angular 2 - 사례로 살펴보는 @Input과 @Output의 이해 2</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2016/12/15/20161215-java_generics/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2016/12/09/20161209-d3_table_and_barchart/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2016/12/09/20161209-about_angular2_input_output2/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2016/12/09/20161209-about_angular2_input_output2/&text=Angular 2 - 사례로 살펴보는 @Input과 @Output의 이해 2"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2016/12/09/20161209-about_angular2_input_output2/&title=Angular 2 - 사례로 살펴보는 @Input과 @Output의 이해 2"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2016/12/09/20161209-about_angular2_input_output2/&is_video=false&description=Angular 2 - 사례로 살펴보는 @Input과 @Output의 이해 2"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Angular 2 - 사례로 살펴보는 @Input과 @Output의 이해 2&body=Check out this article: http://icednut.github.io/2016/12/09/20161209-about_angular2_input_output2/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2016/12/09/20161209-about_angular2_input_output2/&title=Angular 2 - 사례로 살펴보는 @Input과 @Output의 이해 2"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2016/12/09/20161209-about_angular2_input_output2/&title=Angular 2 - 사례로 살펴보는 @Input과 @Output의 이해 2"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2016/12/09/20161209-about_angular2_input_output2/&title=Angular 2 - 사례로 살펴보는 @Input과 @Output의 이해 2"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2016/12/09/20161209-about_angular2_input_output2/&title=Angular 2 - 사례로 살펴보는 @Input과 @Output의 이해 2"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2016/12/09/20161209-about_angular2_input_output2/&name=Angular 2 - 사례로 살펴보는 @Input과 @Output의 이해 2&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#문제"><span class="toc-number">1.</span> <span class="toc-text">문제</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#풀이"><span class="toc-number">2.</span> <span class="toc-text">풀이</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#부모-컴포넌트에서-자식-컴포넌트의-값을-가져오는-방법-2가지"><span class="toc-number">2.1.</span> <span class="toc-text">부모 컴포넌트에서 자식 컴포넌트의 값을 가져오는 방법 2가지</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#방법-1-모델-공유-부모-컴포넌트에-자식-컴포넌트들의-Form-모델을-선언하는-방법"><span class="toc-number">2.1.1.</span> <span class="toc-text">방법 1. 모델 공유 - 부모 컴포넌트에 자식 컴포넌트들의 Form 모델을 선언하는 방법</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-클로저-이벤트-사용-자식-컴포넌트에서-Form-데이터-셋팅-시-부모-컴포넌트에-이벤트-emit-시-Form-데이터-셋팅-클로저를-넘기는-방법"><span class="toc-number">2.1.2.</span> <span class="toc-text">2. 클로저 이벤트 사용 - 자식 컴포넌트에서 Form 데이터 셋팅 시 부모 컴포넌트에 이벤트 emit 시 Form 데이터 셋팅 클로저를 넘기는 방법</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Angular 2 - 사례로 살펴보는 @Input과 @Output의 이해 2
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">Icednut's Note</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2016-12-08T15:00:00.000Z" itemprop="datePublished">2016-12-09</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/angular2/">angular2</a>, <a class="tag-link" href="/tags/input/">input</a>, <a class="tag-link" href="/tags/output/">output</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="/images/20161209-about_angular2_input_output2/sample_app_01.png" title="Sample App"><br><img src="/images/20161209-about_angular2_input_output2/sample_app_02.png" title="Sample App"></p>
+<h2 id="문제"><a href="#문제" class="headerlink" title="문제"></a>문제</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── first-tab</span><br><span class="line">│   ├── first-tab.component.css</span><br><span class="line">│   ├── first-tab.component.html</span><br><span class="line">│   └── first-tab.component.ts</span><br><span class="line">├── second-tab</span><br><span class="line">│   ├── second-tab.component.css</span><br><span class="line">│   ├── second-tab.component.html</span><br><span class="line">│   └── second-tab.component.ts</span><br><span class="line">├── tab-menu.component.css</span><br><span class="line">├── tab-menu.component.html</span><br><span class="line">└── tab-menu.component.ts</span><br></pre></td></tr></table></figure>
+<ul>
+<li>스크린샷에 보이는 것 처럼 한 페이지에 Tab으로 구분된 Form이 구성되어 있다. <code>제출하기</code> 버튼 클릭했을 때 모든 탭의 Form 데이터<br>를 얻어오려면 어떻게 해야될까?<br><br></li>
+</ul>
+<h2 id="풀이"><a href="#풀이" class="headerlink" title="풀이"></a>풀이</h2><ul>
+<li>위 상황만 따지고 볼 때 핵심은 <code>제출하기</code> 버튼 클릭 시 모든 탭에 있는 Form 데이터를 가져오도록 코드를 작성하면 될 것 같다.</li>
+<li>아래와 같이 Tab들은 자식 컴포넌트로 구성이 될텐데 부모 컴포넌트에서 자식 컴포넌트의 Form 데이터는 어떻게 가져올 것인가?</li>
+</ul>
+<figure class="highlight html"><figcaption><span>tab-menu.component.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">tabset</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tab</span> <span class="attr">heading</span>=<span class="string">"1단계"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">first-tab</span>&gt;</span><span class="tag">&lt;/<span class="name">first-tab</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tab</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tab</span> <span class="attr">heading</span>=<span class="string">"2단계"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">second-tab</span>&gt;</span><span class="tag">&lt;/<span class="name">second-tab</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tab</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">tabset</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>문제의 핵심은 부모 컴포넌트(tab-menu.component)에서 자식 컴포넌트(first-tab.component &amp; second-tab.component)의 값을 언제 어떻게 가져올 것인가로 압축할 수 있다.<br><br></li>
+</ul>
+<h3 id="부모-컴포넌트에서-자식-컴포넌트의-값을-가져오는-방법-2가지"><a href="#부모-컴포넌트에서-자식-컴포넌트의-값을-가져오는-방법-2가지" class="headerlink" title="부모 컴포넌트에서 자식 컴포넌트의 값을 가져오는 방법 2가지"></a>부모 컴포넌트에서 자식 컴포넌트의 값을 가져오는 방법 2가지</h3><ul>
+<li>방법 1. 모델 공유</li>
+<li>방법 2. 클로저 이벤트 사용</li>
+</ul>
+<p>일단 위 2가지 방법이 그나마 효율적인 방법이라고 생각한다. (위 2가지 방법 말고도 다른 방법이 있겠지만…) 먼저 첫 번째 방법 부터 살펴보자.<br><br></p>
+<h4 id="방법-1-모델-공유-부모-컴포넌트에-자식-컴포넌트들의-Form-모델을-선언하는-방법"><a href="#방법-1-모델-공유-부모-컴포넌트에-자식-컴포넌트들의-Form-모델을-선언하는-방법" class="headerlink" title="방법 1. 모델 공유 - 부모 컴포넌트에 자식 컴포넌트들의 Form 모델을 선언하는 방법"></a>방법 1. 모델 공유 - 부모 컴포넌트에 자식 컴포넌트들의 Form 모델을 선언하는 방법</h4><p>말 그대로 부모 컴포넌트에서 자식 컴포넌트들의 Form 데이터가 담긴 모델을 갖고 있도록 정의하는 방법이다. 코드로 살펴보면 다음과 같다.</p>
+<p>1) 부모 컴포넌트(tab-menu.component.ts)에서 자식 컴포넌트의 데이터를 받을 모델 멤버변수를 선언한다.</p>
+<ul>
+<li>여기서 firstTabForm과 secondTabForm에 대한 부모컴포넌트의 멤버 필드를 선언하고 인스턴스화 한다.</li>
+<li>이렇게 인스턴스화 된 멤버들을 자식들에게 공유하는 방식이다.</li>
+</ul>
+<figure class="highlight plain"><figcaption><span>tab-menu.component.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">import &#123; Component, OnInit &#125; from &apos;@angular/core&apos;;</span><br><span class="line">import &#123; FirstTabForm &#125; from &apos;./firstTabForm&apos;;</span><br><span class="line">import &#123; SecondTabForm &#125; from &apos;./secondTabForm&apos;;</span><br><span class="line"></span><br><span class="line">@Component(&#123;</span><br><span class="line">  selector: &apos;tab-menu&apos;,</span><br><span class="line">  templateUrl: &apos;./tab-menu.component.html&apos;,</span><br><span class="line">  styleUrls: [&apos;./tab-menu.component.css&apos;]</span><br><span class="line">&#125;)</span><br><span class="line">export class TabMenuComponent implements OnInit &#123;</span><br><span class="line"></span><br><span class="line">  firstTabForm: FirstTabForm = new FirstTabForm();</span><br><span class="line">  secondTabForm: SecondTabForm = new SecondTabForm();</span><br><span class="line"></span><br><span class="line">  ngOnInit() &#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2) 부모 컴포넌트의 멤버 변수를 자식 컴포넌트로 전달한다.</p>
+<ul>
+<li>전달할 때는 아래와 같이 자식 컴포넌트의 <code>@Input</code> 멤버 필드에 전달한다.</li>
+</ul>
+<figure class="highlight html"><figcaption><span>tab-menu.component.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">tabset</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tab</span> <span class="attr">heading</span>=<span class="string">"1단계"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">first-tab</span> [<span class="attr">childForm</span>]=<span class="string">"firstTabForm"</span>&gt;</span><span class="tag">&lt;/<span class="name">first-tab</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tab</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tab</span> <span class="attr">heading</span>=<span class="string">"2단계"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">second-tab</span> [<span class="attr">childForm</span>]=<span class="string">"secondTabForm"</span>&gt;</span><span class="tag">&lt;/<span class="name">second-tab</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tab</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">tabset</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><figcaption><span>first-tab.component.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import &#123; Component, OnInit, Input &#125; from &apos;@angular/core&apos;;</span><br><span class="line">import &#123; FirstTabForm &#125; from &apos;../firstTabForm&apos;;</span><br><span class="line"></span><br><span class="line">@Component(&#123;</span><br><span class="line">  selector: &apos;first-tab&apos;,</span><br><span class="line">  templateUrl: &apos;./first-tab.component.html&apos;,</span><br><span class="line">  styleUrls: [&apos;./first-tab.component.css&apos;]</span><br><span class="line">&#125;)</span><br><span class="line">export class FirstTabComponent implements OnInit &#123;</span><br><span class="line"></span><br><span class="line">  @Input()</span><br><span class="line">  childForm: FirstTabForm;</span><br><span class="line"></span><br><span class="line">  constructor() &#123; &#125;</span><br><span class="line"></span><br><span class="line">  ngOnInit() &#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><figcaption><span>second-tab.component.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import &#123; Component, OnInit, Input &#125; from &apos;@angular/core&apos;;</span><br><span class="line">import &#123; SecondTabForm &#125; from &apos;../secondTabForm&apos;;</span><br><span class="line"></span><br><span class="line">@Component(&#123;</span><br><span class="line">  selector: &apos;second-tab&apos;,</span><br><span class="line">  templateUrl: &apos;./second-tab.component.html&apos;,</span><br><span class="line">  styleUrls: [&apos;./second-tab.component.css&apos;]</span><br><span class="line">&#125;)</span><br><span class="line">export class SecondTabComponent implements OnInit &#123;</span><br><span class="line"></span><br><span class="line">  @Input()</span><br><span class="line">  childForm: SecondTabForm;</span><br><span class="line"></span><br><span class="line">  constructor() &#123; &#125;</span><br><span class="line"></span><br><span class="line">  ngOnInit() &#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3) 자식 컴포넌트의 템플릿에 선언되어 있는 input, select 등 입출력을 담당하는 엘리먼트에 양방향 바인딩을 걸어준다.</p>
+<ul>
+<li>사실 input 바인딩만 걸어줘도 되는데 추후 저장 후 수정과 같은 페이지를 만들 것을 대비하여 양방향 바인딩을 걸어준다. (이게 비효율적으로 보이면 단방향 바인딩만 해줘도 된다.)</li>
+</ul>
+<figure class="highlight plain"><figcaption><span>first-tab.component.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">  &lt;input type=&quot;text&quot; class=&quot;form-control&quot; placeholder=&quot;이름(Name)&quot; [(ngModel)]=&quot;childForm.name&quot;&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">  &lt;input type=&quot;email&quot; class=&quot;form-control&quot; placeholder=&quot;이메일(Email)&quot; [(ngModel)]=&quot;childForm.email&quot;&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">  &lt;input type=&quot;text&quot; class=&quot;form-control&quot; placeholder=&quot;주소(Address)&quot; [(ngModel)]=&quot;childForm.address&quot;&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><figcaption><span>second-tab.component.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">  &lt;label for=&quot;personCount&quot;&gt;예약 인원&lt;/label&gt;</span><br><span class="line">  &lt;select class=&quot;form-control&quot; id=&quot;personCount&quot; [(ngModel)]=&quot;childForm.count&quot;&gt;</span><br><span class="line">    &lt;option&gt;1&lt;/option&gt;</span><br><span class="line">    &lt;option&gt;2&lt;/option&gt;</span><br><span class="line">    &lt;option&gt;3&lt;/option&gt;</span><br><span class="line">    &lt;option&gt;4&lt;/option&gt;</span><br><span class="line">    &lt;option&gt;5&lt;/option&gt;</span><br><span class="line">  &lt;/select&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">  &lt;label for=&quot;groupName&quot;&gt;모임명&lt;/label&gt;</span><br><span class="line">  &lt;input type=&quot;email&quot; class=&quot;form-control&quot; id=&quot;groupName&quot; [(ngModel)]=&quot;childForm.groupName&quot;&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>4) 부모 컴포넌트로 데이터가 제대로 들어오는지 확인</p>
+<ul>
+<li>부모 컴포넌트 쪽에서 데이터가 제대로 들어왔는지 디버깅을 해보자.</li>
+</ul>
+<figure class="highlight html"><figcaption><span>tab-menu.component.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">tabset</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tab</span> <span class="attr">heading</span>=<span class="string">"1단계"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">first-tab</span> [<span class="attr">childForm</span>]=<span class="string">"firstTabForm"</span>&gt;</span><span class="tag">&lt;/<span class="name">first-tab</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tab</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tab</span> <span class="attr">heading</span>=<span class="string">"2단계"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">second-tab</span> [<span class="attr">childForm</span>]=<span class="string">"secondTabForm"</span>&gt;</span><span class="tag">&lt;/<span class="name">second-tab</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tab</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">tabset</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"btn btn-primary"</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">style</span>=<span class="string">"width:140px;"</span> (<span class="attr">click</span>)=<span class="string">"saveRequest()"</span>&gt;</span>제출하기<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"btn btn-info"</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">style</span>=<span class="string">"width:140px;"</span>&gt;</span>초기화<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><figcaption><span>tab-menu.component.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">@Component(&#123;</span><br><span class="line">  selector: &apos;tab-menu&apos;,</span><br><span class="line">  templateUrl: &apos;./tab-menu.component.html&apos;,</span><br><span class="line">  styleUrls: [&apos;./tab-menu.component.css&apos;]</span><br><span class="line">&#125;)</span><br><span class="line">export class TabMenuComponent implements OnInit &#123;</span><br><span class="line"></span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">  saveRequest() &#123;</span><br><span class="line">    console.log(`$&#123;this.firstTabForm.name&#125; : $&#123;this.firstTabForm.email&#125; : $&#123;this.firstTabForm.address&#125;`);</span><br><span class="line">    console.log(`$&#123;this.secondTabForm.count&#125; : $&#123;this.secondTabForm.groupName&#125;`);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>방법 1 전체 소스<br><a href="https://github.com/icednut/angular2-exercise/tree/master" target="_blank" rel="noopener">https://github.com/icednut/angular2-exercise/tree/master</a><br><br></p>
+<h4 id="2-클로저-이벤트-사용-자식-컴포넌트에서-Form-데이터-셋팅-시-부모-컴포넌트에-이벤트-emit-시-Form-데이터-셋팅-클로저를-넘기는-방법"><a href="#2-클로저-이벤트-사용-자식-컴포넌트에서-Form-데이터-셋팅-시-부모-컴포넌트에-이벤트-emit-시-Form-데이터-셋팅-클로저를-넘기는-방법" class="headerlink" title="2. 클로저 이벤트 사용 - 자식 컴포넌트에서 Form 데이터 셋팅 시 부모 컴포넌트에 이벤트 emit 시 Form 데이터 셋팅 클로저를 넘기는 방법"></a>2. 클로저 이벤트 사용 - 자식 컴포넌트에서 Form 데이터 셋팅 시 부모 컴포넌트에 이벤트 emit 시 Form 데이터 셋팅 클로저를 넘기는 방법</h4><p>부모 컴포넌트 페이지에서 <code>제출하기</code>버튼 클릭 시 자식 컴포넌트들에게 이벤트를 발생하는데 이 때 내보내는 이벤트 타입을 클로저로 지정하는 방법이다. 말로 들으면 이해가 안갈지도 모르는데 코드를 살펴보면 다음과 같다.</p>
+<p>1) <code>제출하기</code> 버튼 클릭 핸들러 추가<br><figure class="highlight html"><figcaption><span>tab-menu.component.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">tabset</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tab</span> <span class="attr">heading</span>=<span class="string">"1단계"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">first-tab</span>&gt;</span><span class="tag">&lt;/<span class="name">first-tab</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tab</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tab</span> <span class="attr">heading</span>=<span class="string">"2단계"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">second-tab</span>&gt;</span><span class="tag">&lt;/<span class="name">second-tab</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tab</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">tabset</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"btn btn-primary"</span> <span class="attr">type</span>=<span class="string">"button"</span> (<span class="attr">click</span>)=<span class="string">"saveRequest()"</span>&gt;</span>제출하기<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"btn btn-info"</span> <span class="attr">type</span>=<span class="string">"button"</span>&gt;</span>초기화<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><figcaption><span>tab-menu.component.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import &#123; Component, OnInit &#125; from &apos;@angular/core&apos;;</span><br><span class="line"></span><br><span class="line">@Component(&#123;</span><br><span class="line">  selector: &apos;tab-menu&apos;,</span><br><span class="line">  templateUrl: &apos;./tab-menu.component.html&apos;,</span><br><span class="line">  styleUrls: [&apos;./tab-menu.component.css&apos;]</span><br><span class="line">&#125;)</span><br><span class="line">export class TabMenuComponent implements OnInit &#123;</span><br><span class="line"></span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">  ngOnInit() &#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  saveRequest() &#123;</span><br><span class="line">    // TODO 1: 여기서 first-tab 컴포넌트와 second-tab 컴포넌트에 Form 데이터를 가져올 이벤트를 발생(emit)한다.</span><br><span class="line">    // TODO 2: 자식 컴포넌트들(first-tab, second-tab)에서는 부모 컴포넌트(tab-menu)로 Form 데이터를 전달한다.</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2) 부모 컴포넌트의 멤버 필드로 데이터를 셋팅하는 로직이 담긴 클로저 이벤트를 발생한다.<br><figure class="highlight plain"><figcaption><span>tab-menu.component.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">import &#123; Component, OnInit &#125; from &apos;@angular/core&apos;;</span><br><span class="line">import &#123; FirstTabForm &#125; from &apos;./firstTabForm&apos;;</span><br><span class="line">import &#123; SecondTabForm &#125; from &apos;./secondTabForm&apos;;</span><br><span class="line"></span><br><span class="line">@Component(&#123;</span><br><span class="line">  selector: &apos;tab-menu&apos;,</span><br><span class="line">  templateUrl: &apos;./tab-menu.component.html&apos;,</span><br><span class="line">  styleUrls: [&apos;./tab-menu.component.css&apos;]</span><br><span class="line">&#125;)</span><br><span class="line">export class TabMenuComponent implements OnInit &#123;</span><br><span class="line"></span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">  firstTabForm: FirstForm;</span><br><span class="line">  secondTabForm: SecondForm;</span><br><span class="line">  firstTabFormSelectEvent: EventEmitter&lt;any&gt; = new EventEmitter&lt;any&gt;();</span><br><span class="line">  secondTabFormSelectEvent: EventEmitter&lt;any&gt; = new EventEmitter&lt;any&gt;();</span><br><span class="line"></span><br><span class="line">  ngOnInit() &#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  saveRequest() &#123;</span><br><span class="line">    // TODO 1: 여기서 first-tab 컴포넌트와 second-tab 컴포넌트에 Form 데이터를 가져올 이벤트를 발생(emit)한다.</span><br><span class="line">    this.firstTabFormSelectEvent.emit(it =&gt; &#123;</span><br><span class="line">      this.firstTabForm = it;</span><br><span class="line">      console.log(`$&#123;this.firstTabForm.name&#125; : $&#123;this.firstTabForm.email&#125; : $&#123;this.firstTabForm.address&#125;`);</span><br><span class="line">    &#125;);</span><br><span class="line">    this.secondTabFormSelectEvent.emit(it =&gt; &#123;</span><br><span class="line">      this.secondTabForm = it;</span><br><span class="line">      console.log(`$&#123;this.secondTabForm.count&#125; : $&#123;this.secondTabForm.groupName&#125;`);</span><br><span class="line">    &#125;); // emit의 파라미터를 자세히 살펴보면 클로저를 넘기고 있다.</span><br><span class="line"></span><br><span class="line">    // TODO 2: 자식 컴포넌트들(first-tab, second-tab)에서는 부모 컴포넌트(tab-menu)로 Form 데이터를 전달한다.</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>3) 이벤트를 자식컴포넌트에서 subscribe 하기 위해서 서비스 클래스(formService.ts)로 따로 뺀다.<br><figure class="highlight plain"><figcaption><span>tab-menu.component.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">import &#123; Component, OnInit, Output, EventEmitter &#125; from &apos;@angular/core&apos;;</span><br><span class="line">import &#123; FirstTabForm &#125; from &apos;./firstTabForm&apos;;</span><br><span class="line">import &#123; SecondTabForm &#125; from &apos;./secondTabForm&apos;;</span><br><span class="line">import &#123; FormService &#125; from &apos;./formService&apos;;</span><br><span class="line"></span><br><span class="line">@Component(&#123;</span><br><span class="line">  selector: &apos;tab-menu&apos;,</span><br><span class="line">  templateUrl: &apos;./tab-menu.component.html&apos;,</span><br><span class="line">  styleUrls: [&apos;./tab-menu.component.css&apos;]</span><br><span class="line">&#125;)</span><br><span class="line">export class TabMenuComponent implements OnInit &#123;</span><br><span class="line"></span><br><span class="line">  firstTabForm: FirstTabForm;</span><br><span class="line">  secondTabForm: SecondTabForm;</span><br><span class="line"></span><br><span class="line">  constructor(</span><br><span class="line">    private formService: FormService</span><br><span class="line">  ) &#123; &#125;</span><br><span class="line"></span><br><span class="line">  ngOnInit() &#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  saveRequest() &#123;</span><br><span class="line">    this.formService.selectFirstForm(it =&gt; &#123;</span><br><span class="line">      this.firstTabForm = it;</span><br><span class="line">      console.log(`$&#123;this.firstTabForm.name&#125; : $&#123;this.firstTabForm.email&#125; : $&#123;this.firstTabForm.address&#125;`);</span><br><span class="line">    &#125;);</span><br><span class="line">    this.formService.selectSecondForm(it =&gt; &#123;</span><br><span class="line">      this.secondTabForm = it;</span><br><span class="line">      console.log(`$&#123;this.secondTabForm.count&#125; : $&#123;this.secondTabForm.groupName&#125;`);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><figcaption><span>formService.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import &#123; Injectable, EventEmitter &#125; from &apos;@angular/core&apos;;</span><br><span class="line"></span><br><span class="line">@Injectable()</span><br><span class="line">export class FormService &#123;</span><br><span class="line">  firstTabFormSelectEvent: EventEmitter&lt;any&gt; = new EventEmitter&lt;any&gt;();</span><br><span class="line">  secondTabFormSelectEvent: EventEmitter&lt;any&gt; = new EventEmitter&lt;any&gt;();</span><br><span class="line"></span><br><span class="line">  selectFirstForm(event: any) &#123;</span><br><span class="line">    this.firstTabFormSelectEvent.emit(event);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  selectSecondForm(event: any) &#123;</span><br><span class="line">    this.secondTabFormSelectEvent.emit(event);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4) 자식 컴포넌트에서는 해당 이벤트를 subscribe 하는데 이 때 자식 컴포넌트의 데이터를 넘기기 위해 받은 이벤트를 실행한다.<br><figure class="highlight plain"><figcaption><span>first-tab.component.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import &#123; Component, OnInit, Input &#125; from &apos;@angular/core&apos;;</span><br><span class="line">import &#123; FirstTabForm &#125; from &apos;../firstTabForm&apos;;</span><br><span class="line">import &#123; FormService &#125; from &apos;../formService&apos;;</span><br><span class="line"></span><br><span class="line">@Component(&#123;</span><br><span class="line">  selector: &apos;first-tab&apos;,</span><br><span class="line">  templateUrl: &apos;./first-tab.component.html&apos;,</span><br><span class="line">  styleUrls: [&apos;./first-tab.component.css&apos;]</span><br><span class="line">&#125;)</span><br><span class="line">export class FirstTabComponent implements OnInit &#123;</span><br><span class="line"></span><br><span class="line">  @Input()</span><br><span class="line">  childForm: FirstTabForm = new FirstTabForm();</span><br><span class="line"></span><br><span class="line">  constructor(private formService: FormService) &#123; &#125;</span><br><span class="line"></span><br><span class="line">  ngOnInit() &#123;</span><br><span class="line">    this.formService.onSelectFirstForm(eventBody =&gt; &#123;</span><br><span class="line">      eventBody(this.childForm);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><figcaption><span>formService.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import &#123; Injectable, EventEmitter &#125; from &apos;@angular/core&apos;;</span><br><span class="line"></span><br><span class="line">@Injectable()</span><br><span class="line">export class FormService &#123;</span><br><span class="line">  firstTabFormSelectEvent: EventEmitter&lt;any&gt; = new EventEmitter&lt;any&gt;();</span><br><span class="line">  secondTabFormSelectEvent: EventEmitter&lt;any&gt; = new EventEmitter&lt;any&gt;();</span><br><span class="line"></span><br><span class="line">  selectFirstForm(event: any) &#123;</span><br><span class="line">    this.firstTabFormSelectEvent.emit(event);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  selectSecondForm(event: any) &#123;</span><br><span class="line">    this.secondTabFormSelectEvent.emit(event);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  onSelectFirstForm(subscribeFunc: any) &#123;</span><br><span class="line">    this.firstTabFormSelectEvent.subscribe(subscribeFunc);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  onSelectSecondForm(subscribeFunc: any) &#123;</span><br><span class="line">    this.secondTabFormSelectEvent.subscribe(subscribeFunc);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>방법 2 전체 소스<br><a href="https://github.com/icednut/angular2-exercise/tree/closure_event" target="_blank" rel="noopener">https://github.com/icednut/angular2-exercise/tree/closure_event</a></p>
+<p>방법1, 방법2 말고도 더 좋은 방법이 있겠지만 이번 포스트는 여기서 마무리!</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#문제"><span class="toc-number">1.</span> <span class="toc-text">문제</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#풀이"><span class="toc-number">2.</span> <span class="toc-text">풀이</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#부모-컴포넌트에서-자식-컴포넌트의-값을-가져오는-방법-2가지"><span class="toc-number">2.1.</span> <span class="toc-text">부모 컴포넌트에서 자식 컴포넌트의 값을 가져오는 방법 2가지</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#방법-1-모델-공유-부모-컴포넌트에-자식-컴포넌트들의-Form-모델을-선언하는-방법"><span class="toc-number">2.1.1.</span> <span class="toc-text">방법 1. 모델 공유 - 부모 컴포넌트에 자식 컴포넌트들의 Form 모델을 선언하는 방법</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-클로저-이벤트-사용-자식-컴포넌트에서-Form-데이터-셋팅-시-부모-컴포넌트에-이벤트-emit-시-Form-데이터-셋팅-클로저를-넘기는-방법"><span class="toc-number">2.1.2.</span> <span class="toc-text">2. 클로저 이벤트 사용 - 자식 컴포넌트에서 Form 데이터 셋팅 시 부모 컴포넌트에 이벤트 emit 시 Form 데이터 셋팅 클로저를 넘기는 방법</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2016/12/09/20161209-about_angular2_input_output2/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2016/12/09/20161209-about_angular2_input_output2/&text=Angular 2 - 사례로 살펴보는 @Input과 @Output의 이해 2"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2016/12/09/20161209-about_angular2_input_output2/&title=Angular 2 - 사례로 살펴보는 @Input과 @Output의 이해 2"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2016/12/09/20161209-about_angular2_input_output2/&is_video=false&description=Angular 2 - 사례로 살펴보는 @Input과 @Output의 이해 2"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Angular 2 - 사례로 살펴보는 @Input과 @Output의 이해 2&body=Check out this article: http://icednut.github.io/2016/12/09/20161209-about_angular2_input_output2/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2016/12/09/20161209-about_angular2_input_output2/&title=Angular 2 - 사례로 살펴보는 @Input과 @Output의 이해 2"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2016/12/09/20161209-about_angular2_input_output2/&title=Angular 2 - 사례로 살펴보는 @Input과 @Output의 이해 2"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2016/12/09/20161209-about_angular2_input_output2/&title=Angular 2 - 사례로 살펴보는 @Input과 @Output의 이해 2"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2016/12/09/20161209-about_angular2_input_output2/&title=Angular 2 - 사례로 살펴보는 @Input과 @Output의 이해 2"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2016/12/09/20161209-about_angular2_input_output2/&name=Angular 2 - 사례로 살펴보는 @Input과 @Output의 이해 2&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Icednut
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'icednut';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

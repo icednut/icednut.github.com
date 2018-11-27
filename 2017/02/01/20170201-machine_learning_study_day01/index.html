@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang=Ko>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="머신러닝(Machine Learning)의 정의 및 용어 정리Tom Mitchell는 자신의 저서 머신러닝에서 러닝, 즉 학습의 정의를 다음과 같이 내렸다.  만약 컴퓨터 프로그램이 특정한 태스크 T를 수행할 때 성능 P만큼 개선되는 경험 E를 보이면 그 컴퓨터 프로그램은 태스크 T와 성능 P에 대해 경험 E를 학습했다라고 할 수 있다.  example)컴">
+<meta name="keywords" content="Machine Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Machine Learning Study 01 - 머신러닝의 정의 및 기초 용어 정리">
+<meta property="og:url" content="http://icednut.github.io/2017/02/01/20170201-machine_learning_study_day01/index.html">
+<meta property="og:site_name" content="Icednut&#39;s Note">
+<meta property="og:description" content="머신러닝(Machine Learning)의 정의 및 용어 정리Tom Mitchell는 자신의 저서 머신러닝에서 러닝, 즉 학습의 정의를 다음과 같이 내렸다.  만약 컴퓨터 프로그램이 특정한 태스크 T를 수행할 때 성능 P만큼 개선되는 경험 E를 보이면 그 컴퓨터 프로그램은 태스크 T와 성능 P에 대해 경험 E를 학습했다라고 할 수 있다.  example)컴">
+<meta property="og:locale" content="Korean">
+<meta property="og:updated_time" content="2018-09-29T06:00:58.147Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Machine Learning Study 01 - 머신러닝의 정의 및 기초 용어 정리">
+<meta name="twitter:description" content="머신러닝(Machine Learning)의 정의 및 용어 정리Tom Mitchell는 자신의 저서 머신러닝에서 러닝, 즉 학습의 정의를 다음과 같이 내렸다.  만약 컴퓨터 프로그램이 특정한 태스크 T를 수행할 때 성능 P만큼 개선되는 경험 E를 보이면 그 컴퓨터 프로그램은 태스크 T와 성능 P에 대해 경험 E를 학습했다라고 할 수 있다.  example)컴">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Machine Learning Study 01 - 머신러닝의 정의 및 기초 용어 정리</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/02/09/20170209-math-test/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/01/20/20170120-introduce_machine_learning/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2017/02/01/20170201-machine_learning_study_day01/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2017/02/01/20170201-machine_learning_study_day01/&text=Machine Learning Study 01 - 머신러닝의 정의 및 기초 용어 정리"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2017/02/01/20170201-machine_learning_study_day01/&title=Machine Learning Study 01 - 머신러닝의 정의 및 기초 용어 정리"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2017/02/01/20170201-machine_learning_study_day01/&is_video=false&description=Machine Learning Study 01 - 머신러닝의 정의 및 기초 용어 정리"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Machine Learning Study 01 - 머신러닝의 정의 및 기초 용어 정리&body=Check out this article: http://icednut.github.io/2017/02/01/20170201-machine_learning_study_day01/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2017/02/01/20170201-machine_learning_study_day01/&title=Machine Learning Study 01 - 머신러닝의 정의 및 기초 용어 정리"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2017/02/01/20170201-machine_learning_study_day01/&title=Machine Learning Study 01 - 머신러닝의 정의 및 기초 용어 정리"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2017/02/01/20170201-machine_learning_study_day01/&title=Machine Learning Study 01 - 머신러닝의 정의 및 기초 용어 정리"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2017/02/01/20170201-machine_learning_study_day01/&title=Machine Learning Study 01 - 머신러닝의 정의 및 기초 용어 정리"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2017/02/01/20170201-machine_learning_study_day01/&name=Machine Learning Study 01 - 머신러닝의 정의 및 기초 용어 정리&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#머신러닝-Machine-Learning-의-정의-및-용어-정리"><span class="toc-number">1.</span> <span class="toc-text">머신러닝(Machine Learning)의 정의 및 용어 정리</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#example"><span class="toc-number">1.0.0.0.1.</span> <span class="toc-text">example)</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Vector"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">Vector</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#머신러닝과-데이터-마이닝"><span class="toc-number">1.1.</span> <span class="toc-text">머신러닝과 데이터 마이닝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#용어-정리"><span class="toc-number">1.2.</span> <span class="toc-text">용어 정리</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#레이블-Label"><span class="toc-number">1.2.0.1.</span> <span class="toc-text">레이블(Label)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#지도-Supervised-학습-amp-비지도-Unsupervised-학습"><span class="toc-number">1.2.0.2.</span> <span class="toc-text">지도(Supervised) 학습 &amp; 비지도(Unsupervised) 학습</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#분류-모델-Classification"><span class="toc-number">1.2.0.3.</span> <span class="toc-text">분류 모델 (Classification)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#예측-모델-Regression"><span class="toc-number">1.2.0.4.</span> <span class="toc-text">예측 모델 (Regression)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#특성-Feature"><span class="toc-number">1.2.0.5.</span> <span class="toc-text">특성(Feature)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#상관-분석-Correlation"><span class="toc-number">1.2.0.6.</span> <span class="toc-text">상관 분석 (Correlation)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#회귀-분석-Regression"><span class="toc-number">1.2.0.7.</span> <span class="toc-text">회귀 분석 (Regression)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#선형-회귀-Linear-Regression"><span class="toc-number">1.2.0.8.</span> <span class="toc-text">선형 회귀 (Linear Regression)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#로지스틱-회귀-Logistic-Regression"><span class="toc-number">1.2.0.9.</span> <span class="toc-text">로지스틱 회귀 (Logistic Regression)</span></a></li></ol></li>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Machine Learning Study 01 - 머신러닝의 정의 및 기초 용어 정리
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">Icednut's Note</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-01-31T15:00:00.000Z" itemprop="datePublished">2017-02-01</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Machine-Learning/">Machine Learning</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="머신러닝-Machine-Learning-의-정의-및-용어-정리"><a href="#머신러닝-Machine-Learning-의-정의-및-용어-정리" class="headerlink" title="머신러닝(Machine Learning)의 정의 및 용어 정리"></a>머신러닝(Machine Learning)의 정의 및 용어 정리</h1><p>Tom Mitchell는 자신의 저서 <code>머신러닝</code>에서 러닝, 즉 학습의 정의를 다음과 같이 내렸다.</p>
+<blockquote>
+<p>만약 컴퓨터 프로그램이 특정한 태스크 T를 수행할 때 성능 P만큼 개선되는 경험 E를 보이면 그 컴퓨터 프로그램은 태스크 T와 성능 P에 대해 경험 E를 학습했다라고 할 수 있다.</p>
+</blockquote>
+<h5 id="example"><a href="#example" class="headerlink" title="example)"></a>example)</h5><p>컴퓨터에게 필기체를 인식하는 학습을 시킨다고 했을 때</p>
+<ul>
+<li>태스크 T: 필기체를 인식하고 분류하는 것</li>
+<li>성능 P: 필기체를 정확히 구분한 확률</li>
+<li>학습 경험 E: 필기체와 정확한 글자를 표시한 데이터세트<br>로 정의할 수 있다.</li>
+</ul>
+<h4 id="Vector"><a href="#Vector" class="headerlink" title="Vector"></a>Vector</h4><ul>
+<li>머신(컴퓨터)가 학습하기 위해서는, 다시 말해 컴퓨터가 어떤 판단 규칙 만들기 위해서는 사람이 인지하는 데이터를 컴퓨터가 인지하기 위해 데이터의 사전 처리가 필요하다.</li>
+<li>예를 들면, 텍스트로 된 사용자 행동로그 데이터 테이블, 자연어로 구성된 문장, 음성신호, 디지털 이미지, 동영상 등의 데이터는 계산 가능한 정량적인 단위로 변환 및  벡터나 행렬 형태로 가공이 필요하다.</li>
+<li>입력 데이터를 벡터 형태로 표현하는 이유는 입력 데이터가 n개의 특성으로 정량화 됐다면 n차원 벡터 공간에 표현할 수 있어 데이터를 직관적으로 이해하고 수학적인 분류 모델을 만들기 쉽기 때문<br><br></li>
+</ul>
+<h2 id="머신러닝과-데이터-마이닝"><a href="#머신러닝과-데이터-마이닝" class="headerlink" title="머신러닝과 데이터 마이닝"></a>머신러닝과 데이터 마이닝</h2><ul>
+<li>머신러닝에서 사용하는 분류나 군집 같은 방법을 데이터 마이닝에서도 사용함</li>
+<li>분류나 예측, 군집과 같은 기술, 모델, 알고리즘을 이용해 문제를 해결하는 것을 컴퓨터 과학 관점에서는 <code>머신러닝</code>이라고 하고, 통계학 관점에서는 <code>데이터 마이닝</code>이라고 한다.</li>
+<li>머신러닝과 데이터 마이닝의 차이점을 굳이 설명하자면 데이터 마이닝은 가지고 있는 데이터에서 현상 및 특성을 발견하는 것이 목적,</li>
+<li>반면 머신러닝은 기존 데이터를 통해 학습을 시킨 후 새로운 데이터에 대한 예측값을 알아내는 데 목적이 있다라고 할 수 있다.<br><br></li>
+</ul>
+<h2 id="용어-정리"><a href="#용어-정리" class="headerlink" title="용어 정리"></a>용어 정리</h2><h4 id="레이블-Label"><a href="#레이블-Label" class="headerlink" title="레이블(Label)"></a>레이블(Label)</h4><ul>
+<li>학습 데이터의 속성을 우리가 분석하고자 하는 관점에서 정의하는 것</li>
+<li>예를 들어 사진에서 어떤 사물을 구별하는 태스크 T가 있다고 할 때 사진은 학습 데이터, 사진 속에 있는 사물 ‘컵’, ‘책상’, ‘자전거’, ‘고양이’라고 미리 정의해 놓는 것을 레이블이라고 한다.</li>
+</ul>
+<h4 id="지도-Supervised-학습-amp-비지도-Unsupervised-학습"><a href="#지도-Supervised-학습-amp-비지도-Unsupervised-학습" class="headerlink" title="지도(Supervised) 학습 &amp; 비지도(Unsupervised) 학습"></a>지도(Supervised) 학습 &amp; 비지도(Unsupervised) 학습</h4><ul>
+<li>레이블은 사람이 사진을 보고 정의한 것이기 때문에 그러한 레이블된 사진을 읽어서 학습하는 컴퓨터 입장에서는 사람으로부터 지도를 받는 것이라 하여 지도 학습</li>
+<li>입력 데이터에 레이블이 없다면 컴퓨터가 사람으로부터 지도를 받은 것이 없기 때문에 비지도 학습이라 한다.</li>
+<li>지도학습의 종류: 분류 모델(Classification), 예측 모델(Prediction)</li>
+<li>비지도 학습의 종류: 군집 모델(Clustering)</li>
+</ul>
+<h4 id="분류-모델-Classification"><a href="#분류-모델-Classification" class="headerlink" title="분류 모델 (Classification)"></a>분류 모델 (Classification)</h4><ul>
+<li>kNN (k nearest neighbor)</li>
+<li>서포트 벡터 머신 (Support Vector Machine)</li>
+<li>의사결정 트리 (Decision Tree)</li>
+<li>분류 모델의 예를 들면, A,B,C 레이블로 구성된 데이터세트가 있다고 하면 분류모델의 결괏값은 A,B,C 셋 중에 하나가 나온다.</li>
+</ul>
+<h4 id="예측-모델-Regression"><a href="#예측-모델-Regression" class="headerlink" title="예측 모델 (Regression)"></a>예측 모델 (Regression)</h4><ul>
+<li>회귀(Regression)가 주된 방식이라 예측 모델은 회귀 모델이라고 하기도 함</li>
+<li>회귀 모델은 레이블된 학습 데이터를 가지고 특성(Feature)과 레이블의 관계를 함수식으로 표현하는 것이 목적</li>
+<li>회귀 모델은 A,B,C와 같이 유한 개의 결괏값이 나오지 않고 어떤 값이 나올지 예상하지 못하기 때문에 예측 모델이라고 한다.</li>
+<li>주가 분석과 같이 연속적인 범위 내에 결괏값을 예측하는 문제에는 선형 회귀 모델(Linear Regression)을 사용</li>
+<li>회귀 모델도 분류와 같이 몇 가지 범주형(Categorical) 결괏값을 예측하는 경우에는 로지스틱 회귀 모델(Logistic Regression)을 사용<ul>
+<li>Logistic Regression에서는 회귀 분석 시 로지스틱 함수 혹은 시그모이드 sigmoid 함수를 사용</li>
+</ul>
+</li>
+</ul>
+<h4 id="특성-Feature"><a href="#특성-Feature" class="headerlink" title="특성(Feature)"></a>특성(Feature)</h4><ul>
+<li>입력 데이터(ex: 사용자 로그, 음성, 이미지 등)를 구별해낼 수 있는 특징들을 정량화한 것</li>
+<li>통계학에서는 ‘설명변수’, ‘독립변수’, ‘예측변수’로 표현한다.</li>
+<li>적절한 특성의 선정이 효과적인 머신러닝을 만드는데 중요함</li>
+</ul>
+<h4 id="상관-분석-Correlation"><a href="#상관-분석-Correlation" class="headerlink" title="상관 분석 (Correlation)"></a>상관 분석 (Correlation)</h4><ul>
+<li>독립변수와 종속변수 간의 관계의 강도, 정도를 분석하는 것 (즉, 얼마만큼 밀접하게 관련되어 있는지 분석)</li>
+<li>이 때 강도를 상관계수(r)라 부른다.</li>
+<li>상관계수(r): 독립변수와 종속변수의 관계 정도를 -1과 1사이로 정량화한 것</li>
+</ul>
+<h4 id="회귀-분석-Regression"><a href="#회귀-분석-Regression" class="headerlink" title="회귀 분석 (Regression)"></a>회귀 분석 (Regression)</h4><ul>
+<li>관측된 사건들을 정량화해서 여러 독립변수와 종속변수(목적변수라고도 함)의 관계를 함수식으로 설명하는 방법</li>
+<li>종속변수: 우리가 알고 싶어하는 결괏값, 기댓값, 예상값</li>
+<li>독립변수: 이러한 결괏값에 영향을 주는 입력값</li>
+<li>예를 들어, 어떤 고등학교에 있는 학생들의 키와 몸무게의 상관관계를 기반으로 학생의 키가 주어졌을 때 그 학생의 몸무게를 예측할 때 키는 독립변수, 몸무게는 종속변수이다.</li>
+<li><p>이 때 그 상관관계를 함수식으로 규명하는 것이 회귀 분석이며 이를 함수식으로 나타내면 다음과 같다.</p>
+<figure class="highlight plain"><figcaption><span>회귀 함수 예시</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y = -141.24 + 1.185x,    결정계수(r^2) = 0.9331</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>결정계수(r^2): 독립변수를 가지고 얼마만큼 의미 있게 종속변수를 예측할 수 있는지를 판별할 때 사용. 일반적으로 r^2 &gt;= 0.65 이면 의미있는 회귀식이라 말한다.</p>
+</li>
+</ul>
+<h4 id="선형-회귀-Linear-Regression"><a href="#선형-회귀-Linear-Regression" class="headerlink" title="선형 회귀 (Linear Regression)"></a>선형 회귀 (Linear Regression)</h4><ul>
+<li>선형: 독립변수가 1차항으로 돼 있다는 의미. 이를 기하학적으로 표현하면 독립변수와 종속변수의 관계가 2차원에서는 직선형태로, 3차원에서는 평면으로 나타난다.</li>
+<li>선형회귀식을 구할 때는 일반적으로 최소제곱법을 이용</li>
+<li>최소제곱법: 독립변수를 통해 임의의 함수로 예측한 결괏값과 실제 종속변수값의 차이(오차error, 잔차residual 라고도 함)를 제곱해서 모두 더한 값이 최소가 되는 함수식을 찾는 방법</li>
+</ul>
+<h4 id="로지스틱-회귀-Logistic-Regression"><a href="#로지스틱-회귀-Logistic-Regression" class="headerlink" title="로지스틱 회귀 (Logistic Regression)"></a>로지스틱 회귀 (Logistic Regression)</h4><ul>
+<li>종속변수가 예/아니오, 1/0, 클릭/넌클릭 같은 범주형(categorical)으로 표현될 때 </li>
+</ul>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#머신러닝-Machine-Learning-의-정의-및-용어-정리"><span class="toc-number">1.</span> <span class="toc-text">머신러닝(Machine Learning)의 정의 및 용어 정리</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#example"><span class="toc-number">1.0.0.0.1.</span> <span class="toc-text">example)</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Vector"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">Vector</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#머신러닝과-데이터-마이닝"><span class="toc-number">1.1.</span> <span class="toc-text">머신러닝과 데이터 마이닝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#용어-정리"><span class="toc-number">1.2.</span> <span class="toc-text">용어 정리</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#레이블-Label"><span class="toc-number">1.2.0.1.</span> <span class="toc-text">레이블(Label)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#지도-Supervised-학습-amp-비지도-Unsupervised-학습"><span class="toc-number">1.2.0.2.</span> <span class="toc-text">지도(Supervised) 학습 &amp; 비지도(Unsupervised) 학습</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#분류-모델-Classification"><span class="toc-number">1.2.0.3.</span> <span class="toc-text">분류 모델 (Classification)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#예측-모델-Regression"><span class="toc-number">1.2.0.4.</span> <span class="toc-text">예측 모델 (Regression)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#특성-Feature"><span class="toc-number">1.2.0.5.</span> <span class="toc-text">특성(Feature)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#상관-분석-Correlation"><span class="toc-number">1.2.0.6.</span> <span class="toc-text">상관 분석 (Correlation)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#회귀-분석-Regression"><span class="toc-number">1.2.0.7.</span> <span class="toc-text">회귀 분석 (Regression)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#선형-회귀-Linear-Regression"><span class="toc-number">1.2.0.8.</span> <span class="toc-text">선형 회귀 (Linear Regression)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#로지스틱-회귀-Logistic-Regression"><span class="toc-number">1.2.0.9.</span> <span class="toc-text">로지스틱 회귀 (Logistic Regression)</span></a></li></ol></li>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2017/02/01/20170201-machine_learning_study_day01/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2017/02/01/20170201-machine_learning_study_day01/&text=Machine Learning Study 01 - 머신러닝의 정의 및 기초 용어 정리"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2017/02/01/20170201-machine_learning_study_day01/&title=Machine Learning Study 01 - 머신러닝의 정의 및 기초 용어 정리"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2017/02/01/20170201-machine_learning_study_day01/&is_video=false&description=Machine Learning Study 01 - 머신러닝의 정의 및 기초 용어 정리"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Machine Learning Study 01 - 머신러닝의 정의 및 기초 용어 정리&body=Check out this article: http://icednut.github.io/2017/02/01/20170201-machine_learning_study_day01/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2017/02/01/20170201-machine_learning_study_day01/&title=Machine Learning Study 01 - 머신러닝의 정의 및 기초 용어 정리"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2017/02/01/20170201-machine_learning_study_day01/&title=Machine Learning Study 01 - 머신러닝의 정의 및 기초 용어 정리"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2017/02/01/20170201-machine_learning_study_day01/&title=Machine Learning Study 01 - 머신러닝의 정의 및 기초 용어 정리"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2017/02/01/20170201-machine_learning_study_day01/&title=Machine Learning Study 01 - 머신러닝의 정의 및 기초 용어 정리"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2017/02/01/20170201-machine_learning_study_day01/&name=Machine Learning Study 01 - 머신러닝의 정의 및 기초 용어 정리&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Icednut
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'icednut';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

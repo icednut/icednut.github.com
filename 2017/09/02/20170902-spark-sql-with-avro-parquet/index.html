@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang=Ko>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="준비Scala &amp;amp; Spark SQL에서 avro, parquet 파일을 읽고 쓰는 것은 어떻게 하는지 그리고 간단한 예제를 통해 실습한 내용을 정리한다. (avro와 parquet에 대한 설명은 여기서는 생략)먼저 아래 내용들을 통해 실습 환경을 셋팅하자.  CDH 설치  Google에서 Cloudera CDH 검색 CDH &amp;gt; quickstar">
+<meta name="keywords" content="spark,scala,avro,parquet">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spark SQL을 이용하여 avro 파일과 parquet 파일 다루기">
+<meta property="og:url" content="http://icednut.github.io/2017/09/02/20170902-spark-sql-with-avro-parquet/index.html">
+<meta property="og:site_name" content="Icednut&#39;s Note">
+<meta property="og:description" content="준비Scala &amp;amp; Spark SQL에서 avro, parquet 파일을 읽고 쓰는 것은 어떻게 하는지 그리고 간단한 예제를 통해 실습한 내용을 정리한다. (avro와 parquet에 대한 설명은 여기서는 생략)먼저 아래 내용들을 통해 실습 환경을 셋팅하자.  CDH 설치  Google에서 Cloudera CDH 검색 CDH &amp;gt; quickstar">
+<meta property="og:locale" content="Korean">
+<meta property="og:updated_time" content="2018-09-29T06:00:58.137Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spark SQL을 이용하여 avro 파일과 parquet 파일 다루기">
+<meta name="twitter:description" content="준비Scala &amp;amp; Spark SQL에서 avro, parquet 파일을 읽고 쓰는 것은 어떻게 하는지 그리고 간단한 예제를 통해 실습한 내용을 정리한다. (avro와 parquet에 대한 설명은 여기서는 생략)먼저 아래 내용들을 통해 실습 환경을 셋팅하자.  CDH 설치  Google에서 Cloudera CDH 검색 CDH &amp;gt; quickstar">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Spark SQL을 이용하여 avro 파일과 parquet 파일 다루기</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/09/04/20170904-java-web-develop-with-spring/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/08/30/20170830-oracle-code-seoul/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2017/09/02/20170902-spark-sql-with-avro-parquet/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2017/09/02/20170902-spark-sql-with-avro-parquet/&text=Spark SQL을 이용하여 avro 파일과 parquet 파일 다루기"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2017/09/02/20170902-spark-sql-with-avro-parquet/&title=Spark SQL을 이용하여 avro 파일과 parquet 파일 다루기"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2017/09/02/20170902-spark-sql-with-avro-parquet/&is_video=false&description=Spark SQL을 이용하여 avro 파일과 parquet 파일 다루기"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Spark SQL을 이용하여 avro 파일과 parquet 파일 다루기&body=Check out this article: http://icednut.github.io/2017/09/02/20170902-spark-sql-with-avro-parquet/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2017/09/02/20170902-spark-sql-with-avro-parquet/&title=Spark SQL을 이용하여 avro 파일과 parquet 파일 다루기"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2017/09/02/20170902-spark-sql-with-avro-parquet/&title=Spark SQL을 이용하여 avro 파일과 parquet 파일 다루기"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2017/09/02/20170902-spark-sql-with-avro-parquet/&title=Spark SQL을 이용하여 avro 파일과 parquet 파일 다루기"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2017/09/02/20170902-spark-sql-with-avro-parquet/&title=Spark SQL을 이용하여 avro 파일과 parquet 파일 다루기"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2017/09/02/20170902-spark-sql-with-avro-parquet/&name=Spark SQL을 이용하여 avro 파일과 parquet 파일 다루기&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#준비"><span class="toc-number">1.</span> <span class="toc-text">준비</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Avro"><span class="toc-number">2.</span> <span class="toc-text">Avro</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#연습1-hdfs-quickstart-user-cloudera-test-avro-warehouse-orders에서-order-status가-COMPLETE-면서-customer-id-별로-주문을-몇건씩-했는지-살펴본-뒤-결과는-parquet로-저장-해보자-parquet-압축은-gzip"><span class="toc-number">2.0.0.1.</span> <span class="toc-text">연습1. hdfs://quickstart/user/cloudera/test_avro_warehouse/orders에서 order_status가 COMPLETE 면서 customer_id 별로 주문을 몇건씩 했는지 살펴본 뒤 결과는 parquet로 저장 해보자. (parquet 압축은 gzip)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#연습2-json-파일을-읽어서-HDFS에-avro-파일로-저장해보자-with-snappy-compression"><span class="toc-number">2.0.0.2.</span> <span class="toc-text">연습2. json 파일을 읽어서 HDFS에 avro 파일로 저장해보자. (with snappy compression)</span></a></li></ol></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#Parquet"><span class="toc-number">3.</span> <span class="toc-text">Parquet</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#연습3-hdfs-quickstart-user-cloudera-test-parquet-warehouse-orders을-읽어서-HDFS에-avro-파일로-저장해보자"><span class="toc-number">3.0.0.1.</span> <span class="toc-text">연습3. hdfs://quickstart/user/cloudera/test_parquet_warehouse/orders을 읽어서 HDFS에 avro 파일로 저장해보자.</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#참고-자료"><span class="toc-number">4.</span> <span class="toc-text">참고 자료</span></a></li>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Spark SQL을 이용하여 avro 파일과 parquet 파일 다루기
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">Icednut's Note</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-09-02T06:38:55.000Z" itemprop="datePublished">2017-09-02</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/avro/">avro</a>, <a class="tag-link" href="/tags/parquet/">parquet</a>, <a class="tag-link" href="/tags/scala/">scala</a>, <a class="tag-link" href="/tags/spark/">spark</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="준비"><a href="#준비" class="headerlink" title="준비"></a>준비</h2><p>Scala &amp; Spark SQL에서 avro, parquet 파일을 읽고 쓰는 것은 어떻게 하는지 그리고 간단한 예제를 통해 실습한 내용을 정리한다. (avro와 parquet에 대한 설명은 여기서는 생략)<br>먼저 아래 내용들을 통해 실습 환경을 셋팅하자.</p>
+<ol>
+<li><p>CDH 설치</p>
+<ul>
+<li>Google에서 Cloudera CDH 검색</li>
+<li>CDH &gt; quickstart Virtual Box 버전을 다운로드</li>
+<li>압축 해제 후 Virtual Box에서 실행</li>
+</ul>
+</li>
+<li><p>sqoop을 통한 avro 파일로 hdfs에 import 작업 진행</p>
+<ul>
+<li><p>hdfs의 적당한 곳에 디렉토리를 생성한다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hdfs dfs -mkdir /user/cloudera/test_avro_warehouse</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>sqoop을 통해 MySQL 데이터를 HDFS로 import 한다. (파일 포맷은 avro. 압축 형태는 snappy)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ sqoop import-all-tables \</span><br><span class="line">-m 1 \</span><br><span class="line">--connect jdbc:mysql://quickstart:3306/retail_db \</span><br><span class="line">--username=retail_dba \</span><br><span class="line">--password=cloudera \</span><br><span class="line">--as-avrodatafile \</span><br><span class="line">--compression-codec=snappy \</span><br><span class="line">--warehouse-dir=/user/cloudera/test_avro_warehouse</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>이번에는 parquet 파일로 hdfs에 import 진행</p>
+<ul>
+<li>sqoop을 통해 MySQL 데이터를 HDFS로 import 한다. (파일 포맷은 parquet. 압축 형태는 snappy)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ sqoop import-all-tables \</span><br><span class="line">-m 1 \</span><br><span class="line">--connect jdbc:mysql://quickstart:3306/retail_db \</span><br><span class="line">--username=retail_dba \</span><br><span class="line">--password=cloudera \</span><br><span class="line">--as-parquetfile \</span><br><span class="line">--compression-codec=snappy \</span><br><span class="line">--warehouse-dir=/user/cloudera/test_avro_warehouse</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>spark-shell 실행</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ spark-shell</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="Avro"><a href="#Avro" class="headerlink" title="Avro"></a>Avro</h2><p>Spark에서 avro 파일을 읽고 쓰려면 avro 관련 라이브러리를 import 해야 된다.<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.databricks.spark.avro._</span><br></pre></td></tr></table></figure></p>
+<p>그 다음 sqlContext.read.avro(“…”) 혹은 sqlContext().read.format(“com.databricsk.spark.avro”).load(“…”)을 통해 파일을 읽는다.<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.databricks.spark.avro._</span><br><span class="line"><span class="keyword">val</span> df = sqlContext.read.avro(<span class="string">"input dir"</span>)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.databricks.spark.avro._</span><br><span class="line"><span class="keyword">val</span> df = sqlContext.read.format(<span class="string">"com.databricks.spark.avro"</span>).load(<span class="string">"input dir"</span>)</span><br></pre></td></tr></table></figure>
+<h5 id="연습1-hdfs-quickstart-user-cloudera-test-avro-warehouse-orders에서-order-status가-COMPLETE-면서-customer-id-별로-주문을-몇건씩-했는지-살펴본-뒤-결과는-parquet로-저장-해보자-parquet-압축은-gzip"><a href="#연습1-hdfs-quickstart-user-cloudera-test-avro-warehouse-orders에서-order-status가-COMPLETE-면서-customer-id-별로-주문을-몇건씩-했는지-살펴본-뒤-결과는-parquet로-저장-해보자-parquet-압축은-gzip" class="headerlink" title="연습1. hdfs://quickstart/user/cloudera/test_avro_warehouse/orders에서 order_status가 COMPLETE 면서 customer_id 별로 주문을 몇건씩 했는지 살펴본 뒤 결과는 parquet로 저장 해보자. (parquet 압축은 gzip)"></a>연습1. <code>hdfs://quickstart/user/cloudera/test_avro_warehouse/orders</code>에서 order_status가 <code>COMPLETE</code> 면서 customer_id 별로 주문을 몇건씩 했는지 살펴본 뒤 결과는 parquet로 저장 해보자. (parquet 압축은 gzip)</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.databricks.spark.avro._</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.sql._</span><br><span class="line">  </span><br><span class="line"><span class="keyword">val</span> ordersDf = sqlContext.read.avro(<span class="string">"/user/cloudera/test_avro_warehouse/orders"</span>)</span><br><span class="line"><span class="keyword">val</span> countRdd = ordersDf.filter(<span class="string">"order_status = 'COMPLETE'"</span>).map(row =&gt; (row.getAs[<span class="type">Integer</span>](<span class="string">"order_customer_id"</span>), <span class="number">1</span>)).reduceByKey(_ + _).map(pair =&gt; <span class="type">Row</span>(pair._1, pair._2))</span><br><span class="line">  </span><br><span class="line">sqlContext.setConf(<span class="string">"spark.sql.parquet.compression.codec"</span>, <span class="string">"gzip"</span>)</span><br><span class="line">  </span><br><span class="line"><span class="keyword">val</span> schema = <span class="type">StructType</span>(</span><br><span class="line">  <span class="type">StructField</span>(<span class="string">"customer_id"</span>, <span class="type">IntegerType</span>, <span class="literal">false</span>) ::</span><br><span class="line">  <span class="type">StructField</span>(<span class="string">"count"</span>, <span class="type">IntegerType</span>, <span class="literal">false</span>) :: <span class="type">Nil</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">val</span> countDf = sqlContext.createDataFrame(countRdd, schema)</span><br><span class="line">countDf.write.parquet(<span class="string">"/user/cloudera/test_parquet_warehouse/orders_count"</span>)</span><br></pre></td></tr></table></figure>
+<h5 id="연습2-json-파일을-읽어서-HDFS에-avro-파일로-저장해보자-with-snappy-compression"><a href="#연습2-json-파일을-읽어서-HDFS에-avro-파일로-저장해보자-with-snappy-compression" class="headerlink" title="연습2. json 파일을 읽어서 HDFS에 avro 파일로 저장해보자. (with snappy compression)"></a>연습2. json 파일을 읽어서 HDFS에 avro 파일로 저장해보자. (with snappy compression)</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.databricks.spark.avro._</span><br><span class="line">  </span><br><span class="line"><span class="keyword">val</span> personJsonDf = sqlContext.read.json(<span class="string">"/user/cloudera/test_json_warehouse"</span>)</span><br><span class="line">  </span><br><span class="line">sqlContext.setConf(<span class="string">"spark.sql.avro.compression.codec"</span>, <span class="string">"snappy"</span>)</span><br><span class="line">personJsonDf.write.avro(<span class="string">"/user/cloudera/test_avro_warehouse/person"</span>)</span><br><span class="line">  </span><br><span class="line"><span class="keyword">val</span> personAvroDf = sqlContext.read.avro(<span class="string">"/user/cloudera/test_avro_warehouse/person"</span>)</span><br><span class="line">personAvroDf.printSchema()</span><br><span class="line">personAvroDf.show(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="Parquet"><a href="#Parquet" class="headerlink" title="Parquet"></a>Parquet</h2><p>Parquet 파일을 다룰 때는 따로 import 해줘야할 라이브러리가 없다. 그냥 <code>sqlContext.read.parquet(&quot;inpurt file&quot;)</code>을 통해 parquet 파일을 읽으면 된다.</p>
+<h5 id="연습3-hdfs-quickstart-user-cloudera-test-parquet-warehouse-orders을-읽어서-HDFS에-avro-파일로-저장해보자"><a href="#연습3-hdfs-quickstart-user-cloudera-test-parquet-warehouse-orders을-읽어서-HDFS에-avro-파일로-저장해보자" class="headerlink" title="연습3. hdfs://quickstart/user/cloudera/test_parquet_warehouse/orders을 읽어서 HDFS에 avro 파일로 저장해보자."></a>연습3. <code>hdfs://quickstart/user/cloudera/test_parquet_warehouse/orders</code>을 읽어서 HDFS에 avro 파일로 저장해보자.</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.databricks.spark.avro._</span><br><span class="line">  </span><br><span class="line"><span class="keyword">val</span> ordersCountDf = sqlContext.read.parquet(<span class="string">"/user/cloudera/test_parquet_warehouse/orders_count"</span>)</span><br><span class="line">  </span><br><span class="line">sqlContext.setConf(<span class="string">"spark.sql.avro.compression.codec"</span>, <span class="string">"snappy"</span>)</span><br><span class="line">ordersCountDf.write.avro(<span class="string">"/user/cloudera/test_avro_warehouse/orders_count"</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="참고-자료"><a href="#참고-자료" class="headerlink" title="참고 자료"></a>참고 자료</h2><ul>
+<li><a href="https://www.cloudera.com/more/training/certification/cca-spark.html" target="_blank" rel="noopener">https://www.cloudera.com/more/training/certification/cca-spark.html</a></li>
+<li><a href="https://www.cloudera.com/documentation/enterprise/latest/topics/cdh_ig_avro_usage.html#concept_okv_lwy_pv" target="_blank" rel="noopener">https://www.cloudera.com/documentation/enterprise/latest/topics/cdh_ig_avro_usage.html#concept_okv_lwy_pv</a></li>
+<li><a href="https://www.cloudera.com/documentation/enterprise/latest/topics/spark_avro.html" target="_blank" rel="noopener">https://www.cloudera.com/documentation/enterprise/latest/topics/spark_avro.html</a></li>
+</ul>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#준비"><span class="toc-number">1.</span> <span class="toc-text">준비</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Avro"><span class="toc-number">2.</span> <span class="toc-text">Avro</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#연습1-hdfs-quickstart-user-cloudera-test-avro-warehouse-orders에서-order-status가-COMPLETE-면서-customer-id-별로-주문을-몇건씩-했는지-살펴본-뒤-결과는-parquet로-저장-해보자-parquet-압축은-gzip"><span class="toc-number">2.0.0.1.</span> <span class="toc-text">연습1. hdfs://quickstart/user/cloudera/test_avro_warehouse/orders에서 order_status가 COMPLETE 면서 customer_id 별로 주문을 몇건씩 했는지 살펴본 뒤 결과는 parquet로 저장 해보자. (parquet 압축은 gzip)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#연습2-json-파일을-읽어서-HDFS에-avro-파일로-저장해보자-with-snappy-compression"><span class="toc-number">2.0.0.2.</span> <span class="toc-text">연습2. json 파일을 읽어서 HDFS에 avro 파일로 저장해보자. (with snappy compression)</span></a></li></ol></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#Parquet"><span class="toc-number">3.</span> <span class="toc-text">Parquet</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#연습3-hdfs-quickstart-user-cloudera-test-parquet-warehouse-orders을-읽어서-HDFS에-avro-파일로-저장해보자"><span class="toc-number">3.0.0.1.</span> <span class="toc-text">연습3. hdfs://quickstart/user/cloudera/test_parquet_warehouse/orders을 읽어서 HDFS에 avro 파일로 저장해보자.</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#참고-자료"><span class="toc-number">4.</span> <span class="toc-text">참고 자료</span></a></li>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2017/09/02/20170902-spark-sql-with-avro-parquet/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2017/09/02/20170902-spark-sql-with-avro-parquet/&text=Spark SQL을 이용하여 avro 파일과 parquet 파일 다루기"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2017/09/02/20170902-spark-sql-with-avro-parquet/&title=Spark SQL을 이용하여 avro 파일과 parquet 파일 다루기"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2017/09/02/20170902-spark-sql-with-avro-parquet/&is_video=false&description=Spark SQL을 이용하여 avro 파일과 parquet 파일 다루기"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Spark SQL을 이용하여 avro 파일과 parquet 파일 다루기&body=Check out this article: http://icednut.github.io/2017/09/02/20170902-spark-sql-with-avro-parquet/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2017/09/02/20170902-spark-sql-with-avro-parquet/&title=Spark SQL을 이용하여 avro 파일과 parquet 파일 다루기"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2017/09/02/20170902-spark-sql-with-avro-parquet/&title=Spark SQL을 이용하여 avro 파일과 parquet 파일 다루기"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2017/09/02/20170902-spark-sql-with-avro-parquet/&title=Spark SQL을 이용하여 avro 파일과 parquet 파일 다루기"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2017/09/02/20170902-spark-sql-with-avro-parquet/&title=Spark SQL을 이용하여 avro 파일과 parquet 파일 다루기"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2017/09/02/20170902-spark-sql-with-avro-parquet/&name=Spark SQL을 이용하여 avro 파일과 parquet 파일 다루기&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Icednut
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'icednut';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

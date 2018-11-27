@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang=Ko>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="커리큘럼 프론트엔드 개발환경의 변화와 앵귤러 맛보기 앵귤러 아키텍처 앵귤러 프레임워크 활용 예시 질의응답 및 마무리  시작하기 전에.. Angular Framework 전체 구조를 알아보고 Angular CLI, Spring-boot를 사용하여 데모 프로젝트 개발 과정 소개할 예정 Angular로 Server Side Rendering을 하기 위해 Angu">
+<meta name="keywords" content="Angular">
+<meta property="og:type" content="article">
+<meta property="og:title" content="앵귤러 첫걸음 저자 세미나 노트">
+<meta property="og:url" content="http://icednut.github.io/2017/07/22/20170722-angular-seminar-note/index.html">
+<meta property="og:site_name" content="Icednut&#39;s Note">
+<meta property="og:description" content="커리큘럼 프론트엔드 개발환경의 변화와 앵귤러 맛보기 앵귤러 아키텍처 앵귤러 프레임워크 활용 예시 질의응답 및 마무리  시작하기 전에.. Angular Framework 전체 구조를 알아보고 Angular CLI, Spring-boot를 사용하여 데모 프로젝트 개발 과정 소개할 예정 Angular로 Server Side Rendering을 하기 위해 Angu">
+<meta property="og:locale" content="Korean">
+<meta property="og:updated_time" content="2018-09-29T06:00:58.135Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="앵귤러 첫걸음 저자 세미나 노트">
+<meta name="twitter:description" content="커리큘럼 프론트엔드 개발환경의 변화와 앵귤러 맛보기 앵귤러 아키텍처 앵귤러 프레임워크 활용 예시 질의응답 및 마무리  시작하기 전에.. Angular Framework 전체 구조를 알아보고 Angular CLI, Spring-boot를 사용하여 데모 프로젝트 개발 과정 소개할 예정 Angular로 Server Side Rendering을 하기 위해 Angu">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>앵귤러 첫걸음 저자 세미나 노트</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/08/30/20170830-oracle-code-seoul/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/07/19/20170719-spring-basic-day01/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2017/07/22/20170722-angular-seminar-note/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2017/07/22/20170722-angular-seminar-note/&text=앵귤러 첫걸음 저자 세미나 노트"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2017/07/22/20170722-angular-seminar-note/&title=앵귤러 첫걸음 저자 세미나 노트"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2017/07/22/20170722-angular-seminar-note/&is_video=false&description=앵귤러 첫걸음 저자 세미나 노트"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=앵귤러 첫걸음 저자 세미나 노트&body=Check out this article: http://icednut.github.io/2017/07/22/20170722-angular-seminar-note/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2017/07/22/20170722-angular-seminar-note/&title=앵귤러 첫걸음 저자 세미나 노트"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2017/07/22/20170722-angular-seminar-note/&title=앵귤러 첫걸음 저자 세미나 노트"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2017/07/22/20170722-angular-seminar-note/&title=앵귤러 첫걸음 저자 세미나 노트"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2017/07/22/20170722-angular-seminar-note/&title=앵귤러 첫걸음 저자 세미나 노트"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2017/07/22/20170722-angular-seminar-note/&name=앵귤러 첫걸음 저자 세미나 노트&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#커리큘럼"><span class="toc-number">1.</span> <span class="toc-text">커리큘럼</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#시작하기-전에"><span class="toc-number">2.</span> <span class="toc-text">시작하기 전에..</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#프론트엔드-개발환경의-변화와-앵귤러-맛보기"><span class="toc-number">3.</span> <span class="toc-text">프론트엔드 개발환경의 변화와 앵귤러 맛보기</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#프론트엔드의-주요-3대-도구-분류"><span class="toc-number">3.1.</span> <span class="toc-text">프론트엔드의 주요 3대 도구 분류</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Module화를-향한-노력"><span class="toc-number">3.2.</span> <span class="toc-text">Module화를 향한 노력</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Angular-Framework-이해하기"><span class="toc-number">4.</span> <span class="toc-text">Angular Framework 이해하기</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#주요개념1-Component"><span class="toc-number">4.1.</span> <span class="toc-text">주요개념1. Component</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#주요개념2-Template"><span class="toc-number">4.2.</span> <span class="toc-text">주요개념2. Template</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#주요개념3-Component-Lifecycle"><span class="toc-number">4.3.</span> <span class="toc-text">주요개념3. Component Lifecycle</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#주요개념4-Directive-amp-Pipe"><span class="toc-number">4.4.</span> <span class="toc-text">주요개념4. Directive &amp; Pipe</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#주요개념5-Data-Binding"><span class="toc-number">4.5.</span> <span class="toc-text">주요개념5. Data Binding</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#주요개념6-Service-amp-Dependency-Injection"><span class="toc-number">4.6.</span> <span class="toc-text">주요개념6. Service &amp; Dependency Injection</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#주요개념7-Module"><span class="toc-number">4.7.</span> <span class="toc-text">주요개념7. Module</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Angular-CLI-amp-Spring-boot를-이용한-데모-시연"><span class="toc-number">5.</span> <span class="toc-text">Angular CLI &amp; Spring-boot를 이용한 데모 시연</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        앵귤러 첫걸음 저자 세미나 노트
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">Icednut's Note</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-07-22T03:39:28.000Z" itemprop="datePublished">2017-07-22</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Angular/">Angular</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="커리큘럼"><a href="#커리큘럼" class="headerlink" title="커리큘럼"></a>커리큘럼</h3><ol>
+<li>프론트엔드 개발환경의 변화와 앵귤러 맛보기</li>
+<li>앵귤러 아키텍처</li>
+<li>앵귤러 프레임워크 활용 예시</li>
+<li>질의응답 및 마무리<br><br><br><br></li>
+</ol>
+<h3 id="시작하기-전에"><a href="#시작하기-전에" class="headerlink" title="시작하기 전에.."></a>시작하기 전에..</h3><ul>
+<li>Angular Framework 전체 구조를 알아보고 Angular CLI, Spring-boot를 사용하여 데모 프로젝트 개발 과정 소개할 예정</li>
+<li>Angular로 Server Side Rendering을 하기 위해 Angular preboot 프로젝트가 진행되고 있다고 함 (세미나에서는 다루지 않음)<ul>
+<li>찾아보니깐 이걸 말하고 있었음 (<a href="https://github.com/angular/universal" target="_blank" rel="noopener">https://github.com/angular/universal</a>)</li>
+</ul>
+</li>
+<li>저자는 프론트엔드 전문 개발자는 아니며 백엔드 개발자이지만 운영툴을 만들면서 Angular를 접하게 되었다고 함.<br><br><br><br></li>
+</ul>
+<h3 id="프론트엔드-개발환경의-변화와-앵귤러-맛보기"><a href="#프론트엔드-개발환경의-변화와-앵귤러-맛보기" class="headerlink" title="프론트엔드 개발환경의 변화와 앵귤러 맛보기"></a>프론트엔드 개발환경의 변화와 앵귤러 맛보기</h3><ul>
+<li>Javascript, jQuery의 탄생 (Javascript는 Brendan Erich가 2주만에 만들었다고 함. 만들 당시 Prototype 프로그래밍과 스크립트에 심취해 있어 Javascript에 해당 철학들이 녹아들어졌다고 함)</li>
+<li>브라우저 별 ES6 지원 현황: <a href="http://kangax.github.io/compat-table/es6" target="_blank" rel="noopener">http://kangax.github.io/compat-table/es6</a></li>
+<li>JS가 2015년도에 왜 갑자기 관심을 받기 시작했을까? 저자 생각으로는 node.js 때문이 아닐까라고 생각..</li>
+<li>Node.js 덕분에 Javascrit를 브라우저에서 벗어나 서버 웹어플 개발에도 사용할 수 있게 됨 -&gt; 그래서 JS가 발전하게 되었다고 생각함.<ul>
+<li>라이브러리 모듈 현황(JS가 엄청 많다는걸 보여주고 있음): <a href="http://www.modulecounts.com/" target="_blank" rel="noopener">http://www.modulecounts.com/</a></li>
+<li>JS 개발 스펙트럼: <a href="http://joaoperibeiro.com/the-front-end-developer-spectrum" target="_blank" rel="noopener">http://joaoperibeiro.com/the-front-end-developer-spectrum</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="프론트엔드의-주요-3대-도구-분류"><a href="#프론트엔드의-주요-3대-도구-분류" class="headerlink" title="프론트엔드의 주요 3대 도구 분류"></a>프론트엔드의 주요 3대 도구 분류</h4><ul>
+<li>패키지 관리 도구<ul>
+<li>Bower</li>
+<li>NPM</li>
+<li>Yarn</li>
+</ul>
+</li>
+<li>자동화 및 Task 도구<ul>
+<li>Grunt</li>
+<li>Gulp</li>
+<li>Yeoman</li>
+<li>NPM</li>
+</ul>
+</li>
+<li>Compiler (Preprocessor)<ul>
+<li>CoffeeScript</li>
+<li>Babel</li>
+<li>Typescript</li>
+</ul>
+</li>
+</ul>
+<h4 id="Module화를-향한-노력"><a href="#Module화를-향한-노력" class="headerlink" title="Module화를 향한 노력"></a>Module화를 향한 노력</h4><ul>
+<li>CommonJS, AMD(RequireJS)</li>
+<li>Webpack, Module in ES6<br><br><br><br></li>
+</ul>
+<h3 id="Angular-Framework-이해하기"><a href="#Angular-Framework-이해하기" class="headerlink" title="Angular Framework 이해하기"></a>Angular Framework 이해하기</h3><ul>
+<li><strong>Angular is a framework.</strong></li>
+<li>Angular는 <strong>Client application</strong>(Web, Mobile Web, Native Mobile, Native Desktop)을 좀 더 만들기 쉽게 하기 위해 나왔으며 <strong>Typescript</strong>로 개발할 수 있다.</li>
+<li>앵귤러는 매주 마다 뭘 개발할건지 그리고 뭘 배포할 것인지 공유를 한다고 함 (올해 말에는 구글 내부에서 사용하는 빌드 툴도 개발할 계획이라고 함)</li>
+<li>구글은 Angular를 이용한 웹 어플리케이션의 정석 결과물을 오픈 소스로 공개했다.<ul>
+<li>angular.io가 앵귤러로 만든 앱의 가장 좋은 선례 (<a href="https://github.com/angular/angular/tree/master/aio" target="_blank" rel="noopener">https://github.com/angular/angular/tree/master/aio</a>)</li>
+<li>구글의 의도: Angular로 개발할라믄 angular.io를 참고해서 만들어라.</li>
+</ul>
+</li>
+<li>Angular는 왜 Typescript를 차용했을까? 이걸 참조할 것 (<a href="http://www.notforme.kr/archives/1809" target="_blank" rel="noopener">http://www.notforme.kr/archives/1809</a>)</li>
+<li>ngrx (Angular Redux)</li>
+</ul>
+<h4 id="주요개념1-Component"><a href="#주요개념1-Component" class="headerlink" title="주요개념1. Component"></a>주요개념1. Component</h4><ul>
+<li>모든 View는 Component로 통한다. (컴포넌트는 앵귤러에서 처음 나온 개념은 아니고 웹 컴포넌트라고 이미 있었음. ex: polymer)</li>
+<li>컴포넌트 기반으로 웹어플 개발을 할 때는 컴포넌트들은 트리 구조로 관리 된다는 것을 기억하자.</li>
+<li>컴포넌트 트리의 최상위 루트 컴포넌트는 관례적으로 AppComponent이다.</li>
+</ul>
+<h4 id="주요개념2-Template"><a href="#주요개념2-Template" class="headerlink" title="주요개념2. Template"></a>주요개념2. Template</h4><ul>
+<li>Template? View를 구성하는 Angular-style의 마크업</li>
+<li>Component와 짝꿍</li>
+</ul>
+<h4 id="주요개념3-Component-Lifecycle"><a href="#주요개념3-Component-Lifecycle" class="headerlink" title="주요개념3. Component Lifecycle"></a>주요개념3. Component Lifecycle</h4><ul>
+<li>어플리케이션이 컴포넌트가 언제 생성되고 관리 되는지에 대한 라이프사이클을 알고 있어야 됨.</li>
+<li>라이프사이클에 따른 컴포넌트 관리는 Angular Framework가 해줌</li>
+<li>컴포넌트 라이프사이클에 대한 Hooking은 ngOnChanges, ngOnInit, ngDoCheck, …, ngOnDestory를 구현하여 할 수 있음.</li>
+<li>Angular를 처음 써본사람들의 실수가 constructor와 ngOnInit의 차이를 잘 몰라서 constructor에 뭔가 초기화 코드를 작성하려고 한다는 점.<ul>
+<li>constructor에서 구현하면 안되고 ngOnInit을 사용하자.</li>
+</ul>
+</li>
+<li>ngDoCheck() -&gt; 컴포넌트를 쫙 스캔할 때 호출되는 메소드(? 뭔지 좀 더 알 필요가 있음)</li>
+</ul>
+<h4 id="주요개념4-Directive-amp-Pipe"><a href="#주요개념4-Directive-amp-Pipe" class="headerlink" title="주요개념4. Directive &amp; Pipe"></a>주요개념4. Directive &amp; Pipe</h4><ul>
+<li>Directive와 Pipe는 Template에서 사용하는 개념</li>
+<li>Directive: View를 동적으로 제어하기 위한 요소</li>
+<li>Structural Directive<ul>
+<li>NgIf, NgFor, NgSwitch, …</li>
+</ul>
+</li>
+<li>Attribute Directives<ul>
+<li>NgStyle, NgClass, …</li>
+</ul>
+</li>
+<li>Angular에서는 document를 통해서 DOM 셀렉팅 및 변경하는 것을 죄악시 함. Angular가 그런 부분들을 다 하려고 노력.</li>
+<li>Pipe: View에 노출하는 데이터를 변형할 때 사용<ul>
+<li>ex: <code>\{\{ now | date:&#39;YYYY-MM-dd&#39; \}\}</code></li>
+<li>ex: json beauty pipe</li>
+</ul>
+</li>
+</ul>
+<h4 id="주요개념5-Data-Binding"><a href="#주요개념5-Data-Binding" class="headerlink" title="주요개념5. Data Binding"></a>주요개념5. Data Binding</h4><ul>
+<li>View와 컴포넌트를 따로 테스트 할 수 없을까? 테스트하려면 셀레니움을 통한 통합 테스트를 해야되는데 그거 말고 view만 테스트하고 싶을 때는? Data Binding을 통해 View와 컴포넌트의 종속성을 제거</li>
+<li>Component(+Template)과 View 사이의 연결 고리</li>
+<li>Angular에 제공하는 3가지 바인딩: Property(In), Event(Out), 2-way Binding</li>
+<li>Attribute와 Property의 차이점<ul>
+<li>Html DOM을 브라우저에 로딩하기 전에는 Attribute지만 로딩하여 메모리에 올라간 것이 Property</li>
+<li>Angular는 여기서 Property를 변경해준다. (Attribute 변경이 아님)</li>
+</ul>
+</li>
+</ul>
+<h4 id="주요개념6-Service-amp-Dependency-Injection"><a href="#주요개념6-Service-amp-Dependency-Injection" class="headerlink" title="주요개념6. Service &amp; Dependency Injection"></a>주요개념6. Service &amp; Dependency Injection</h4><ul>
+<li>단일책임원칙, 의존성 주입</li>
+<li>Angular는 constructor의 파라미터로 의존성을 주입받는다.</li>
+<li>컴포넌트마다 providers를 쓰는 것은 지양하긴 한다. 왜냐 DI 받으려고 하는 정보가 바뀔 때마다 모든 컴포넌트를 다 찾아가서 고쳐야되기 때문.<ul>
+<li>AppModule의 providers에 정의하면 모든 컴포넌트의 constructor에서 DI 받을 수 있다.</li>
+</ul>
+</li>
+</ul>
+<h4 id="주요개념7-Module"><a href="#주요개념7-Module" class="headerlink" title="주요개념7. Module"></a>주요개념7. Module</h4><ul>
+<li>여기서 말하는 모듈은 ES6에서 말하는 모듈은 아님</li>
+<li>앞의 주요 개념에 대한 Angular 요소들을 하나로 담은 컨테이너라고 보면 됨.</li>
+<li>ex: FormsModule, RouterModule, …</li>
+<li>AppModule는 Angular로 개발할 때 딱 1번만 작성하면 됨.<br><br><br><br></li>
+</ul>
+<h3 id="Angular-CLI-amp-Spring-boot를-이용한-데모-시연"><a href="#Angular-CLI-amp-Spring-boot를-이용한-데모-시연" class="headerlink" title="Angular CLI &amp; Spring-boot를 이용한 데모 시연"></a>Angular CLI &amp; Spring-boot를 이용한 데모 시연</h3><ul>
+<li>Google 내부에서는 Angular-cli를 쓰진 않는다고 함.</li>
+<li>Google에서는 추후 Bazel(<a href="https://bazel.build/" target="_blank" rel="noopener">https://bazel.build/</a>) + CLouser 기반의 빌드 도구를 내놓을 수도 있다고 함.</li>
+<li>저자 말로는 현재까지 Angular 개발 시 Angular-cli가 제일 좋다고 함. (저자의 의견일 뿐)</li>
+<li>저자는 nginx의 gzip 옵션을 붙여서 쓴다고 함</li>
+<li>데모는 Todo App을 라이브코딩 했는데 시간에 쫓겨서 Todo 등록, 조회만 구현</li>
+</ul>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#커리큘럼"><span class="toc-number">1.</span> <span class="toc-text">커리큘럼</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#시작하기-전에"><span class="toc-number">2.</span> <span class="toc-text">시작하기 전에..</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#프론트엔드-개발환경의-변화와-앵귤러-맛보기"><span class="toc-number">3.</span> <span class="toc-text">프론트엔드 개발환경의 변화와 앵귤러 맛보기</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#프론트엔드의-주요-3대-도구-분류"><span class="toc-number">3.1.</span> <span class="toc-text">프론트엔드의 주요 3대 도구 분류</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Module화를-향한-노력"><span class="toc-number">3.2.</span> <span class="toc-text">Module화를 향한 노력</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Angular-Framework-이해하기"><span class="toc-number">4.</span> <span class="toc-text">Angular Framework 이해하기</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#주요개념1-Component"><span class="toc-number">4.1.</span> <span class="toc-text">주요개념1. Component</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#주요개념2-Template"><span class="toc-number">4.2.</span> <span class="toc-text">주요개념2. Template</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#주요개념3-Component-Lifecycle"><span class="toc-number">4.3.</span> <span class="toc-text">주요개념3. Component Lifecycle</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#주요개념4-Directive-amp-Pipe"><span class="toc-number">4.4.</span> <span class="toc-text">주요개념4. Directive &amp; Pipe</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#주요개념5-Data-Binding"><span class="toc-number">4.5.</span> <span class="toc-text">주요개념5. Data Binding</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#주요개념6-Service-amp-Dependency-Injection"><span class="toc-number">4.6.</span> <span class="toc-text">주요개념6. Service &amp; Dependency Injection</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#주요개념7-Module"><span class="toc-number">4.7.</span> <span class="toc-text">주요개념7. Module</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Angular-CLI-amp-Spring-boot를-이용한-데모-시연"><span class="toc-number">5.</span> <span class="toc-text">Angular CLI &amp; Spring-boot를 이용한 데모 시연</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2017/07/22/20170722-angular-seminar-note/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2017/07/22/20170722-angular-seminar-note/&text=앵귤러 첫걸음 저자 세미나 노트"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2017/07/22/20170722-angular-seminar-note/&title=앵귤러 첫걸음 저자 세미나 노트"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2017/07/22/20170722-angular-seminar-note/&is_video=false&description=앵귤러 첫걸음 저자 세미나 노트"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=앵귤러 첫걸음 저자 세미나 노트&body=Check out this article: http://icednut.github.io/2017/07/22/20170722-angular-seminar-note/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2017/07/22/20170722-angular-seminar-note/&title=앵귤러 첫걸음 저자 세미나 노트"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2017/07/22/20170722-angular-seminar-note/&title=앵귤러 첫걸음 저자 세미나 노트"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2017/07/22/20170722-angular-seminar-note/&title=앵귤러 첫걸음 저자 세미나 노트"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2017/07/22/20170722-angular-seminar-note/&title=앵귤러 첫걸음 저자 세미나 노트"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2017/07/22/20170722-angular-seminar-note/&name=앵귤러 첫걸음 저자 세미나 노트&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Icednut
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'icednut';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

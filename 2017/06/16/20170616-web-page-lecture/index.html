@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang=Ko>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="HTML 마크업하기시작하기 전에.. html 문서 맨 첫줄에는 DTD가 위치 DTD는 Document Type Definition을 의미 &amp;lt;!DOCTYPE html&amp;gt;를 입력하면 hmtl5로 인식함 DTD는 대소문자를 구분하지 않는데 DTDTYPE만 대문자로 쓰고 나머지는 소문자 (대문자로 써도 되는데 관례상 소문자) html5에서는 header,">
+<meta name="keywords" content="html5,css3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="웹페이지 실습 강의 노트">
+<meta property="og:url" content="http://icednut.github.io/2017/06/16/20170616-web-page-lecture/index.html">
+<meta property="og:site_name" content="Icednut&#39;s Note">
+<meta property="og:description" content="HTML 마크업하기시작하기 전에.. html 문서 맨 첫줄에는 DTD가 위치 DTD는 Document Type Definition을 의미 &amp;lt;!DOCTYPE html&amp;gt;를 입력하면 hmtl5로 인식함 DTD는 대소문자를 구분하지 않는데 DTDTYPE만 대문자로 쓰고 나머지는 소문자 (대문자로 써도 되는데 관례상 소문자) html5에서는 header,">
+<meta property="og:locale" content="Korean">
+<meta property="og:updated_time" content="2018-09-29T06:00:58.148Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="웹페이지 실습 강의 노트">
+<meta name="twitter:description" content="HTML 마크업하기시작하기 전에.. html 문서 맨 첫줄에는 DTD가 위치 DTD는 Document Type Definition을 의미 &amp;lt;!DOCTYPE html&amp;gt;를 입력하면 hmtl5로 인식함 DTD는 대소문자를 구분하지 않는데 DTDTYPE만 대문자로 쓰고 나머지는 소문자 (대문자로 써도 되는데 관례상 소문자) html5에서는 header,">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>웹페이지 실습 강의 노트</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/07/19/20170719-spring-basic-day01/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/05/30/20170530-spark-lecture-day04/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2017/06/16/20170616-web-page-lecture/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2017/06/16/20170616-web-page-lecture/&text=웹페이지 실습 강의 노트"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2017/06/16/20170616-web-page-lecture/&title=웹페이지 실습 강의 노트"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2017/06/16/20170616-web-page-lecture/&is_video=false&description=웹페이지 실습 강의 노트"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=웹페이지 실습 강의 노트&body=Check out this article: http://icednut.github.io/2017/06/16/20170616-web-page-lecture/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2017/06/16/20170616-web-page-lecture/&title=웹페이지 실습 강의 노트"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2017/06/16/20170616-web-page-lecture/&title=웹페이지 실습 강의 노트"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2017/06/16/20170616-web-page-lecture/&title=웹페이지 실습 강의 노트"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2017/06/16/20170616-web-page-lecture/&title=웹페이지 실습 강의 노트"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2017/06/16/20170616-web-page-lecture/&name=웹페이지 실습 강의 노트&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HTML-마크업하기"><span class="toc-number">1.</span> <span class="toc-text">HTML 마크업하기</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#시작하기-전에"><span class="toc-number">1.1.</span> <span class="toc-text">시작하기 전에..</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTML-Elements"><span class="toc-number">1.2.</span> <span class="toc-text">HTML Elements</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#html"><span class="toc-number">1.2.1.</span> <span class="toc-text">html</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#head"><span class="toc-number">1.2.2.</span> <span class="toc-text">head</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#body"><span class="toc-number">1.2.3.</span> <span class="toc-text">body</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#h1"><span class="toc-number">1.2.4.</span> <span class="toc-text">h1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#button"><span class="toc-number">1.2.5.</span> <span class="toc-text">button</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nav"><span class="toc-number">1.2.6.</span> <span class="toc-text">nav</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ul-unordered-element"><span class="toc-number">1.2.7.</span> <span class="toc-text">ul (unordered element)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#input"><span class="toc-number">1.2.8.</span> <span class="toc-text">input</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hr"><span class="toc-number">1.2.9.</span> <span class="toc-text">hr</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#main"><span class="toc-number">1.2.10.</span> <span class="toc-text">main</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#section"><span class="toc-number">1.2.11.</span> <span class="toc-text">section</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#aside"><span class="toc-number">1.2.12.</span> <span class="toc-text">aside</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#footer"><span class="toc-number">1.2.13.</span> <span class="toc-text">footer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#그-밖에"><span class="toc-number">1.2.14.</span> <span class="toc-text">그 밖에..</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CSS-코딩해보기"><span class="toc-number">2.</span> <span class="toc-text">CSS 코딩해보기</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS-속성-display-margin-position-float"><span class="toc-number">2.1.</span> <span class="toc-text">CSS 속성 - display, margin, position, float</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#display"><span class="toc-number">2.1.1.</span> <span class="toc-text">display</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#margin"><span class="toc-number">2.1.2.</span> <span class="toc-text">margin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#position"><span class="toc-number">2.1.3.</span> <span class="toc-text">position</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#float"><span class="toc-number">2.1.4.</span> <span class="toc-text">float</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#그-밖에…"><span class="toc-number">2.1.5.</span> <span class="toc-text">그 밖에…</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        웹페이지 실습 강의 노트
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">Icednut's Note</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-06-16T01:05:11.000Z" itemprop="datePublished">2017-06-16</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/css3/">css3</a>, <a class="tag-link" href="/tags/html5/">html5</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="HTML-마크업하기"><a href="#HTML-마크업하기" class="headerlink" title="HTML 마크업하기"></a>HTML 마크업하기</h1><h2 id="시작하기-전에"><a href="#시작하기-전에" class="headerlink" title="시작하기 전에.."></a>시작하기 전에..</h2><ul>
+<li>html 문서 맨 첫줄에는 DTD가 위치</li>
+<li>DTD는 Document Type Definition을 의미</li>
+<li><code>&lt;!DOCTYPE html&gt;</code>를 입력하면 hmtl5로 인식함</li>
+<li>DTD는 대소문자를 구분하지 않는데 DTDTYPE만 대문자로 쓰고 나머지는 소문자 (대문자로 써도 되는데 관례상 소문자)</li>
+<li>html5에서는 header, footer, aside 같은 division 태그들이 더 추가됨</li>
+<li>웹브라우저는 DTD가 없으면 예전 문서라고 인식함 -&gt; 브라우저가 렌더링할 때 예전 문서 렌더링 방식으로 진행 (쿽스 모드로 렌더링) -&gt; 브라우저마다 다르게 렌더링하는 이슈가 발생함</li>
+<li>TIP: zen-coding, emmet을 사용하면 html 태그 작성이 편해짐</li>
+</ul>
+<h2 id="HTML-Elements"><a href="#HTML-Elements" class="headerlink" title="HTML Elements"></a>HTML Elements</h2><h3 id="html"><a href="#html" class="headerlink" title="html"></a>html</h3><ul>
+<li>html은 반드시 필요하며, html 엘리먼트는 html 파일 당 하나만 등장해야됨</li>
+<li>엘리먼트에는 속성을 가질 수 있음</li>
+<li>장애인차별금지법을 위해서 웹접근성 규칙을 지켜야됨 -&gt; html에는 lang 속성을 선언하자. -&gt; 이걸 선언하면 뭐가 좋을까? 구글에서 한국어 웹페이지만 검색할 때 참조할 수도 있을 것 같다. 웹페이지 화면 낭독기가 이 속성을 참조해서 낭독을 함 (lang=”ko”를 하면 한국어로 낭독)</li>
+</ul>
+<h3 id="head"><a href="#head" class="headerlink" title="head"></a>head</h3><ul>
+<li>head와 body 앨리먼트도 페이지 당 각각 하나씩만 위치할 수 있음</li>
+<li>body 안쪽에 있는 코드만 뷰포트에 보이게 되며, head 앨리먼트 아래에는 meta, title이 위치할 수 있음</li>
+<li>meta 태그 첫 번쨰는 인코딩이 들어감<ul>
+<li><code>&lt;meta charset=&quot;euc-kr&quot;&gt;</code> 이렇게 하면 한국어만 다룸 -&gt; 이렇게 작성하면 최신 크롬에서는 깨짐. 크롬은 utf-8로 강제로 인코딩함</li>
+<li><code>&lt;meta charset=&quot;utf-8&quot;&gt;</code> 이렇게 하면 전세계 모든 문자를 표현할 수 있음</li>
+<li><code>&lt;meta name=&quot;viewport&quot; content=&quot;initial-scale=1,minimum-scale=1,user-scalable=no&quot;&gt;</code> 모바일 브라우저에서 줌인, 줌아웃을 못하게 함. 이걸 셋팅 안하면 데스크탑 페이지 같은 뷰포트보다 큰 페이지는 강제로 줌아웃을 함. -&gt; 모바일에서 보기에 불편함 -&gt; 해당 메타 태그를 추가하여 실제 크기로 뷰포트에 표시</li>
+<li><code>&lt;meta name=&quot;viewport&quot; content=&quot;initial-scale=1,width=device-width&quot;&gt;</code> 이 태그도 위와 같은 의미</li>
+<li>한 가지 염두해둘 것이 있는데, iOS에서는 더 이상 위 메타태그를 지원하지 않음 (써도 소용없음, 그러므로 iOS는 줌인/줌아웃이 되며 막을 방법이 없음). 단 안드로이드는 그대로 위 태그가 유효하다고 함.</li>
+<li>meta 태그는 종료 태그가 없음</li>
+</ul>
+</li>
+<li>title 태그에는 문서의 제목이 위치함<ul>
+<li>검색엔진이 여기에 적힌 키워드를 가지고 검색 노출을 함</li>
+<li>여길 잘 작성해야 웹 크롤링에 유리.</li>
+<li><code>&lt;title&gt;공지사항&lt;/title&gt;</code> 모든 페이지가 이렇게 작성되어 있으면 검색엔진 수집에 이점이 없겠지?</li>
+<li><code>&lt;title&gt;공지사항 - 게시물 제목&lt;/title&gt;</code> 이렇게 유니크하고 구체적으로 작성하자</li>
+<li>웹페이지 낭독기가 제일 먼저 읽는게 이 title 태그 -&gt; 웹접근성을 위해서라도 꼭 작성해야 하며, 유니크하고 구체적으로 작성해야됨</li>
+</ul>
+</li>
+<li>meta 태그, title 태그 위치는 상관없으나 관례상 meta 태그를 먼저 쓴다</li>
+<li>title 다음 쓰는게 link 태그<ul>
+<li><code>&lt;link href=&quot;default.css&quot; rel=&quot;stylesheet&quot;&gt;</code> 이 방식을 external stylesheet라고 부름. 일반적으로 가장 많이 쓰이며, 다른 페이지에서도 쓸 때 사용</li>
+<li><code>&lt;style&gt;&lt;/style&gt;</code> 이렇게 쓰는게 embedded stylesheet라고 부름. 적용 범위가 이 페이지에 한정될 때 이 방식을 사용.</li>
+<li>태그 안에 style 속성을 써서 CSS를 선언하는 방식을 inline style이라고 부름. 이 방식은 해당 엘리먼트에만 적용이 됨. (재사용이 불가)</li>
+<li>link 태그를 여러개 하면 http 요청이 많아져서 성능이 떨어짐. 최대 2개만 유지하자. css 빌드 기능을 써도 좋음.</li>
+<li>user agent stylesheet는 브라우저에 설정된 기본적인 스타일시트</li>
+<li>아래 코드는 IE9 이하의 브라우저에서 html5 태그를 쓸 수 있게하는 polyfill js임<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--[if lt IE 9]&gt;</span><br><span class="line">&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;![endif]--&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>그 다음 script 태그가 위치하는데 이 태그는 head 혹은 body 엘리먼트 안에 위치해야 한다. (다른데 위치하면 안됨)<ul>
+<li>pollfill.js를 입력하면 IE7, IE8에서 section 태그를 사용할 수 있음. 이 js는 head 안에 선언해야 됨.</li>
+</ul>
+</li>
+</ul>
+<h3 id="body"><a href="#body" class="headerlink" title="body"></a>body</h3><ul>
+<li>div, span는 뭔가 표현할 때 블록 혹은 마크업하는데 딱히 떠오르는게 없을 때 사용.</li>
+<li><code>&lt;a href=&quot;#main&quot; class=&quot;skip&quot;&gt;메뉴 건너뛰기&lt;/a&gt;</code> 이 태그가 있으면 웹페이지 낭독기에서 tab으로 선택 시 메뉴들을 건너뛰고 본문으로 갈 수 있도록 한다. (웹접근성 때문)</li>
+<li>header와 footer를 사용하여 사이트 상단 하단을 표현</li>
+</ul>
+<h3 id="h1"><a href="#h1" class="headerlink" title="h1"></a>h1</h3><ul>
+<li>h1으로 사이트 로고를 표현 (h는 heading을 의미, heading contents라고 부름)</li>
+<li>웹접근성 낭독기로 heading만 먼저 Sorting한 뒤 그걸 먼저 듣고 중요한지 판단하기 때문에 중요한 태그라 생각</li>
+<li>block 레벨 엘리먼트는 flow contents, inline 레벨 엘리먼트는 phrasing contents라고 부르기도 함</li>
+<li><code>&lt;span&gt;&lt;h1&gt;타이틀&lt;/h1&gt;&lt;/span&gt;</code> span과 같은 프레이징 컨텐츠가 플로우 컨텐츠를 감쌀 수 없다.</li>
+<li>firefow &gt; html validator를 쓰면 현재 페이지의 html 문법 오류를 체크할 수 있음</li>
+<li>html 문법을 좀 더 자세히 알고 싶으면 <code>https://www.w3.org/TR/html5/Overview.html#contents</code>를 참조하여 앨리먼트를 찾아서 쓰자<ul>
+<li>ex) p element 안쪽에 div를 쓸 수 있을지 검색해 볼 수 있다. (Content Model인 자식으로 올 수 있는 모델을 참조) -&gt; p 태그 안 쪽에는 div를 쓸 수 없다.</li>
+</ul>
+</li>
+</ul>
+<h3 id="button"><a href="#button" class="headerlink" title="button"></a>button</h3><ul>
+<li>button 앨리먼트의 타입 속성이 button은 별 다른 기능을 하지 않는 버튼이 된다.</li>
+<li>type을 생략하면 기본적으로 submit으로 결정</li>
+</ul>
+<h3 id="nav"><a href="#nav" class="headerlink" title="nav"></a>nav</h3><ul>
+<li>사이트의 네비게이션을 담당</li>
+<li>그 사이트의 주된 탐색 섹션만 nav로 마크업 하자. 아무거나 다 링크들을 nav로 선언하면 안된다.</li>
+<li>nav는 sectioning contents라고 부름</li>
+<li>sectioning contents는 section, article, nav, aside가 있다.</li>
+<li>sectioning contents를 쓸 경우에는 h 태그를 쓸 것을 강력히 권장한다.</li>
+</ul>
+<h3 id="ul-unordered-element"><a href="#ul-unordered-element" class="headerlink" title="ul (unordered element)"></a>ul (unordered element)</h3><ul>
+<li>순서가 없는 반복되는 목록을 표현할 때 ul 앨리먼트를 사용</li>
+<li>반대는 ol (ordered element)</li>
+</ul>
+<h3 id="input"><a href="#input" class="headerlink" title="input"></a>input</h3><ul>
+<li>input 앨리먼트의 타입은 레퍼런스를 참조하자.</li>
+<li>required 속성은 value를 생략할 수 있다. (disabled, readonly도 마찬가지)</li>
+<li>disabled와 readonly의 차이: readonly는 값을 수정할 수 없지만 form을 통해 값 전송이 가능. 반면 disabled는 서버측으로 전송이 안됨</li>
+<li>pattern이라는 속성도 있음. 여기에는 정규식을 넣을 수 있다.<ul>
+<li>ex) <code>pattern=&quot;[0-9]&quot;</code> 숫자만 입력 가능</li>
+</ul>
+</li>
+</ul>
+<h3 id="hr"><a href="#hr" class="headerlink" title="hr"></a>hr</h3><ul>
+<li>horizontal rule</li>
+<li>내용과 내용 사이를 구분하고 싶을 때 사용</li>
+</ul>
+<h3 id="main"><a href="#main" class="headerlink" title="main"></a>main</h3><ul>
+<li>해당 페이지의 중요한 컨텐츠를 여기에 위치시키자. (ex: 뉴스기사 본분, 블로그 컨텐츠 본문)</li>
+<li>화면을 수직으로 분할하고 싶을 때는 div로 한 번 wrapping해서 쓰자<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">  &lt;main&gt;...&lt;/main&gt;</span><br><span class="line">  &lt;aside&gt;...&lt;/aside&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="section"><a href="#section" class="headerlink" title="section"></a>section</h3><ul>
+<li>하나의 주제를 가진 블록</li>
+<li>article과 비슷</li>
+<li>article는 따로 떼서 다른 곳에 배포했을 때 그 내용이 이해가 되면 article, 아니면 section</li>
+</ul>
+<h3 id="aside"><a href="#aside" class="headerlink" title="aside"></a>aside</h3><ul>
+<li>주된 컨텐츠를 다 작성하고 나서 없어도 되는 컨텐츠를 여기에 표현</li>
+<li>배너, 광고, 쇼핑몰에서 오른쪽에 따라 다니는 내가 본 컨텐츠 등을 여기에 표현</li>
+</ul>
+<h3 id="footer"><a href="#footer" class="headerlink" title="footer"></a>footer</h3><ul>
+<li>저작권, 이 사이트의 주소를 여기에 표현</li>
+<li>body 맨 마지막에는 자바스크립트 로딩 부분을 표현</li>
+</ul>
+<h3 id="그-밖에"><a href="#그-밖에" class="headerlink" title="그 밖에.."></a>그 밖에..</h3><ul>
+<li><a href="https://docs.google.com/presentation/d/1EDoo-_013DT0-oGbi6ubczmQYnJg-IwMuthU1EcPAmk/edit#slide=id.p" target="_blank" rel="noopener">https://docs.google.com/presentation/d/1EDoo-_013DT0-oGbi6ubczmQYnJg-IwMuthU1EcPAmk/edit#slide=id.p</a></li>
+<li><a href="https://docs.google.com/presentation/d/1Z_L7Jm1bTd9MmiVHWnX90HwyyP9xaDQ1g0w4_yM5sQo/edit#slide=id.p" target="_blank" rel="noopener">https://docs.google.com/presentation/d/1Z_L7Jm1bTd9MmiVHWnX90HwyyP9xaDQ1g0w4_yM5sQo/edit#slide=id.p</a></li>
+</ul>
+<h1 id="CSS-코딩해보기"><a href="#CSS-코딩해보기" class="headerlink" title="CSS 코딩해보기"></a>CSS 코딩해보기</h1><ul>
+<li>class 속성으로 선언된 클래스에 styling 해보기</li>
+<li>*은 공용 셀렉터로 html, body 등 모든 것을 다 선택한다.</li>
+<li>width 값에 border값과 padding값이 포함된 값으로 셋팅할 수는 없을까? <ul>
+<li><code>box-sizing: content-box;</code> 때문에 저렇게 동작하는 것인데 이 값을 border-box로 변경하면 원하는 대로 동작한다. <code>box-sizing: border-box;</code></li>
+<li>모든 DOM을 border-box로 하고 싶을 때는?<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">*,</span><br><span class="line">:before,</span><br><span class="line">:after &#123;</span><br><span class="line">  box-sizing: border-box;</span><br><span class="line">&#125; /* 셀럭터에서 쉼표(,)는 and를 의미한다. */</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><code>body:before {}</code> 여기서 :before는 가상 선택자라고 하며, 실제로 DOM이 존재하지 않지만 브라우저가 DOM을 생성하게 해주는 것을 칭한다. :after도 있음</p>
+<ul>
+<li>before와 after는 화면 낭독기가 읽어주지 않기 때문에 컨텐츠를 담으면 웹접근성 위반.</li>
+<li>보통 before와 after에는 아이콘을 위치시킨다.</li>
+<li>body 앞에 가상 DOM을 생성해서 그 안에 hello world라고 출력하고 싶을때는?<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">body:before &#123;</span><br><span class="line">  content: &apos;hello world&apos;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>모바일용, 태블릿용, 데스크탑용 페이지 CSS를 어떻게 작성할까?</p>
+<ul>
+<li>일단 하기 전에 global 스타일을 먼저 선언하고 local 스타일은 나중에 선언한다. (local 스타일이 덮어씌워지기 때문)</li>
+<li>또, aside나 main 등 안변하는 앨리먼트의 스타일을 먼저 작성한다.</li>
+<li>디바이스별 CSS는 media query를 사용한다. (<a href="http://naradesign.net/wp/2012/05/30/1823/" target="_blank" rel="noopener">http://naradesign.net/wp/2012/05/30/1823/</a> 여기를 참조)</li>
+<li><code>@media screen and (조건)</code> 이렇게 쓰면 디바이스에서만 작동하는 미디어쿼리 이다. 화면 낭독기에서는 작동 안함</li>
+<li><code>@media print and (조건)</code> 프린트할 때 적용되는 스타일시트</li>
+<li><code>@media all and (조건)</code> all은 생략 가능</li>
+</ul>
+</li>
+</ul>
+<h2 id="CSS-속성-display-margin-position-float"><a href="#CSS-속성-display-margin-position-float" class="headerlink" title="CSS 속성 - display, margin, position, float"></a>CSS 속성 - display, margin, position, float</h2><h3 id="display"><a href="#display" class="headerlink" title="display"></a>display</h3><ul>
+<li>block과 inline의 차이점은?</li>
+<li>block는 한 줄을 다 차지</li>
+<li>inline은 표현된 영역만 차지</li>
+<li>none은 화면에 표시 안됨 (javascript로 컨트롤 가능, 화면 낭독기는 읽지 않고 pass)</li>
+<li>inline-block은? inline과 비슷하지만, block 처럼 쓸 수도 있음. 이것의 장점은 height값이 적용이 됨 (inline으로 할 때는 height 값이 적용이 안됨)<ul>
+<li>왜? inline으로 선언했을 경우에는 브라우저가 텍스트로 인식하기 때문. 그래서 텍스트의 영역에는 height, width 값 설정이 안됨</li>
+<li>이게 언제 필요할까? 네비게이션 메뉴를 행으로 위치할 때 수직 구분을 inline-block을 줘서 width 값을 준다.</li>
+<li>inline은 특징이 대략 4px 정도의 공백이 생김 (자간을 의미, 그래서 inline을 이용해서 행 구분을 하진 않음) (공백은 font-size에 따라 달라짐)<ul>
+<li>자간을 없애려면? inline을 랩핑한 앨리먼트를 선언해서 font-size: 0으로 적용</li>
+</ul>
+</li>
+<li>행 배치의 현존하는 가장 흔한 방법은 float를 사용 (ex: <code>float: left</code>)<ul>
+<li>이를 대체하기 위해 나온 것이 flex (Readme에 기고가 되어 있으며 궁금하면 읽어보자)<ul>
+<li>flex-container, flex-item</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="margin"><a href="#margin" class="headerlink" title="margin"></a>margin</h3><ul>
+<li>박스 바깥 쪽을 나타내는 영역</li>
+<li>block에 width를 주면 나머지 영역은 auto margin이 적용된다.</li>
+<li>auto margin 언제 필요할까? 중앙 정렬할 때 필요 (ex: <code>margin: 0 auto;</code>)</li>
+<li><p>아래와 같은 경우 b 앨리먼트는 margin이 어떻게 동작할까?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.a &#123;</span><br><span class="line">  background: red;</span><br><span class="line">  color: #FFF;</span><br><span class="line">  margin-bottom: 100px;</span><br><span class="line">&#125;</span><br><span class="line">.b &#123;</span><br><span class="line">  background: blue;</span><br><span class="line">  color: #FFF;</span><br><span class="line">  margin-top: 100px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>a와 b의 마진이 겹친다. 이를 <code>수직 마진 중첩</code>이라고 부른다.</li>
+</ul>
+</li>
+<li><p>그럼 b의 margin-top을 200px로 하면 a와 b 사이는 300px이 될까?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.a &#123;</span><br><span class="line">  background: red;</span><br><span class="line">  color: #FFF;</span><br><span class="line">  margin-bottom: 100px;</span><br><span class="line">&#125;</span><br><span class="line">.b &#123;</span><br><span class="line">  background: blue;</span><br><span class="line">  color: #FFF;</span><br><span class="line">  margin-top: 200px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>절대값이 작은 margin 값은 무시된다.</li>
+</ul>
+</li>
+<li><p>그럼 b의 margin-top을 -100px로 하면 어떻게 될까?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.a &#123;</span><br><span class="line">  background: red;</span><br><span class="line">  color: #FFF;</span><br><span class="line">  margin-bottom: 100px;</span><br><span class="line">&#125;</span><br><span class="line">.b &#123;</span><br><span class="line">  background: blue;</span><br><span class="line">  color: #FFF;</span><br><span class="line">  margin-top: -100px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>이 때는 margin 값이 사라지게 된다.</li>
+</ul>
+</li>
+<li><p>그럼 a의 margin을 지우면 어떻게 될까?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">.a &#123;</span><br><span class="line">  background: red;</span><br><span class="line">  color: #FFF;</span><br><span class="line">&#125;</span><br><span class="line">.b &#123;</span><br><span class="line">  background: blue;</span><br><span class="line">  color: #FFF;</span><br><span class="line">  margin-top: -100px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>이 때는 b가 a 위에 겹치게 된다.</li>
+</ul>
+</li>
+<li><p>아래와 같은 엘리먼트가 있을 때 margin은 어떻게 동작하게 될까?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;c&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;a&quot;&gt;.a&lt;/div&gt;</span><br><span class="line">  &lt;div class=&quot;b&quot;&gt;.b&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">.a &#123;</span><br><span class="line">  background: red;</span><br><span class="line">  color: #FFF;</span><br><span class="line">  margin-top: 100px;</span><br><span class="line">&#125;</span><br><span class="line">.b &#123;</span><br><span class="line">  background: blue;</span><br><span class="line">  color: #FFF;</span><br><span class="line">&#125;</span><br><span class="line">.c &#123;</span><br><span class="line">  background: silver;</span><br><span class="line">  color: #FFF;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>c의 margin-top은 0 이므로 무시가 되고 a의 margin-top 값이 적용이 된다.</li>
+<li>c 박스 안에서 margin을 주고 싶을 떄는? <code>overflow: hidden</code> or <code>padding: 1px</code> or <code>border: 1px solid #000</code> 셋 중에 하나만 줘도 원하는대로 동작한다.</li>
+</ul>
+</li>
+<li><p>inline 요소는 수직 마진이 적용되지 않는다. 단 수평 마진은 적용된다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">.a,</span><br><span class="line">.b &#123;</span><br><span class="line">  width: 100px;</span><br><span class="line">  height: 100px;</span><br><span class="line">  display: inline;</span><br><span class="line">  margin: 100px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.a &#123;</span><br><span class="line">  background: red;</span><br><span class="line">  color: #FFF;</span><br><span class="line">&#125;</span><br><span class="line">.b &#123;</span><br><span class="line">  background: blue;</span><br><span class="line">  color: #FFF;</span><br><span class="line">&#125;</span><br><span class="line">.c &#123;</span><br><span class="line">  background: silver;</span><br><span class="line">  color: #FFF;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="position"><a href="#position" class="headerlink" title="position"></a>position</h3><ul>
+<li>위치를 제어하는 속성</li>
+<li>absolute: 자기 위치를 결정할 때 보통 형제 노드들의 위치에 따라 결정이 되는데, 이 속성은 위치를 독립적으로 설정 가능 (top, bottom, left, right 사용)<ul>
+<li>absolute로 하면 auto margin이 사라진다.</li>
+<li>absolute를 주면 z-index가 활성화 된다.</li>
+</ul>
+</li>
+<li>fixed: 스크롤 해도 특정 위치에 계속 띄우고 싶을 때 사용<ul>
+<li>dim 레이어 띄울 때 쓰는데 이 때 스크롤이 먹힌다. 스크롤이 안먹히게 하려면 body에 <code>overflow: hidden</code>을 준다.</li>
+<li>화면 중간에 띄우고 싶을 때는 아래와 같이 주면 된다.</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">position: fixed;</span><br><span class="line">right: 0;</span><br><span class="line">bottom: 0;</span><br><span class="line">top: 0;</span><br><span class="line">left: 0;</span><br><span class="line">opacity: .5;</span><br><span class="line">margin: auto;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>relative: 이 속성을 줘도 z-index가 활성화 된다.</li>
+</ul>
+<h3 id="float"><a href="#float" class="headerlink" title="float"></a>float</h3><ul>
+<li>float를 주면 position: absolute를 준 것과 같이 비슷한 효과를 볼 수 있다. (z-index가 활성화 되고 width, height가 수축된다.)</li>
+<li>width, height 수축되는 것을 막으려면 <code>overflow: hidden</code>을 주면 된다.</li>
+<li><code>overflow: hidden</code>을 주었을 때 box 바깥으로 넘칠 때 표시가 안되는 이슈가 있다.</li>
+<li>결과적으로 float를 주면서 수축이 안되게 하려면 <code>clear: both</code>라는 스타일을 갖는 앨리먼트를 추가하면 된다. (:after를 사용해서)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;c&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;a&quot;&gt;.a&lt;/div&gt;</span><br><span class="line">  &lt;div class=&quot;b&quot;&gt;.b&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">.a,</span><br><span class="line">.b &#123;</span><br><span class="line">  width: 100px;</span><br><span class="line">  height: 100px;</span><br><span class="line">  float: right;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.a &#123;</span><br><span class="line">  background: red;</span><br><span class="line">  color: #FFF;</span><br><span class="line">&#125;</span><br><span class="line">.b &#123;</span><br><span class="line">  background: black;</span><br><span class="line">  color: #FFF;</span><br><span class="line">&#125;</span><br><span class="line">.c &#123;</span><br><span class="line">  background: silver;</span><br><span class="line">  color: #FFF;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.c:after &#123;</span><br><span class="line">  display: block;</span><br><span class="line">  content: &quot;&quot;;</span><br><span class="line">  clear: both;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="그-밖에…"><a href="#그-밖에…" class="headerlink" title="그 밖에…"></a>그 밖에…</h3><ul>
+<li><a href="https://docs.google.com/presentation/d/1JfsOBEep6Tc0y8HxIx9NqK8W6lXm5ih5TaPdqSl9jxY/edit#slide=id.p" target="_blank" rel="noopener">https://docs.google.com/presentation/d/1JfsOBEep6Tc0y8HxIx9NqK8W6lXm5ih5TaPdqSl9jxY/edit#slide=id.p</a></li>
+<li><a href="https://docs.google.com/presentation/d/1mDitto-cEbKoZGOCqxDWcoM91bSH0K5SIt0XJ09pc5o/edit#slide=id.p" target="_blank" rel="noopener">https://docs.google.com/presentation/d/1mDitto-cEbKoZGOCqxDWcoM91bSH0K5SIt0XJ09pc5o/edit#slide=id.p</a></li>
+<li><a href="https://docs.google.com/presentation/d/1cI_96cUjOpRzrNGHHWaDCcsghUc_RG4JuqenNZm68h0/edit#slide=id.p" target="_blank" rel="noopener">https://docs.google.com/presentation/d/1cI_96cUjOpRzrNGHHWaDCcsghUc_RG4JuqenNZm68h0/edit#slide=id.p</a></li>
+<li><a href="http://naradesign.net/wp/2017/04/20/2363/" target="_blank" rel="noopener">http://naradesign.net/wp/2017/04/20/2363/</a></li>
+<li><a href="http://naradesign.net/wp/2017/04/24/2440/" target="_blank" rel="noopener">http://naradesign.net/wp/2017/04/24/2440/</a></li>
+<li><a href="http://naradesign.net/wp/2017/05/02/2467/" target="_blank" rel="noopener">http://naradesign.net/wp/2017/05/02/2467/</a></li>
+</ul>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HTML-마크업하기"><span class="toc-number">1.</span> <span class="toc-text">HTML 마크업하기</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#시작하기-전에"><span class="toc-number">1.1.</span> <span class="toc-text">시작하기 전에..</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTML-Elements"><span class="toc-number">1.2.</span> <span class="toc-text">HTML Elements</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#html"><span class="toc-number">1.2.1.</span> <span class="toc-text">html</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#head"><span class="toc-number">1.2.2.</span> <span class="toc-text">head</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#body"><span class="toc-number">1.2.3.</span> <span class="toc-text">body</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#h1"><span class="toc-number">1.2.4.</span> <span class="toc-text">h1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#button"><span class="toc-number">1.2.5.</span> <span class="toc-text">button</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nav"><span class="toc-number">1.2.6.</span> <span class="toc-text">nav</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ul-unordered-element"><span class="toc-number">1.2.7.</span> <span class="toc-text">ul (unordered element)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#input"><span class="toc-number">1.2.8.</span> <span class="toc-text">input</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hr"><span class="toc-number">1.2.9.</span> <span class="toc-text">hr</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#main"><span class="toc-number">1.2.10.</span> <span class="toc-text">main</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#section"><span class="toc-number">1.2.11.</span> <span class="toc-text">section</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#aside"><span class="toc-number">1.2.12.</span> <span class="toc-text">aside</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#footer"><span class="toc-number">1.2.13.</span> <span class="toc-text">footer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#그-밖에"><span class="toc-number">1.2.14.</span> <span class="toc-text">그 밖에..</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CSS-코딩해보기"><span class="toc-number">2.</span> <span class="toc-text">CSS 코딩해보기</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS-속성-display-margin-position-float"><span class="toc-number">2.1.</span> <span class="toc-text">CSS 속성 - display, margin, position, float</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#display"><span class="toc-number">2.1.1.</span> <span class="toc-text">display</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#margin"><span class="toc-number">2.1.2.</span> <span class="toc-text">margin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#position"><span class="toc-number">2.1.3.</span> <span class="toc-text">position</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#float"><span class="toc-number">2.1.4.</span> <span class="toc-text">float</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#그-밖에…"><span class="toc-number">2.1.5.</span> <span class="toc-text">그 밖에…</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2017/06/16/20170616-web-page-lecture/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2017/06/16/20170616-web-page-lecture/&text=웹페이지 실습 강의 노트"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2017/06/16/20170616-web-page-lecture/&title=웹페이지 실습 강의 노트"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2017/06/16/20170616-web-page-lecture/&is_video=false&description=웹페이지 실습 강의 노트"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=웹페이지 실습 강의 노트&body=Check out this article: http://icednut.github.io/2017/06/16/20170616-web-page-lecture/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2017/06/16/20170616-web-page-lecture/&title=웹페이지 실습 강의 노트"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2017/06/16/20170616-web-page-lecture/&title=웹페이지 실습 강의 노트"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2017/06/16/20170616-web-page-lecture/&title=웹페이지 실습 강의 노트"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2017/06/16/20170616-web-page-lecture/&title=웹페이지 실습 강의 노트"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2017/06/16/20170616-web-page-lecture/&name=웹페이지 실습 강의 노트&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Icednut
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'icednut';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang=Ko>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="책 스칼라로 배우는 함수형 프로그래밍에 대해 공부한 내용 정리  Chapter01. 함수형 프로그래밍이란 무엇인가? Chapter02. 스칼라로 함수형 프로그래밍 시작하기  CHAPTER 01. 함수형 프로그래밍이란 무엇인가?함수형 프로그래밍이란 부수 효과(Side Effect)가 없는 순수 함수(Pure Function)으로만 프로그램을 구축한다는 것을">
+<meta name="keywords" content="scala,functional programming">
+<meta property="og:type" content="article">
+<meta property="og:title" content="스칼라로 배우는 함수형 프로그래밍 스터디 Day01">
+<meta property="og:url" content="http://icednut.github.io/2018/11/25/20181125-scala-and-functional-programming-day01/index.html">
+<meta property="og:site_name" content="Icednut&#39;s Note">
+<meta property="og:description" content="책 스칼라로 배우는 함수형 프로그래밍에 대해 공부한 내용 정리  Chapter01. 함수형 프로그래밍이란 무엇인가? Chapter02. 스칼라로 함수형 프로그래밍 시작하기  CHAPTER 01. 함수형 프로그래밍이란 무엇인가?함수형 프로그래밍이란 부수 효과(Side Effect)가 없는 순수 함수(Pure Function)으로만 프로그램을 구축한다는 것을">
+<meta property="og:locale" content="Korean">
+<meta property="og:updated_time" content="2018-11-27T06:40:43.294Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="스칼라로 배우는 함수형 프로그래밍 스터디 Day01">
+<meta name="twitter:description" content="책 스칼라로 배우는 함수형 프로그래밍에 대해 공부한 내용 정리  Chapter01. 함수형 프로그래밍이란 무엇인가? Chapter02. 스칼라로 함수형 프로그래밍 시작하기  CHAPTER 01. 함수형 프로그래밍이란 무엇인가?함수형 프로그래밍이란 부수 효과(Side Effect)가 없는 순수 함수(Pure Function)으로만 프로그램을 구축한다는 것을">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>스칼라로 배우는 함수형 프로그래밍 스터디 Day01</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2018/07/04/20180706-about-grpc/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2018/11/25/20181125-scala-and-functional-programming-day01/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2018/11/25/20181125-scala-and-functional-programming-day01/&text=스칼라로 배우는 함수형 프로그래밍 스터디 Day01"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2018/11/25/20181125-scala-and-functional-programming-day01/&title=스칼라로 배우는 함수형 프로그래밍 스터디 Day01"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2018/11/25/20181125-scala-and-functional-programming-day01/&is_video=false&description=스칼라로 배우는 함수형 프로그래밍 스터디 Day01"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=스칼라로 배우는 함수형 프로그래밍 스터디 Day01&body=Check out this article: http://icednut.github.io/2018/11/25/20181125-scala-and-functional-programming-day01/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2018/11/25/20181125-scala-and-functional-programming-day01/&title=스칼라로 배우는 함수형 프로그래밍 스터디 Day01"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2018/11/25/20181125-scala-and-functional-programming-day01/&title=스칼라로 배우는 함수형 프로그래밍 스터디 Day01"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2018/11/25/20181125-scala-and-functional-programming-day01/&title=스칼라로 배우는 함수형 프로그래밍 스터디 Day01"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2018/11/25/20181125-scala-and-functional-programming-day01/&title=스칼라로 배우는 함수형 프로그래밍 스터디 Day01"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2018/11/25/20181125-scala-and-functional-programming-day01/&name=스칼라로 배우는 함수형 프로그래밍 스터디 Day01&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CHAPTER-01-함수형-프로그래밍이란-무엇인가"><span class="toc-number">1.</span> <span class="toc-text">CHAPTER 01. 함수형 프로그래밍이란 무엇인가?</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Step1-부수-효과가-있는-프로그램"><span class="toc-number">1.1.</span> <span class="toc-text">Step1. 부수 효과가 있는 프로그램</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step2-커피-결제를-Payments로-분리하기"><span class="toc-number">1.2.</span> <span class="toc-text">Step2. 커피 결제를 Payments로 분리하기</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step3-부수-효과가-제거된-buyCoffee"><span class="toc-number">1.3.</span> <span class="toc-text">Step3. 부수 효과가 제거된 buyCoffee</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#순수-함수란-구체적으로-무엇인가"><span class="toc-number">1.4.</span> <span class="toc-text">순수 함수란 구체적으로 무엇인가?</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#참조-투명성과-순수성"><span class="toc-number">1.4.0.1.</span> <span class="toc-text">참조 투명성과 순수성</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java-lang-StringBuilder는-참조-투명하지-않다"><span class="toc-number">1.5.</span> <span class="toc-text">java.lang.StringBuilder는 참조 투명하지 않다.</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#Chapter-02-스칼라로-함수형-프로그래밍-시작하기"><span class="toc-number">2.</span> <span class="toc-text">Chapter 02. 스칼라로 함수형 프로그래밍 시작하기</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#object-키워드"><span class="toc-number">2.0.0.1.</span> <span class="toc-text">object 키워드</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#예제코드를-통해-살펴본-스칼라의-기본-개념"><span class="toc-number">2.0.1.</span> <span class="toc-text">예제코드를 통해 살펴본 스칼라의 기본 개념</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#고차-함수"><span class="toc-number">2.0.2.</span> <span class="toc-text">고차 함수</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#스칼라의-꼬리-호출"><span class="toc-number">2.0.2.1.</span> <span class="toc-text">스칼라의 꼬리 호출</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#다형적-함수"><span class="toc-number">2.1.</span> <span class="toc-text">다형적 함수</span></a></li>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        스칼라로 배우는 함수형 프로그래밍 스터디 Day01
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">Icednut's Note</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-11-24T17:20:10.000Z" itemprop="datePublished">2018-11-25</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/functional-programming/">functional programming</a>, <a class="tag-link" href="/tags/scala/">scala</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>책 <code>스칼라로 배우는 함수형 프로그래밍</code>에 대해 공부한 내용 정리</p>
+<ul>
+<li>Chapter01. 함수형 프로그래밍이란 무엇인가?</li>
+<li>Chapter02. 스칼라로 함수형 프로그래밍 시작하기</li>
+</ul>
+<h2 id="CHAPTER-01-함수형-프로그래밍이란-무엇인가"><a href="#CHAPTER-01-함수형-프로그래밍이란-무엇인가" class="headerlink" title="CHAPTER 01. 함수형 프로그래밍이란 무엇인가?"></a>CHAPTER 01. 함수형 프로그래밍이란 무엇인가?</h2><p>함수형 프로그래밍이란 부수 효과(Side Effect)가 없는 순수 함수(Pure Function)으로만 프로그램을 구축한다는 것을 의미한다. 그럼 <u>부수효과란 무엇일까? 결과를 돌려주는 것 이외에 어떤 일을 수행하는 함수를 카리켜 <strong>부수효과가 있는 함수</strong></u> 라고 칭한다.</p>
+<ul>
+<li>부수효과가 있는 함수 예시<ul>
+<li>파라미터 변수를 수정한다.</li>
+<li>자료구조를 제자리에서 수정한다.</li>
+<li>객체의 필드를 설정한다.</li>
+<li>에외(exception)을 던지거나 오류를 내면서 실행을 중단한다.</li>
+<li>콘솔에 출력하거나 사용자의 입력을 읽어들인다.</li>
+<li>파일에 기록하거나 파일에서 읽어들인다.</li>
+<li>화면에 그린다.</li>
+</ul>
+</li>
+</ul>
+<p>이 책은 모든 종류의 프로그램을 부수 효과 없이 표현하는 방법을 설명한다. 부수 효과 없는 함수들로만 프로그램을 개발하면 뭐가 좋을까?</p>
+<ul>
+<li>순수 함수들로만 프로그램을 작성하면 모듈성(modularity)이 증가하게 됨</li>
+<li>모듈성 덕분에 test, 재사용, 병렬화, 일반화, 분석이 쉬워 진다.</li>
+<li>순수 함수는 버그가 생길 여지가 훨씬 적다 (부수 효과가 없기 때문)</li>
+</ul>
+<p>그럼 부수 효과가 있는 간단한 함수 예시를 바탕으로 부수 효과를 제거해가면서 FP의 이점을 살펴보자.</p>
+<h3 id="Step1-부수-효과가-있는-프로그램"><a href="#Step1-부수-효과가-있는-프로그램" class="headerlink" title="Step1. 부수 효과가 있는 프로그램"></a>Step1. 부수 효과가 있는 프로그램</h3><p>커피숍에서 사용하는 커피구매 프로그램을 구현해보자.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cafe</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">buyCoffee</span></span>(cc: <span class="type">CreditCard</span>): <span class="type">Coffee</span> = &#123;</span><br><span class="line">    <span class="keyword">val</span> cup = <span class="keyword">new</span> <span class="type">Coffee</span>()</span><br><span class="line"></span><br><span class="line">    cc.charge(cup.price)</span><br><span class="line">    cup</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>buyCoffee 메소드는 부수 효과가 있는 메소드다. 왜?</p>
+<ul>
+<li>여기서 buyCoffee 메소드의 목적은 단지 하나. Coffee 객체를 돌려주는 것이다.</li>
+<li>Coffee를 돌려주는 것 말고 그 외의 모든 동작은 부수 효과이다.</li>
+<li>정확히 말하자면<code>cc.charge(cup.price)</code>가 부수 효과이다.</li>
+<li>왜? 여기서 청구(charge)는 외부 세계와의 일정한 상호 작용이기 때문이다.</li>
+</ul>
+<p>부수 효과가 있으면 왜 안좋을까?</p>
+<ul>
+<li>테스트 코드를 작성하기 어려워 진다.</li>
+<li><code>buyCoffee()</code> 메소드의 테스트 코드를 작성하기 위해 실제로 신용카드 회사와 연결해서 카드 이용 대금을 청구하고 싶지는 않을 것이다.</li>
+<li>그러므로 신용카드 연동 방법에 관한 지식을 CreditCard에 집어넣는 것은 좋지 않다.</li>
+</ul>
+<p>그럼 어떻게 고칠까?</p>
+<h3 id="Step2-커피-결제를-Payments로-분리하기"><a href="#Step2-커피-결제를-Payments로-분리하기" class="headerlink" title="Step2. 커피 결제를 Payments로 분리하기"></a>Step2. 커피 결제를 Payments로 분리하기</h3><p>커피 대금 지급을 위한 Payments 객체를 <code>buyCoffee</code>에 전달하면 코드의 모듈성(Modularity)과 검사성(Testability)을 좀 더 높일 수 있다.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cafe</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">buyCoffee</span></span>(cc: <span class="type">CreditCard</span>, p: <span class="type">Payments</span>): <span class="type">Coffee</span> = &#123;</span><br><span class="line">        <span class="keyword">val</span> cup = <span class="keyword">new</span> <span class="type">Coffee</span>()</span><br><span class="line"></span><br><span class="line">        p.charge(cc, cup.price)</span><br><span class="line">        cup</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>p: Payments</code> 파라미터 부분에 Mock 객체를 전달하여 결제에 대한 행동을 목킹할 수 있게 되었다. (검사성이 조금 높아짐)</p>
+<p>그러나 이상적인 방법은 아니다. 왜?</p>
+<ul>
+<li>Payments를 인터페이스로 만들어야 한다. (Mock 구현을 넘겨주기 위해)</li>
+<li>Payment를 목킹한다고 해도 charge 메소드 동작에 대한 상태 변이가 잘 되었는지 확인하는 코드가 필요<ul>
+<li>Mock Framework를 써서 처리할 수 있지만 프레임워크를 사용하지 않고 해결할 수 있는 방법이 있다.</li>
+</ul>
+</li>
+<li>buyCoffee 메소드는 재사용이 어렵다.<ul>
+<li>만약 손님이 커피 열두 잔을 주문한다고 하자.</li>
+<li>buyCoffee 메소드를 루프를 돌아서 12번 호출하면 문제가 발생한다.</li>
+<li>신용카드를 12번 청구되기 때문에 수수료도 12번 지불된다. (수수료에 대해 중복 결제 발생)</li>
+</ul>
+</li>
+</ul>
+<h3 id="Step3-부수-효과가-제거된-buyCoffee"><a href="#Step3-부수-효과가-제거된-buyCoffee" class="headerlink" title="Step3. 부수 효과가 제거된 buyCoffee"></a>Step3. 부수 효과가 제거된 buyCoffee</h3><p>위 문제를 해결하기 위해 buyCoffee를 새로 만들어야 한다. <u>함수적 해법은 부수 효과(creditCard.charge 혹은 payment.charge)를 제거하고 buyCoffee가 Coffee 뿐만 아니라 청구건을 하나의 값으로 돌려주는 것</u>이다.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cafe</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">buyCoffee</span></span>(cc: <span class="type">CreditCard</span>): (<span class="type">Coffee</span>, <span class="type">Charge</span>) = &#123;</span><br><span class="line">        <span class="keyword">val</span> cup = <span class="keyword">new</span> <span class="type">Coffee</span>()</span><br><span class="line">        (cup, <span class="type">Charge</span>(cc, cup.price))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>무슨 차이일까?</p>
+<ul>
+<li>청구건의 생성 문제(creditCard.charge 혹은 payment.charge)가 청구건의 처리 또는 연동 문제와 분리 되었다. (charge  메소드를 직접 호출하지 않아도 되기 때문에 연동을 신경쓰지 않아도 됨)</li>
+<li>Charge에 결제 정보를 담아서 반환하기 때문에 여러 잔의 커피 구매에도 결제 정보 변경이 쉬워졌다. 어떻게 그럴까?</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="class"><span class="keyword">class</span> <span class="title">Charge</span>(<span class="params">cc: <span class="type">CreditCard</span>, amount: <span class="type">Double</span></span>) </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">combine</span></span>(other: <span class="type">Charge</span>): <span class="type">Charge</span> = </span><br><span class="line">    	<span class="keyword">if</span> (cc == other.cc)</span><br><span class="line">    		<span class="type">Charge</span>(cc, amount + other.amount)</span><br><span class="line">    	<span class="keyword">else</span></span><br><span class="line">    		<span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">Exception</span>(<span class="string">"다른 종류의 카드끼리는 결제 정보를 결합할 수 없습니다."</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>커피를 n잔 구매는 어떻게 할까?</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cafe</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">buyCoffee</span></span>(cc: <span class="type">CreditCard</span>): (<span class="type">Coffee</span>, <span class="type">Charge</span>) = &#123; <span class="comment">/* 이전과 같음 */</span> &#125;</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">buyCoffees</span></span>(cc: <span class="type">CreditCard</span>, n: <span class="type">Int</span>): (<span class="type">List</span>[<span class="type">Coffee</span>], <span class="type">Charge</span>) = &#123;</span><br><span class="line">        <span class="keyword">val</span> purchases: <span class="type">List</span>[(<span class="type">Coffee</span>, <span class="type">Charge</span>)] = <span class="type">List</span>.fill(n)(buyCoffee(cc))</span><br><span class="line">        <span class="comment">// List.fill(n)(x)는 x의 복사본 n개로 이루어진 List를 생성한다.</span></span><br><span class="line">        <span class="keyword">val</span> (coffees, charges) = purchases.unzip</span><br><span class="line">        (coffees, charges.reduce((c1, c2) =&gt; c1.combine(c2)))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>뭐가 좋아진걸까?</p>
+<ul>
+<li>buyCoffee를 직접 재사용해서 여러번 구매가 가능해졌다. (buyCoffees 메소드)</li>
+<li>두 메소드 모두 Payments 인터페이스를 추출해서 Mock 구현을 하지 않아도 되었다.</li>
+<li>Cafe는 Charge의 대금이 어떻게 처리되는지 알 수 없게 되었기 때문에, 결제 연동을 신경쓸 필요가 없다.</li>
+</ul>
+<h3 id="순수-함수란-구체적으로-무엇인가"><a href="#순수-함수란-구체적으로-무엇인가" class="headerlink" title="순수 함수란 구체적으로 무엇인가?"></a>순수 함수란 구체적으로 무엇인가?</h3><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">A</span> =&gt; <span class="type">B</span></span><br></pre></td></tr></table></figure>
+<p>위 표현식이 순수 함수라는 가정을 한다면,</p>
+<ul>
+<li>타입이 A인 모든 값 a를 각각 타입이 B인 하나의 값 b에 연관시키되, b가 오직 a에 의해서만 결정되어야 한다.</li>
+<li>내부 또는 외부 공정의 상태 변경은 f(a)의 결과를 계산하는 데 어떠한 영향도 주지 않는다.</li>
+<li>예를 들어 <code>Int =&gt; String</code>함수는 모든 정수를 그에 대응되는 문자열로 반환할 뿐, 그 이외의 일은 전혀 하지 않아야 한다.</li>
+<li>또 다른 특성으로는 정수 값을 두 개 받고 정수 값 하나를 반환하는 함수가 있다고 하자.<ul>
+<li>주어진 임의의 두 정수에 대해 항상 같은 값을 돌려준다.</li>
+<li>그런 의미에서 String.length 메소드도 순수 함수다. (주어진 임의의 문자열에 대해 항상 같은 길이를 돌려주기만 하고 그 외의 일은 전혀 일어나지 않음)</li>
+</ul>
+</li>
+</ul>
+<p>위와 같은 속성을 <strong><u>참조 투명성</u></strong>이라고 한다.</p>
+<ul>
+<li>만일 어떤 표현식을 그 평가 결과로 바꾸어도 프로그램의 의미가 변하지 않는다면, 그 표현식은 참조에 투명한 것이다.</li>
+<li>2 + 3은 하나의 표현식이고 그에 대한 결과는 5다. 여기서 2 + 3을 5로 바꾸어도 프로그램의 의미는 바뀌지 않는다.</li>
+</ul>
+<blockquote>
+<h5 id="참조-투명성과-순수성"><a href="#참조-투명성과-순수성" class="headerlink" title="참조 투명성과 순수성"></a>참조 투명성과 순수성</h5><p>만일 모든 프로그램 p에 대해 표현식 e의 모든 출현(occurrence)을 e의 평가 결과로 치환해도 p의 의미에 아무 영향이 미치지 않는다면, 그 표현식 e는 <strong>참조에 투명하다</strong>(referentially transparent). 만일 ㅍ현식 f(x)가 참조에 투명한 모든 x에 대해 참조에 투명하면, 함수 f는 <strong>순수하다</strong>(pure).</p>
+</blockquote>
+<p>Step1에서 봤던 <code>buyCoffee</code> 메소드는 참조 투명할까?</p>
+<ul>
+<li>임의의 p라는 함수가 커피를 받는다고 가정하자.</li>
+<li><code>p(buyCoffee(aliceCreditCard))</code>가 <code>p(new Coffee())</code>와 동일하게 작동해야 한다.<ul>
+<li><code>new Coffee()</code>는 커피만 전달할 뿐 아무 일도 일어나지 않지만</li>
+<li><code>buyCoffee(aliceCreditCard)</code>는 커피를 전달하는 것 뿐만 아니라 신용카드 회사에 연결하여 대금을 청구한다.</li>
+<li>따라서 참조 투명하지 않다.</li>
+</ul>
+</li>
+</ul>
+<p>또 다른 예를 살펴보자.</p>
+<h3 id="java-lang-StringBuilder는-참조-투명하지-않다"><a href="#java-lang-StringBuilder는-참조-투명하지-않다" class="headerlink" title="java.lang.StringBuilder는 참조 투명하지 않다."></a>java.lang.StringBuilder는 참조 투명하지 않다.</h3><p>왜 그럴까? 다음 예제 코드를 보자.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; <span class="keyword">val</span> x = <span class="keyword">new</span> <span class="type">StringBuilder</span>(<span class="string">"Hello"</span>)</span><br><span class="line">x: <span class="type">StringBuilder</span> = <span class="type">Hello</span></span><br><span class="line"></span><br><span class="line">scala&gt; <span class="keyword">val</span> y = x.append(<span class="string">", world"</span>)</span><br><span class="line">y: <span class="type">StringBuilder</span> = <span class="type">Hello</span>, world</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> r1 = y.toString <span class="comment">// "Hello, world"</span></span><br><span class="line"><span class="keyword">val</span> r2 = y.toString <span class="comment">// "Hello, world"</span></span><br></pre></td></tr></table></figure>
+<p>r1과 r2는 같다. 여기서 y의 모든 출현을 append 호출로 치환하면 어떻게 될까?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; val x = new StringBuilder(&quot;Hello&quot;)</span><br><span class="line">x: StringBuilder = Hello</span><br><span class="line"></span><br><span class="line">scala&gt; val y = x.append(&quot;, world&quot;)</span><br><span class="line">y: StringBuilder = Hello, world</span><br><span class="line"></span><br><span class="line">val r1 = x.append(&quot;, world&quot;).toString</span><br><span class="line">val r2 = x.append(&quot;, world&quot;).toString</span><br></pre></td></tr></table></figure>
+<p>r1과 r2의 결과는 같지 않다. (r1은 “Hello, world” r2는 “Hello, world, world”)</p>
+<h2 id="Chapter-02-스칼라로-함수형-프로그래밍-시작하기"><a href="#Chapter-02-스칼라로-함수형-프로그래밍-시작하기" class="headerlink" title="Chapter 02. 스칼라로 함수형 프로그래밍 시작하기"></a>Chapter 02. 스칼라로 함수형 프로그래밍 시작하기</h2><p>이번 챕터에서 다루는 내용</p>
+<ul>
+<li>스칼라 언어의 몇 가지 기본 요소</li>
+<li><strong>꼬리 재귀 함수</strong>를 이용한 루프 작성법</li>
+<li><strong>고차 함수</strong> (다른 함수를 인수로 받는 함수, 결과로 또 다른 함수를 돌려줄 수도 있다.)</li>
+<li><strong>다형적 고차함수</strong></li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">MyModule</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">abs</span></span>(n: <span class="type">Int</span>): <span class="type">Int</span> = </span><br><span class="line">    	<span class="keyword">if</span> (n &lt; <span class="number">0</span>) -n</span><br><span class="line">    	<span class="keyword">else</span> n</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">def</span> <span class="title">formatAbs</span></span>(x: <span class="type">Int</span>) = &#123;</span><br><span class="line">        <span class="keyword">val</span> msg = <span class="string">"The absolute value of %d is %d"</span></span><br><span class="line">        msg.format(x, abs(x))</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = </span><br><span class="line">    	println(formatAbs(<span class="number">-42</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h5 id="object-키워드"><a href="#object-키워드" class="headerlink" title="object 키워드"></a>object 키워드</h5><p>object 키워드는 새로운 싱글톤 객체를 만든다.</p>
+<p>스칼라에는 Java의 static 키워드에 해당하는 것이 없으며, Java에서 정적 멤버를 가진 클래스를 사용할 만한 상황일 때 Scala에서는 object를 사용한다.</p>
+</blockquote>
+<h4 id="예제코드를-통해-살펴본-스칼라의-기본-개념"><a href="#예제코드를-통해-살펴본-스칼라의-기본-개념" class="headerlink" title="예제코드를 통해 살펴본 스칼라의 기본 개념"></a>예제코드를 통해 살펴본 스칼라의 기본 개념</h4><ul>
+<li>위의 예제 코드에서 abs와 formatAbs는 순수 함수이다.</li>
+<li>main 메소드는 순수 함수를 호출하고 그 결과를 콘솔에 출력하는 일을 한다. 부수 효과가 발생함을 강조하기 위해 이런 메소드를 절차(Procedure) 또는 <strong>불순 함수</strong>(impure function)라고 부르기도 한다.</li>
+<li>일반적으로, 반환 형식이 Unit이라는 것은 그 메서드에 부수 효과가 존재함을 암시한다.</li>
+<li>MyModule 객체와 같이 자신의 멤버들에게 이름 공간을 제공하는 것이 주된 목적인 객체를 흔히 <strong>모듈</strong>(module)이라고 부른다.</li>
+<li>스칼라에는 연산자(operator)라는 특별한 개념이 존재하지 않으며, 모든 행동은 메소드이다.</li>
+</ul>
+<h4 id="고차-함수"><a href="#고차-함수" class="headerlink" title="고차 함수"></a>고차 함수</h4><p>고차 함수(higher-order function, HOF; 또는 고계 함수)를 이해하기 위해, 계승을 구하는 factorial 함수를 작성해보자.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">factorial</span></span>(n: <span class="type">Int</span>): <span class="type">Int</span> = &#123;</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">go</span></span>(n: <span class="type">Int</span>, acc: <span class="type">Int</span>): <span class="type">Int</span> = </span><br><span class="line">    	<span class="keyword">if</span> (n &lt;= <span class="number">0</span>) acc</span><br><span class="line">    	<span class="keyword">else</span> go(n<span class="number">-1</span>, n*acc)</span><br><span class="line">    </span><br><span class="line">    go(n, <span class="number">1</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>factorial 함수의 본문 안에 재귀적인 보조 함수를 하나 정의함 (go)</li>
+<li>이런 루프용 보조 함수에는 go나 loop 같은 이름을 붙이는 것이 관례</li>
+<li>factorial 함수의 본문은 루프 초기 조건에 해당하는 값으로 go를 호출하는것 뿐이다.</li>
+<li>go 함수는 factorial 함수 안에서만 호출이 가능함</li>
+</ul>
+<p>위 코드는 스칼라에서 꼬리 재귀 호출로 컴파일한다. 왜?</p>
+<ul>
+<li>go의 인수는 남아 있는 값 n과 현재 누적된 계승 acc 다음 반복으로 넘어갈 때는 go 자신을 호출한다.</li>
+<li>루프에서 벗어날 때 (n &lt;= 0)는 재귀 호출 없이 값을 돌려준다.<ul>
+<li>이러한 특성 때문에 재귀 호출이 꼬리 위치(tail position)에서 일어난다면 while 루프를 사용했을 때와 동일한 바이트코드로 컴파일한다. (스택을 소비하지 않는 루프 형태로 컴파일)</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<h5 id="스칼라의-꼬리-호출"><a href="#스칼라의-꼬리-호출" class="headerlink" title="스칼라의 꼬리 호출"></a>스칼라의 꼬리 호출</h5><p>호출자가 재귀 호출의 결과를 그대로 돌려주는 것 외에는 아무 일도 하지 않을 때, 그런 호출을 꼬리 호출이라고 말한다.</p>
+<ul>
+<li>예를 들어 go(n-1, n*acc)는 꼬리 위치에서 일어난다.)</li>
+</ul>
+<p>반면 1 + go(n -1, n*acc) 같은 재귀 호출은 꼬리 호출이 아니다.</p>
+<ul>
+<li>go의 결과에 대해 다른 일(1을 더하는 것)을 수행해야 하기 때문</li>
+</ul>
+</blockquote>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">MyModule</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">abs</span></span>(n: <span class="type">Int</span>): <span class="type">Int</span> = </span><br><span class="line">    	<span class="keyword">if</span> (n &lt; <span class="number">0</span>) -n</span><br><span class="line">    	<span class="keyword">else</span> n</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">def</span> <span class="title">formatAbs</span></span>(x: <span class="type">Int</span>) = &#123;</span><br><span class="line">        <span class="keyword">val</span> msg = <span class="string">"The absolute value of %d is %d"</span></span><br><span class="line">        msg.format(x, abs(x))</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">def</span> <span class="title">formatFactorial</span></span>(n: <span class="type">Int</span>) = &#123;</span><br><span class="line">        <span class="keyword">val</span> msg = <span class="string">"The factorial of %d is %d."</span></span><br><span class="line">        msg.format(n, factorial(n))</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line">    	println(formatAbs(<span class="number">-42</span>))</span><br><span class="line">        println(formatFactorial(<span class="number">7</span>))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>formatAbs와 formatFactorial을 하나의 함수 formatResult로 일반화 하면 어떨까?</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">formatResult</span></span>(name: <span class="type">String</span>, n: <span class="type">Int</span>, f: <span class="type">Int</span> =&gt; <span class="type">Int</span>) = &#123;</span><br><span class="line">    <span class="keyword">val</span> msg = <span class="string">"The %s of %d is %d."</span></span><br><span class="line">    msg.format(name, n, f(n))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">formatResult(<span class="string">"absolute value"</span>, <span class="number">-42</span>, abs)</span><br><span class="line">formatResult(<span class="string">"factorial"</span>, <span class="number">7</span>, factorial)</span><br></pre></td></tr></table></figure>
+<p><u>여기서 formatResult는 f라는 다른 함수를 받는 일종의 고차 함수이다.</u></p>
+<ul>
+<li>고차 함수의 인수에는 f, g, n 같은 이름을 사용하는 것이 관례.</li>
+<li>FP에서는 아주 짧은 변수 이름을 사용하는 경향이 있다.</li>
+<li>왜냐면 인수로 받은 함수가 실제로 수행하는 일에 대해 구체적으로 알지 못하기 때문이다. (고차함수는 그냥 인수의 형식만 알 뿐)</li>
+</ul>
+<h3 id="다형적-함수"><a href="#다형적-함수" class="headerlink" title="다형적 함수"></a>다형적 함수</h3><p>다형적 함수(polymorphic function)을 이해하기 위해, 예제를 살펴보자.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">findFirst</span></span>(ss: <span class="type">Array</span>[<span class="type">String</span>], key: <span class="type">String</span>): <span class="type">Int</span> = &#123;</span><br><span class="line">    <span class="meta">@annotation</span>.tailrec</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">loop</span></span>(n: <span class="type">Int</span>): <span class="type">Int</span> = </span><br><span class="line">    	<span class="keyword">if</span> (n &gt;= ss.length) - <span class="number">1</span></span><br><span class="line">    	<span class="keyword">else</span> <span class="keyword">if</span> (ss(n) == key) n</span><br><span class="line">    	<span class="keyword">else</span> loop(n + <span class="number">1</span>)</span><br><span class="line">    </span><br><span class="line">    loop(<span class="number">0</span>) <span class="comment">// 배열의 첫 요소에서 루프를 시작한다.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>여기서는 String 배열로 한정되었지만, Int나 혹은 사용자가 정의한 타입의 배열에서 찾을 수 있게 일반화해보자.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">findFirst</span></span>[<span class="type">A</span>](as: <span class="type">Array</span>[<span class="type">A</span>], p: <span class="type">A</span> =&gt; <span class="type">Boolean</span>): <span class="type">Int</span> = &#123;</span><br><span class="line">    <span class="meta">@annotation</span>.tailrec</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">loop</span></span>(n: <span class="type">Int</span>): <span class="type">Int</span> = </span><br><span class="line">    	<span class="keyword">if</span> (n &gt;= as.length) <span class="number">-1</span></span><br><span class="line">    	<span class="keyword">else</span> <span class="keyword">if</span> (p(as(n))) n <span class="comment">// 함수 p가 현재 요소와 부합한다면 원하는 요소를 찾은 것.</span></span><br><span class="line">    	<span class="keyword">else</span> loop(n + <span class="number">1</span>)</span><br><span class="line">    </span><br><span class="line">    loop(<span class="number">0</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>파라미터 매개변수의 이름으로는 보통 [A, B, C] 같은 짧은 한 글자짜리 대문자를 사용하는게 관례</li>
+<li>findFirst 함수 호출은 다음과 같이 한다.<ul>
+<li><code>findFirst(Array(7, 9, 13), (x: Int) =&gt; x == 9)</code></li>
+<li>여기서 Array(7, 9, 13)을 <strong>배열 리터럴</strong>이라 한다.</li>
+<li>(x: Int) =&gt; x == 9는 <strong>함수 리터럴</strong> 혹은 <strong>익명 함수</strong>라 한다.</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CHAPTER-01-함수형-프로그래밍이란-무엇인가"><span class="toc-number">1.</span> <span class="toc-text">CHAPTER 01. 함수형 프로그래밍이란 무엇인가?</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Step1-부수-효과가-있는-프로그램"><span class="toc-number">1.1.</span> <span class="toc-text">Step1. 부수 효과가 있는 프로그램</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step2-커피-결제를-Payments로-분리하기"><span class="toc-number">1.2.</span> <span class="toc-text">Step2. 커피 결제를 Payments로 분리하기</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step3-부수-효과가-제거된-buyCoffee"><span class="toc-number">1.3.</span> <span class="toc-text">Step3. 부수 효과가 제거된 buyCoffee</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#순수-함수란-구체적으로-무엇인가"><span class="toc-number">1.4.</span> <span class="toc-text">순수 함수란 구체적으로 무엇인가?</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#참조-투명성과-순수성"><span class="toc-number">1.4.0.1.</span> <span class="toc-text">참조 투명성과 순수성</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java-lang-StringBuilder는-참조-투명하지-않다"><span class="toc-number">1.5.</span> <span class="toc-text">java.lang.StringBuilder는 참조 투명하지 않다.</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#Chapter-02-스칼라로-함수형-프로그래밍-시작하기"><span class="toc-number">2.</span> <span class="toc-text">Chapter 02. 스칼라로 함수형 프로그래밍 시작하기</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#object-키워드"><span class="toc-number">2.0.0.1.</span> <span class="toc-text">object 키워드</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#예제코드를-통해-살펴본-스칼라의-기본-개념"><span class="toc-number">2.0.1.</span> <span class="toc-text">예제코드를 통해 살펴본 스칼라의 기본 개념</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#고차-함수"><span class="toc-number">2.0.2.</span> <span class="toc-text">고차 함수</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#스칼라의-꼬리-호출"><span class="toc-number">2.0.2.1.</span> <span class="toc-text">스칼라의 꼬리 호출</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#다형적-함수"><span class="toc-number">2.1.</span> <span class="toc-text">다형적 함수</span></a></li>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2018/11/25/20181125-scala-and-functional-programming-day01/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2018/11/25/20181125-scala-and-functional-programming-day01/&text=스칼라로 배우는 함수형 프로그래밍 스터디 Day01"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2018/11/25/20181125-scala-and-functional-programming-day01/&title=스칼라로 배우는 함수형 프로그래밍 스터디 Day01"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2018/11/25/20181125-scala-and-functional-programming-day01/&is_video=false&description=스칼라로 배우는 함수형 프로그래밍 스터디 Day01"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=스칼라로 배우는 함수형 프로그래밍 스터디 Day01&body=Check out this article: http://icednut.github.io/2018/11/25/20181125-scala-and-functional-programming-day01/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2018/11/25/20181125-scala-and-functional-programming-day01/&title=스칼라로 배우는 함수형 프로그래밍 스터디 Day01"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2018/11/25/20181125-scala-and-functional-programming-day01/&title=스칼라로 배우는 함수형 프로그래밍 스터디 Day01"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2018/11/25/20181125-scala-and-functional-programming-day01/&title=스칼라로 배우는 함수형 프로그래밍 스터디 Day01"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2018/11/25/20181125-scala-and-functional-programming-day01/&title=스칼라로 배우는 함수형 프로그래밍 스터디 Day01"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2018/11/25/20181125-scala-and-functional-programming-day01/&name=스칼라로 배우는 함수형 프로그래밍 스터디 Day01&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Icednut
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'icednut';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang=Ko>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="개요가장 빨리 만나는 코어 자바9 책을 읽다가 실무에서도 많이 쓰일 것 같은 Java9에서의 Stream 다루기가 나오길래 정리!!  null이 제거된 Stream 얻기id 목록 스트림이 있고, 아래의 lookup 메소드를 이용하여 얻어진 User 목록 중 null이 제거된 목록 스트림을 얻어내려면 어떻게 할까?1Optional&amp;lt;User&amp;gt; loo">
+<meta name="keywords" content="java9,stream">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java9에서의 Stream에 관한 짧은 팁">
+<meta property="og:url" content="http://icednut.github.io/2018/05/24/20180524-java-stream-tips/index.html">
+<meta property="og:site_name" content="Icednut&#39;s Note">
+<meta property="og:description" content="개요가장 빨리 만나는 코어 자바9 책을 읽다가 실무에서도 많이 쓰일 것 같은 Java9에서의 Stream 다루기가 나오길래 정리!!  null이 제거된 Stream 얻기id 목록 스트림이 있고, 아래의 lookup 메소드를 이용하여 얻어진 User 목록 중 null이 제거된 목록 스트림을 얻어내려면 어떻게 할까?1Optional&amp;lt;User&amp;gt; loo">
+<meta property="og:locale" content="Korean">
+<meta property="og:updated_time" content="2018-09-29T06:00:58.108Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java9에서의 Stream에 관한 짧은 팁">
+<meta name="twitter:description" content="개요가장 빨리 만나는 코어 자바9 책을 읽다가 실무에서도 많이 쓰일 것 같은 Java9에서의 Stream 다루기가 나오길래 정리!!  null이 제거된 Stream 얻기id 목록 스트림이 있고, 아래의 lookup 메소드를 이용하여 얻어진 User 목록 중 null이 제거된 목록 스트림을 얻어내려면 어떻게 할까?1Optional&amp;lt;User&amp;gt; loo">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Java9에서의 Stream에 관한 짧은 팁</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/07/04/20180706-about-grpc/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2018/04/12/20180412-understanding-observer-pattern/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2018/05/24/20180524-java-stream-tips/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2018/05/24/20180524-java-stream-tips/&text=Java9에서의 Stream에 관한 짧은 팁"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2018/05/24/20180524-java-stream-tips/&title=Java9에서의 Stream에 관한 짧은 팁"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2018/05/24/20180524-java-stream-tips/&is_video=false&description=Java9에서의 Stream에 관한 짧은 팁"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Java9에서의 Stream에 관한 짧은 팁&body=Check out this article: http://icednut.github.io/2018/05/24/20180524-java-stream-tips/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2018/05/24/20180524-java-stream-tips/&title=Java9에서의 Stream에 관한 짧은 팁"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2018/05/24/20180524-java-stream-tips/&title=Java9에서의 Stream에 관한 짧은 팁"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2018/05/24/20180524-java-stream-tips/&title=Java9에서의 Stream에 관한 짧은 팁"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2018/05/24/20180524-java-stream-tips/&title=Java9에서의 Stream에 관한 짧은 팁"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2018/05/24/20180524-java-stream-tips/&name=Java9에서의 Stream에 관한 짧은 팁&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#개요"><span class="toc-number">1.</span> <span class="toc-text">개요</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null이-제거된-Stream-얻기"><span class="toc-number">2.</span> <span class="toc-text">null이 제거된 Stream 얻기</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#id-목록-스트림이-있고-아래의-lookup-메소드를-이용하여-얻어진-User-목록-중-null이-제거된-목록-스트림을-얻어내려면-어떻게-할까"><span class="toc-number">2.1.</span> <span class="toc-text">id 목록 스트림이 있고, 아래의 lookup 메소드를 이용하여 얻어진 User 목록 중 null이 제거된 목록 스트림을 얻어내려면 어떻게 할까?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#이번에는-lookup-메소드가-null을-반환할-수-있는-경우라면-stream-처리를-어떻게-할까"><span class="toc-number">2.2.</span> <span class="toc-text">이번에는 lookup 메소드가 null을 반환할 수 있는 경우라면 stream 처리를 어떻게 할까?</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#스트림-결과-모으기를-할-때-합계-카운트-평균-최댓값-최솟값으로-모으려면"><span class="toc-number">3.</span> <span class="toc-text">스트림 결과 모으기를 할 때 합계, 카운트, 평균, 최댓값, 최솟값으로 모으려면?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#출처"><span class="toc-number">4.</span> <span class="toc-text">출처</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Java9에서의 Stream에 관한 짧은 팁
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">Icednut's Note</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-05-24T06:07:00.000Z" itemprop="datePublished">2018-05-24</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/java9/">java9</a>, <a class="tag-link" href="/tags/stream/">stream</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="개요"><a href="#개요" class="headerlink" title="개요"></a>개요</h2><p><code>가장 빨리 만나는 코어 자바9</code> 책을 읽다가 실무에서도 많이 쓰일 것 같은 Java9에서의 Stream 다루기가 나오길래 정리!! </p>
+<h2 id="null이-제거된-Stream-얻기"><a href="#null이-제거된-Stream-얻기" class="headerlink" title="null이 제거된 Stream 얻기"></a>null이 제거된 Stream 얻기</h2><h3 id="id-목록-스트림이-있고-아래의-lookup-메소드를-이용하여-얻어진-User-목록-중-null이-제거된-목록-스트림을-얻어내려면-어떻게-할까"><a href="#id-목록-스트림이-있고-아래의-lookup-메소드를-이용하여-얻어진-User-목록-중-null이-제거된-목록-스트림을-얻어내려면-어떻게-할까" class="headerlink" title="id 목록 스트림이 있고, 아래의 lookup 메소드를 이용하여 얻어진 User 목록 중 null이 제거된 목록 스트림을 얻어내려면 어떻게 할까?"></a>id 목록 스트림이 있고, 아래의 lookup 메소드를 이용하여 얻어진 User 목록 중 null이 제거된 목록 스트림을 얻어내려면 어떻게 할까?</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Optional&lt;User&gt; <span class="title">lookup</span><span class="params">(String id)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>보통 아래와 같이 작성할 것이다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; ids = Stream.of(<span class="string">"1"</span>, <span class="string">"2"</span>);</span><br><span class="line">Stream&lt;User&gt; users = ids.map(Users::lookup)</span><br><span class="line">                        .filter(Optional::isPresent)</span><br><span class="line">                        .map(Optinal::get);</span><br></pre></td></tr></table></figure>
+<p>하지만 flatMap을 이용하면 좀 더 우아하게 작성할 수 있다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;User&gt; users = ids.map(Users::lookup)</span><br><span class="line">                        .flatMap(Optional::stream);</span><br></pre></td></tr></table></figure>
+<p>이렇게 stream으로 변환하면 각 stream 호출은 User 인스턴스가 없거나 혹은 1개로 구성된 stream을 반환한다. 그 후 flatMap 메소드에서 이 스트림들을 결합하면 null인 user 인스턴스는 제거되어 처리된다.</p>
+<blockquote>
+<p>라고 책에서 봤는데 실제로 그런가 해서 코드를 뜯어봤더니 flatMap 메소드를 호출한다고 해서 null 인스턴스가 그 즉시 제거되는 것은 아니었다.</p>
+<p>정확히 말하자면 결과를 모으는 작업, 즉 collect 메소드를 호출할 때 flatMap의 파라미터로 들어온 Function 람다를 실행(apply 메소드 호출)을 하게 된다.  이 때 람다는 위에서 작성한 <code>Optaion&lt;User&gt;</code>를 <code>Stream&lt;User&gt;</code>로 변환하는 람다인데 null 인스턴스를 품고 있는 Optional일 경우 <code>Stream.empty()</code>을 통해 빈 스트림으로 변환하고 결과를 모으는 Spliterator는 EmptySpliterator로 결정되어 결국엔 결과를 모으는 작업에서 제외된다. 그렇기 때문에 결국 null인 user 인스턴스가 제거된다.</p>
+</blockquote>
+<p><del>뭔 소리여?</del></p>
+<p>일단 아래와 같이 flatMap 메소드까지 호출해서 얻어낸 stream은 결과가 처리되기를 기다리고 있는 stream 인스턴스가 반환된다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;User&gt; users = ids.map(Users::lookup)</span><br><span class="line">                        .flatMap(Optional::stream);</span><br></pre></td></tr></table></figure>
+<p>아래와 같이 collect 메소드를 호출해야지만 map과 flatMap에 주어진 람다를 호출해서 걸러진 결과가 ArrayList로 모아진다. 이렇게 결과를 모을 때 처리과정을 살펴보자.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;User&gt; users = ids.map(Users::lookup)</span><br><span class="line">                      .flatMap(Optional::stream)</span><br><span class="line">                      .collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+<p>일단 map은 생략하고 flatMap 메소드의 코드를 살펴보자. ids는 Array의 stream이기 때문에 <code>ReferencePipeline.Head</code> 인스턴스로 시작되는 스트림으로 결정된다. 이후 map을 거쳐 flatMap으로 들어오면 <code>ReferencePipeline</code>에 있는 flatMap 메소드를 호출하게 된다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">ReferencePipeline</span>&lt;<span class="title">P_IN</span>, <span class="title">P_OUT</span>&gt;</span></span><br><span class="line"><span class="class">        <span class="keyword">extends</span> <span class="title">AbstractPipeline</span>&lt;<span class="title">P_IN</span>, <span class="title">P_OUT</span>, <span class="title">Stream</span>&lt;<span class="title">P_OUT</span>&gt;&gt;</span></span><br><span class="line"><span class="class">        <span class="keyword">implements</span> <span class="title">Stream</span>&lt;<span class="title">P_OUT</span>&gt;  </span>&#123;</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> &lt;R&gt; <span class="function">Stream&lt;R&gt; <span class="title">flatMap</span><span class="params">(Function&lt;? <span class="keyword">super</span> P_OUT, ? extends Stream&lt;? extends R&gt;&gt; mapper)</span> </span>&#123;</span><br><span class="line">        Objects.requireNonNull(mapper);</span><br><span class="line">        <span class="comment">// We can do better than this, by polling cancellationRequested when stream is infinite</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> StatelessOp&lt;P_OUT, R&gt;(<span class="keyword">this</span>, StreamShape.REFERENCE,</span><br><span class="line">                                     StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT | StreamOpFlag.NOT_SIZED) &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function">Sink&lt;P_OUT&gt; <span class="title">opWrapSink</span><span class="params">(<span class="keyword">int</span> flags, Sink&lt;R&gt; sink)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> Sink.ChainedReference&lt;P_OUT, R&gt;(sink) &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">begin</span><span class="params">(<span class="keyword">long</span> size)</span> </span>&#123;</span><br><span class="line">                        downstream.begin(-<span class="number">1</span>);</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(P_OUT u)</span> </span>&#123;</span><br><span class="line">                        <span class="keyword">try</span> (Stream&lt;? extends R&gt; result = mapper.apply(u)) &#123;</span><br><span class="line">                            <span class="comment">// We can do better that this too; optimize for depth=0 case and just grab spliterator and forEach it</span></span><br><span class="line">                            <span class="keyword">if</span> (result != <span class="keyword">null</span>)</span><br><span class="line">                                result.sequential().forEach(downstream);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>이 때 flatMap 메소드의 22번째 줄인 <code>try (Stream&lt;? extends R&gt; result = mapper.apply(u))</code>라는 코드 실행되는데 이 코드를 실행하면 앞에서 파라미터로 넘겨준 <code>Optional::stream</code> 메소드 레퍼런스가 실행된다. 이후 다음과 같이 실행된다.</p>
+<ol>
+<li>user 인스턴스를 품고 있는 Optional 인스턴스 일 때<ul>
+<li>해당 Optional 인스턴스는 <code>Stream.of(user)</code>로 변환</li>
+<li>user 인스턴스를 처리할 수 있는 spliterator 인스턴스를 갖고 있는 stream으로 결정</li>
+<li><code>.collect(Collector.toList)</code> 실행 시 해당 spliterator 인스턴스를 실행하여 user 인스턴스를 ArrayList에 add하여 결과를 모은다.</li>
+</ul>
+</li>
+<li>null을 품고 있는 Optional 일 때<ul>
+<li>해당 Optional 인스턴스는 <code>Stream.empty()</code>로 변환</li>
+<li>이 스트림은 EmptySpliterator를 갖고 있는 stream으로 결정</li>
+<li><code>.collect(Collector.toList)</code> 실행 시 EmptySpliterator 인스턴스를 처리하면 해당 스트림에는 처리할 요소가 없으므로 ArrayList에는 아무런 인스턴스도 add하지 않고 끝난다.</li>
+</ul>
+</li>
+</ol>
+<p>정리하자면 결과를 모으는 작업을 호출해야지 빈 스트림에 대해 아무런 처리하지 않고 넘어간다.</p>
+<p><br></p>
+<h3 id="이번에는-lookup-메소드가-null을-반환할-수-있는-경우라면-stream-처리를-어떻게-할까"><a href="#이번에는-lookup-메소드가-null을-반환할-수-있는-경우라면-stream-처리를-어떻게-할까" class="headerlink" title="이번에는 lookup 메소드가 null을 반환할 수 있는 경우라면 stream 처리를 어떻게 할까?"></a>이번에는 lookup 메소드가 null을 반환할 수 있는 경우라면 stream 처리를 어떻게 할까?</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">User <span class="title">classicLookup</span><span class="params">(String id)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>이럴 때 보통 아래와 같이 filter 메소드를 통해 null 인스턴스를 필터링할 것이다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;User&gt; users = ids.map(Users::classicLookup)</span><br><span class="line">                        .filter(Objects::nonNull);</span><br></pre></td></tr></table></figure>
+<p>하지만 jdk9을 쓴다면 아래와 같이 null을 Stream으로 변환하여 처리하면 아까와 같이 null인 요소는 건너뛰고 결과를 모을 수 있다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;User&gt; users = ids.flatMap(id -&gt; Stream.ofNullable(Users.classicLookup(id)));</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;User&gt; users = ids.map(Users::classLookup)</span><br><span class="line">                        .flatMap(Stream::ofNullable);</span><br></pre></td></tr></table></figure>
+<h2 id="스트림-결과-모으기를-할-때-합계-카운트-평균-최댓값-최솟값으로-모으려면"><a href="#스트림-결과-모으기를-할-때-합계-카운트-평균-최댓값-최솟값으로-모으려면" class="headerlink" title="스트림 결과 모으기를 할 때 합계, 카운트, 평균, 최댓값, 최솟값으로 모으려면?"></a>스트림 결과 모으기를 할 때 합계, 카운트, 평균, 최댓값, 최솟값으로 모으려면?</h2><p>jdk9을 쓴다면 <code>summarizing(Int|Long|Double)</code> 메소드를 사용하여 SummaryStatistics 타입의 인스턴스를 받아서 처리하면 간단하게 구할 수 있다. 이 메서드는 스트림 객체를 숫자로 매핑하는 함수를 받고 합계, 카운트, 평균, 최댓값, 최솟값을 동시에 계산해서 <code>(Int|Long|Double)SummaryStatistics</code> 타입으로 결과를 돌려준다. </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">IntSummaryStatistics summary = stream.collect(</span><br><span class="line">  Collectors.summarizingInt(String::length)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">double</span> averageWordLength = summary.getAverage();</span><br><span class="line"><span class="keyword">double</span> maxWordLegnth = summary.getMax();</span><br></pre></td></tr></table></figure>
+<h2 id="출처"><a href="#출처" class="headerlink" title="출처"></a>출처</h2><ul>
+<li>가장 빨리 만나는 코어 자바9 p.320, p.322</li>
+</ul>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#개요"><span class="toc-number">1.</span> <span class="toc-text">개요</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null이-제거된-Stream-얻기"><span class="toc-number">2.</span> <span class="toc-text">null이 제거된 Stream 얻기</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#id-목록-스트림이-있고-아래의-lookup-메소드를-이용하여-얻어진-User-목록-중-null이-제거된-목록-스트림을-얻어내려면-어떻게-할까"><span class="toc-number">2.1.</span> <span class="toc-text">id 목록 스트림이 있고, 아래의 lookup 메소드를 이용하여 얻어진 User 목록 중 null이 제거된 목록 스트림을 얻어내려면 어떻게 할까?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#이번에는-lookup-메소드가-null을-반환할-수-있는-경우라면-stream-처리를-어떻게-할까"><span class="toc-number">2.2.</span> <span class="toc-text">이번에는 lookup 메소드가 null을 반환할 수 있는 경우라면 stream 처리를 어떻게 할까?</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#스트림-결과-모으기를-할-때-합계-카운트-평균-최댓값-최솟값으로-모으려면"><span class="toc-number">3.</span> <span class="toc-text">스트림 결과 모으기를 할 때 합계, 카운트, 평균, 최댓값, 최솟값으로 모으려면?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#출처"><span class="toc-number">4.</span> <span class="toc-text">출처</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2018/05/24/20180524-java-stream-tips/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2018/05/24/20180524-java-stream-tips/&text=Java9에서의 Stream에 관한 짧은 팁"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2018/05/24/20180524-java-stream-tips/&title=Java9에서의 Stream에 관한 짧은 팁"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2018/05/24/20180524-java-stream-tips/&is_video=false&description=Java9에서의 Stream에 관한 짧은 팁"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Java9에서의 Stream에 관한 짧은 팁&body=Check out this article: http://icednut.github.io/2018/05/24/20180524-java-stream-tips/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2018/05/24/20180524-java-stream-tips/&title=Java9에서의 Stream에 관한 짧은 팁"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2018/05/24/20180524-java-stream-tips/&title=Java9에서의 Stream에 관한 짧은 팁"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2018/05/24/20180524-java-stream-tips/&title=Java9에서의 Stream에 관한 짧은 팁"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2018/05/24/20180524-java-stream-tips/&title=Java9에서의 Stream에 관한 짧은 팁"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2018/05/24/20180524-java-stream-tips/&name=Java9에서의 Stream에 관한 짧은 팁&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Icednut
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'icednut';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
