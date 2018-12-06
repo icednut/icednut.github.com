@@ -6,18 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="책 스칼라로 배우는 함수형 프로그래밍에 대해 공부한 내용 정리  Chapter01. 함수형 프로그래밍이란 무엇인가? Chapter02. 스칼라로 함수형 프로그래밍 시작하기  CHAPTER 01. 함수형 프로그래밍이란 무엇인가?함수형 프로그래밍이란 부수 효과(Side Effect)가 없는 순수 함수(Pure Function)으로만 프로그램을 구축한다는 것을">
+    <meta name="description" content="출처: 스칼라로 배우는 함수형 프로그래밍 1장, 2장 CHAPTER 01. 함수형 프로그래밍이란 무엇인가?함수형 프로그래밍이란 부수 효과(Side Effect)가 없는 순수 함수(Pure Function)으로만 프로그램을 구축한다는 것을 의미한다. 그럼 부수효과란 무엇일까? 결과를 돌려주는 것 이외에 어떤 일을 수행하는 함수를 카리켜 부수효과가 있는 함수">
 <meta name="keywords" content="scala,functional programming">
 <meta property="og:type" content="article">
 <meta property="og:title" content="스칼라로 배우는 함수형 프로그래밍 스터디 Day01">
 <meta property="og:url" content="http://icednut.github.io/2018/11/25/20181125-scala-and-functional-programming-day01/index.html">
 <meta property="og:site_name" content="Icednut&#39;s Note">
-<meta property="og:description" content="책 스칼라로 배우는 함수형 프로그래밍에 대해 공부한 내용 정리  Chapter01. 함수형 프로그래밍이란 무엇인가? Chapter02. 스칼라로 함수형 프로그래밍 시작하기  CHAPTER 01. 함수형 프로그래밍이란 무엇인가?함수형 프로그래밍이란 부수 효과(Side Effect)가 없는 순수 함수(Pure Function)으로만 프로그램을 구축한다는 것을">
+<meta property="og:description" content="출처: 스칼라로 배우는 함수형 프로그래밍 1장, 2장 CHAPTER 01. 함수형 프로그래밍이란 무엇인가?함수형 프로그래밍이란 부수 효과(Side Effect)가 없는 순수 함수(Pure Function)으로만 프로그램을 구축한다는 것을 의미한다. 그럼 부수효과란 무엇일까? 결과를 돌려주는 것 이외에 어떤 일을 수행하는 함수를 카리켜 부수효과가 있는 함수">
 <meta property="og:locale" content="Korean">
-<meta property="og:updated_time" content="2018-11-27T06:40:43.294Z">
+<meta property="og:updated_time" content="2018-12-04T14:23:21.291Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="스칼라로 배우는 함수형 프로그래밍 스터디 Day01">
-<meta name="twitter:description" content="책 스칼라로 배우는 함수형 프로그래밍에 대해 공부한 내용 정리  Chapter01. 함수형 프로그래밍이란 무엇인가? Chapter02. 스칼라로 함수형 프로그래밍 시작하기  CHAPTER 01. 함수형 프로그래밍이란 무엇인가?함수형 프로그래밍이란 부수 효과(Side Effect)가 없는 순수 함수(Pure Function)으로만 프로그램을 구축한다는 것을">
+<meta name="twitter:description" content="출처: 스칼라로 배우는 함수형 프로그래밍 1장, 2장 CHAPTER 01. 함수형 프로그래밍이란 무엇인가?함수형 프로그래밍이란 부수 효과(Side Effect)가 없는 순수 함수(Pure Function)으로만 프로그램을 구축한다는 것을 의미한다. 그럼 부수효과란 무엇일까? 결과를 돌려주는 것 이외에 어떤 일을 수행하는 함수를 카리켜 부수효과가 있는 함수">
     
     
         
@@ -72,6 +72,8 @@
     <br>
     <span id="actions">
       <ul>
+        
+        <li><a class="icon" href="/2018/12/04/20181204-scala-and-functional-programming-day02/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
         <li><a class="icon" href="/2018/07/04/20180706-about-grpc/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
@@ -140,11 +142,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <p>책 <code>스칼라로 배우는 함수형 프로그래밍</code>에 대해 공부한 내용 정리</p>
-<ul>
-<li>Chapter01. 함수형 프로그래밍이란 무엇인가?</li>
-<li>Chapter02. 스칼라로 함수형 프로그래밍 시작하기</li>
-</ul>
+    <p>출처: 스칼라로 배우는 함수형 프로그래밍 1장, 2장</p>
 <h2 id="CHAPTER-01-함수형-프로그래밍이란-무엇인가"><a href="#CHAPTER-01-함수형-프로그래밍이란-무엇인가" class="headerlink" title="CHAPTER 01. 함수형 프로그래밍이란 무엇인가?"></a>CHAPTER 01. 함수형 프로그래밍이란 무엇인가?</h2><p>함수형 프로그래밍이란 부수 효과(Side Effect)가 없는 순수 함수(Pure Function)으로만 프로그램을 구축한다는 것을 의미한다. 그럼 <u>부수효과란 무엇일까? 결과를 돌려주는 것 이외에 어떤 일을 수행하는 함수를 카리켜 <strong>부수효과가 있는 함수</strong></u> 라고 칭한다.</p>
 <ul>
 <li>부수효과가 있는 함수 예시<ul>
