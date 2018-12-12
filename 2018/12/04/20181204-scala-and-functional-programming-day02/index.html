@@ -9,14 +9,14 @@
     <meta name="description" content="출처: 스칼라로 배우는 함수형 프로그래밍 3장 Chapter 03. 함수적 자료구조이번 챕터에서 다룰 내용  함수형 프로그래밍 스타일 작성된 Single Linked List 살펴보기 (함수적 자료구조) Pattern Matching 함수형 자료구조에서의 Data Sharing 고차함수와 타입추론, 그리고 고차함수 일반화 함수형 프로그래밍 스타일로 Bina">
 <meta name="keywords" content="scala,functional programming">
 <meta property="og:type" content="article">
-<meta property="og:title" content="스칼라로 배우는 함수형 프로그래밍 스터디 Day02">
+<meta property="og:title" content="스칼라 스터디 Day02 - 함수적 자료구조">
 <meta property="og:url" content="http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/index.html">
 <meta property="og:site_name" content="Icednut&#39;s Note">
 <meta property="og:description" content="출처: 스칼라로 배우는 함수형 프로그래밍 3장 Chapter 03. 함수적 자료구조이번 챕터에서 다룰 내용  함수형 프로그래밍 스타일 작성된 Single Linked List 살펴보기 (함수적 자료구조) Pattern Matching 함수형 자료구조에서의 Data Sharing 고차함수와 타입추론, 그리고 고차함수 일반화 함수형 프로그래밍 스타일로 Bina">
 <meta property="og:locale" content="Korean">
-<meta property="og:updated_time" content="2018-12-05T07:42:26.443Z">
+<meta property="og:updated_time" content="2018-12-11T11:48:47.149Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="스칼라로 배우는 함수형 프로그래밍 스터디 Day02">
+<meta name="twitter:title" content="스칼라 스터디 Day02 - 함수적 자료구조">
 <meta name="twitter:description" content="출처: 스칼라로 배우는 함수형 프로그래밍 3장 Chapter 03. 함수적 자료구조이번 챕터에서 다룰 내용  함수형 프로그래밍 스타일 작성된 Single Linked List 살펴보기 (함수적 자료구조) Pattern Matching 함수형 자료구조에서의 Data Sharing 고차함수와 타입추론, 그리고 고차함수 일반화 함수형 프로그래밍 스타일로 Bina">
     
     
@@ -37,7 +37,7 @@
         
     
     <!-- title -->
-    <title>스칼라로 배우는 함수형 프로그래밍 스터디 Day02</title>
+    <title>스칼라 스터디 Day02 - 함수적 자료구조</title>
     <!-- styles -->
     <link rel="stylesheet" href="/css/style.css">
     <!-- persian styles -->
@@ -73,6 +73,8 @@
     <span id="actions">
       <ul>
         
+        <li><a class="icon" href="/2018/12/10/20181210-scala-and-functional-programming-day03/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
         
         <li><a class="icon" href="/2018/11/25/20181125-scala-and-functional-programming-day01/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
@@ -88,15 +90,15 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&text=스칼라로 배우는 함수형 프로그래밍 스터디 Day02"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&title=스칼라로 배우는 함수형 프로그래밍 스터디 Day02"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&is_video=false&description=스칼라로 배우는 함수형 프로그래밍 스터디 Day02"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=스칼라로 배우는 함수형 프로그래밍 스터디 Day02&body=Check out this article: http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&title=스칼라로 배우는 함수형 프로그래밍 스터디 Day02"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&title=스칼라로 배우는 함수형 프로그래밍 스터디 Day02"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&title=스칼라로 배우는 함수형 프로그래밍 스터디 Day02"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&title=스칼라로 배우는 함수형 프로그래밍 스터디 Day02"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&name=스칼라로 배우는 함수형 프로그래밍 스터디 Day02&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&text=스칼라 스터디 Day02 - 함수적 자료구조"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&title=스칼라 스터디 Day02 - 함수적 자료구조"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&is_video=false&description=스칼라 스터디 Day02 - 함수적 자료구조"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=스칼라 스터디 Day02 - 함수적 자료구조&body=Check out this article: http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&title=스칼라 스터디 Day02 - 함수적 자료구조"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&title=스칼라 스터디 Day02 - 함수적 자료구조"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&title=스칼라 스터디 Day02 - 함수적 자료구조"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&title=스칼라 스터디 Day02 - 함수적 자료구조"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&name=스칼라 스터디 Day02 - 함수적 자료구조&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -113,7 +115,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        스칼라로 배우는 함수형 프로그래밍 스터디 Day02
+        스칼라 스터디 Day02 - 함수적 자료구조
     </h1>
 
 
@@ -260,15 +262,15 @@
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&text=스칼라로 배우는 함수형 프로그래밍 스터디 Day02"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&title=스칼라로 배우는 함수형 프로그래밍 스터디 Day02"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&is_video=false&description=스칼라로 배우는 함수형 프로그래밍 스터디 Day02"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=스칼라로 배우는 함수형 프로그래밍 스터디 Day02&body=Check out this article: http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&title=스칼라로 배우는 함수형 프로그래밍 스터디 Day02"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&title=스칼라로 배우는 함수형 프로그래밍 스터디 Day02"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&title=스칼라로 배우는 함수형 프로그래밍 스터디 Day02"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&title=스칼라로 배우는 함수형 프로그래밍 스터디 Day02"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&name=스칼라로 배우는 함수형 프로그래밍 스터디 Day02&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&text=스칼라 스터디 Day02 - 함수적 자료구조"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&title=스칼라 스터디 Day02 - 함수적 자료구조"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&is_video=false&description=스칼라 스터디 Day02 - 함수적 자료구조"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=스칼라 스터디 Day02 - 함수적 자료구조&body=Check out this article: http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&title=스칼라 스터디 Day02 - 함수적 자료구조"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&title=스칼라 스터디 Day02 - 함수적 자료구조"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&title=스칼라 스터디 Day02 - 함수적 자료구조"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&title=스칼라 스터디 Day02 - 함수적 자료구조"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://icednut.github.io/2018/12/04/20181204-scala-and-functional-programming-day02/&name=스칼라 스터디 Day02 - 함수적 자료구조&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
