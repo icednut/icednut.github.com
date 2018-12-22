@@ -154,6 +154,67 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-20181218-scala-and-functional-programming-day04" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/12/17/20181218-scala-and-functional-programming-day04/">스칼라 스터디 Day04 - 엄격성과 나태성</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/12/17/20181218-scala-and-functional-programming-day04/" class="article-date">
+	  <time datetime="2018-12-17T14:20:52.000Z" itemprop="datePublished">2018-12-17</time>
+	</a>
+
+      
+      
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          출처: 스칼라로 배우는 함수형 프로그래밍 5장
+Chapter05. 엄격성과 나태성이번 챕터에서 다룰 내용
+
+List의 한계
+Stream (Lazy List)
+스트림 순회의 비엄격성과 나태성
+
+
+
+List의 한계스칼라에서 다음 코드는 어떻게 수행될까?
+1List(1,2,3,4).map(_ + 10).filter(_ % 2 == 0).map(_ * 3)
+스칼라 List의 map과 filter 함수는 임시적인 목록을 만들어서 그 결과를 반환한다...
+        </p>
+        <p class="article-more-link">
+          <a href="/2018/12/17/20181218-scala-and-functional-programming-day04/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-20181210-scala-and-functional-programming-day03" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div id="articleInner" class="article-inner">
     
@@ -657,57 +718,6 @@ To-do 앱을 개발한다고 가정하고 해당 패턴을 적용
         </p>
         <p class="article-more-link">
           <a href="/2018/03/27/20180327-understanding-composite-pattern/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-20180325-about-java-garbage-collection" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/03/25/20180325-about-java-garbage-collection/">Java Garbage Collector 이해하기 Part 1 (with G1GC, Garbage First GC)</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/03/25/20180325-about-java-garbage-collection/" class="article-date">
-	  <time datetime="2018-03-25T03:53:46.000Z" itemprop="datePublished">2018-03-25</time>
-	</a>
-
-      
-      
-      
-
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          Garbage Collection이란?Garbage Collector를 이해 하려면 Java에서의 메모리 관리 방법과 Garbage Collection이라는 행위(GC Algorithm)를 이해할 필요가 있다. 그 후 Garbage Collector 별로 어떻게 Garbage Collection을 하는지 알아볼 것이다. 이 글에서는 Oracle에서 공식 개발 및 배포하고 있는 Hotspot JVM을 기준으로 진행한다.
-Java에서 메모리를...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/03/25/20180325-about-java-garbage-collection/#more">Read More</a>
         </p>
       
     </div>
