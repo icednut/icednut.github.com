@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>스칼라 스터디 day05 - 순수 함수적 상태 | Icednut&#39;s Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="scalafunctional programming">
+  
+  
+  
+  
+  <meta name="description" content="출처: 스칼라로 배우는 함수형 프로그래밍 6장 Chapter06. 순수 함수적 상태이번 챕터에서 다룰 내용  난수 발생(scala.util.Random)의 문제점 순수 함수적으로 난수 발생하기 상태가 있는 함수를 순수하게 하기 난수 발생기 일반화하기 순수 상태 함수 일반화하기    난수 발생(scala.util.Random)의 문제점스칼라의 난수 발생기 클">
+<meta name="keywords" content="scala,functional programming">
+<meta property="og:type" content="article">
+<meta property="og:title" content="스칼라 스터디 Day05 - 순수 함수적 상태">
+<meta property="og:url" content="http://icednut.github.io/2018/12/25/20181226-scala-and-functional-programming-day05/index.html">
+<meta property="og:site_name" content="Icednut&#39;s Note">
+<meta property="og:description" content="출처: 스칼라로 배우는 함수형 프로그래밍 6장 Chapter06. 순수 함수적 상태이번 챕터에서 다룰 내용  난수 발생(scala.util.Random)의 문제점 순수 함수적으로 난수 발생하기 상태가 있는 함수를 순수하게 하기 난수 발생기 일반화하기 순수 상태 함수 일반화하기    난수 발생(scala.util.Random)의 문제점스칼라의 난수 발생기 클">
+<meta property="og:locale" content="Korean">
+<meta property="og:updated_time" content="2018-12-25T16:50:47.637Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="스칼라 스터디 Day05 - 순수 함수적 상태">
+<meta name="twitter:description" content="출처: 스칼라로 배우는 함수형 프로그래밍 6장 Chapter06. 순수 함수적 상태이번 챕터에서 다룰 내용  난수 발생(scala.util.Random)의 문제점 순수 함수적으로 난수 발생하기 상태가 있는 함수를 순수하게 하기 난수 발생기 일반화하기 순수 상태 함수 일반화하기    난수 발생(scala.util.Random)의 문제점스칼라의 난수 발생기 클">
+  
+    <link rel="alternate" href="/atom.xml" title="Icednut&#39;s Note" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="border-width: 0;">
+                <p>Icednut&#39;s Note</p>
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </ul></div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-20181226-scala-and-functional-programming-day05" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      스칼라 스터디 Day05 - 순수 함수적 상태
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/12/25/20181226-scala-and-functional-programming-day05/" class="article-date">
+	  <time datetime="2018-12-25T06:43:51.000Z" itemprop="datePublished">2018-12-25</time>
+	</a>
+
+      
+      
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>출처: 스칼라로 배우는 함수형 프로그래밍 6장</p>
+<h2 id="Chapter06-순수-함수적-상태"><a href="#Chapter06-순수-함수적-상태" class="headerlink" title="Chapter06. 순수 함수적 상태"></a>Chapter06. 순수 함수적 상태</h2><p>이번 챕터에서 다룰 내용</p>
+<ul>
+<li>난수 발생(scala.util.Random)의 문제점</li>
+<li>순수 함수적으로 난수 발생하기</li>
+<li>상태가 있는 함수를 순수하게 하기</li>
+<li>난수 발생기 일반화하기</li>
+<li>순수 상태 함수 일반화하기</li>
+</ul>
+<p><br></p>
+<p><br></p>
+<h3 id="난수-발생-scala-util-Random-의-문제점"><a href="#난수-발생-scala-util-Random-의-문제점" class="headerlink" title="난수 발생(scala.util.Random)의 문제점"></a>난수 발생(scala.util.Random)의 문제점</h3><p>스칼라의 난수 발생기 클래스(scala.util.Random)은 부수 효과에 의존하는 메소드를 제공한다. 왜 이렇게 말하는걸까?</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; <span class="keyword">val</span> rng = <span class="keyword">new</span> scala.util.<span class="type">Random</span></span><br><span class="line">rng: scala.util.<span class="type">Random</span> = scala.util.<span class="type">Random</span>@<span class="number">74</span>fab04a</span><br><span class="line"></span><br><span class="line">scala&gt; rng.nextDouble</span><br><span class="line">res0: <span class="type">Double</span> = <span class="number">0.8020301517138297</span></span><br><span class="line"></span><br><span class="line">scala&gt; rng.nextDouble</span><br><span class="line">res1: <span class="type">Double</span> = <span class="number">0.169106827118352</span></span><br><span class="line"></span><br><span class="line">scala&gt; rng.nextInt</span><br><span class="line">res2: <span class="type">Int</span> = <span class="number">-968884305</span></span><br><span class="line"></span><br><span class="line">scala&gt; rng.nextInt(<span class="number">10</span>)</span><br><span class="line">res3: <span class="type">Int</span> = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p><code>scala.util.Random.nextDouble</code>, <code>scala.util.Random.nextInt</code> 메소드를 보면 호출할 때마다 다른 값(난수)이 나오는 것을 볼 수 있다. <u>이것은 해당 메소드들이 호출될 때마다 갱신되는 어떤 내부 상태가 존재한다고 가정할 수 있다</u> (즉 부수효과가 있는 메소드라는 의미). <u>상태 갱신은 부수효과로서 수행되므로 이 메소드들은 참조에 투명하지 않다고 볼 수 있다.</u></p>
+<blockquote>
+<p>부수효과가 있으면 뭐가 안좋다고?</p>
+<ul>
+<li>검사, 합성, 모듈화가 어려워진다.</li>
+<li>병렬화가 쉽지 않다.</li>
+</ul>
+</blockquote>
+<p>과연 그럴까? 부수효과가 있는 함수의 검사성을 살펴보자.</p>
+<h5 id="문제"><a href="#문제" class="headerlink" title="문제)"></a>문제)</h5><p>주사위 메소드를 구현해보자. 이 메소드는 반드시 1 이상 6 이하의 정수를 돌려주어야 한다.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rollDie</span></span>: <span class="type">Int</span> = &#123;</span><br><span class="line">    <span class="keyword">val</span> rng = <span class="keyword">new</span> scala.util.<span class="type">Random</span></span><br><span class="line">    rng.nextInt(<span class="number">6</span>) <span class="comment">// *</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>그런데 <code>rng.nextInt(6)</code>은 0 이상 5 이하의 난수를 돌려준다. 그러므로 1 이상 6 이하의 값을 준다는 검사에서 여섯 번 중 다섯 번은 실패하게 되는데 이는 랜덤하게 발생된다. 이 버그를 문제라고 말한다. 왜 이 버그가 이슈일까?</p>
+<ul>
+<li>이슈: 버그가 명백하지만 재현하기가 어렵다.</li>
+<li>이슈: 만약 프로그램이 복잡해지고 버그가 그에 비례하여 복잡해진다면 이를 재현하기가 점점 더 어려워지고 이를 재현하기 위해 프로그래머의 능력이 훨씬 중요해진다.</li>
+</ul>
+<h5 id="해결1"><a href="#해결1" class="headerlink" title="해결1)"></a>해결1)</h5><p>해결책으로는 난수 발생기 <code>rng</code> 를 인수로 전달하는 것이다. 왜 이렇게 할까?</p>
+<ul>
+<li>답: 실패한 검사를 재현할 때 당시에 인수로 쓰인 <code>rng</code>를 재사용하기 위해</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rollDie</span></span>(rng: scala.util.<span class="type">Random</span>): <span class="type">Int</span> = rng.nextInt(<span class="number">6</span>)</span><br></pre></td></tr></table></figure>
+<p>그러나 여기에도 이슈가 있다.</p>
+<ul>
+<li>이슈: rng를 인수로 받았다고 해도 여전히 <code>rng.nextInt</code> 를 호출하면 rng 내부의 상태가 변한다.</li>
+<li>이슈: 검사를 재현할 때 당시에 인수로 쓰인 rng의 상태가 동일하게 하기 위해서는 nextInt 메소드 호출을 추적해야 되는 메커니즘을 따로 개발해야 된다.</li>
+</ul>
+<p>결국 해결하기 위해서는 <u>부수효과</u>를 피해야 한다.</p>
+<h3 id="순수-함수적으로-난수-발생하기"><a href="#순수-함수적으로-난수-발생하기" class="headerlink" title="순수 함수적으로 난수 발생하기"></a>순수 함수적으로 난수 발생하기</h3><p>앞의 문제를 어떻게 해결할까? 상태 갱신을 명시적으로 드러내는 방법으로 난수 생성 함수 호출 시 난수와 상태를 담고 있는 난수생성기를 함께 반환하는 것이다.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">RNG</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">nextInt</span></span>: (<span class="type">Int</span>, <span class="type">RNG</span>) <span class="comment">// (난수, 난수 생성에 사용된 난수 생성기)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>이 트레이트를 사용해서 간단한 난수 생성기를 구현하면 다음과 같다.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleRNG</span>(<span class="params">seed: <span class="type">Long</span></span>) <span class="keyword">extends</span> <span class="title">RNG</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">nextInt</span></span>: (<span class="type">Int</span>, <span class="type">RNG</span>) = &#123;</span><br><span class="line">        <span class="keyword">val</span> newSeed = (seed * <span class="number">0x5DEECE66D</span>L + <span class="number">0xB</span>L) &amp; <span class="number">0xFFFFFFFFFFFF</span>L</span><br><span class="line">        <span class="keyword">val</span> nextRNG = <span class="type">SimpleRNG</span>(newSeed)</span><br><span class="line">        <span class="keyword">val</span> n = (newSeed &gt;&gt;&gt; <span class="number">16</span>).toInt</span><br><span class="line"></span><br><span class="line">        (n, nextRNG)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><u><code>nextInt</code> 메소드를 살펴보면 <code>newSeed</code>(상태)가 담긴 새로운 <code>SimpleRNG</code> 인스턴스를 생성하여 난수를 생성하고 있다.</u></p>
+<p>그렇기 때문에 동일한 객체의 <code>nextInt</code> 함수를 아무리 많이 호출해도 동일한 <code>newSeed</code>를 사용하여 난수를 생성하기 때문에 이 함수는 순수하다.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; <span class="keyword">val</span> rng = <span class="type">SimpleRNG</span>(<span class="number">42</span>)</span><br><span class="line">rng: <span class="type">SimpleRNG</span> = <span class="type">SimpleRNG</span>(<span class="number">42</span>)</span><br><span class="line"></span><br><span class="line">scala&gt; <span class="keyword">val</span> (n1, rng2) = rng.nextInt <span class="comment">// 1</span></span><br><span class="line">n1: <span class="type">Int</span> = <span class="number">16159453</span></span><br><span class="line">rng2: <span class="type">RNG</span> = <span class="type">SimpleRNG</span>(<span class="number">1059025964525</span>)</span><br><span class="line"></span><br><span class="line">scala&gt; <span class="keyword">val</span> (n2, rng3) = rng2.nextInt <span class="comment">// 2</span></span><br><span class="line">n2: <span class="type">Int</span> = <span class="number">-1281479697</span></span><br><span class="line">rng3: <span class="type">RNG</span> = <span class="type">SimpleRNG</span>(<span class="number">197491923327988</span>)</span><br><span class="line"></span><br><span class="line">scala&gt; <span class="keyword">val</span> (n3, rng4) = rng2.nextInt <span class="comment">// 3</span></span><br><span class="line">n3: <span class="type">Int</span> = <span class="number">-1281479697</span></span><br><span class="line">rng4: <span class="type">RNG</span> = <span class="type">SimpleRNG</span>(<span class="number">197491923327988</span>)</span><br><span class="line"></span><br><span class="line">scala&gt; <span class="keyword">val</span> (n4, rng5) = rng.nextInt <span class="comment">// 4</span></span><br><span class="line">n4: <span class="type">Int</span> = <span class="number">16159453</span></span><br><span class="line">rng5: <span class="type">RNG</span> = <span class="type">SimpleRNG</span>(<span class="number">1059025964525</span>)</span><br></pre></td></tr></table></figure>
+<p>위 예제에서 보면 <code>rng.nextInt</code>1과 4 두 번 실행했음에도 불구하고 동일한 난수를 얻었다. 마찬가지로 2와 3에서도 동일한 난수 생성기로 난수 생성 호출 <code>rng2.nextInt</code> 을 했음에도 불구하고 동일한 난수를 얻었다. 따라서 nextInt 함수는 이제 순수해졌다. (상태가 사라짐)</p>
+<p>이 난수 생성기를 사용하면 다음과 같이 동일한 랜덤값을 갖는 튜플을 만들수도 있다.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">randomPair</span></span>(rng: <span class="type">RNG</span>): (<span class="type">Int</span>, <span class="type">Int</span>) = &#123;</span><br><span class="line">    <span class="keyword">val</span> (i1, _) = rng.nextInt</span><br><span class="line">    <span class="keyword">val</span> (i2, _) = rng.nextInt</span><br><span class="line">    (i1, i2)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>더 발전하여 서로 다른 두 수와 이를 만들 때 사용한 난수 생성기를 반환하는 함수도 만들 수 있다.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">randomPair</span></span>(rng: <span class="type">RNG</span>): ((<span class="type">Int</span>, <span class="type">Int</span>), <span class="type">RNG</span>) = &#123;</span><br><span class="line">    <span class="keyword">val</span> (i1, rng2) = rng.nextInt</span><br><span class="line">    <span class="keyword">val</span> (i2, rng3) = rng2.nextInt <span class="comment">// i1과 i2가 다르게 하기 위해 rng2 난수 생성기를 사용</span></span><br><span class="line">    ((i1, i2), rng3) <span class="comment">// 최종 상태가 담긴 rng3을 함께 반환한다.</span></span><br><span class="line">                     <span class="comment">// 왜 이렇게 할까? 호출자는 이 rng3을 이용해서 다른 난수를 생성하게 하기 위해</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="상태가-있는-함수를-순수하게-하기"><a href="#상태가-있는-함수를-순수하게-하기" class="headerlink" title="상태가 있는 함수를 순수하게 하기"></a>상태가 있는 함수를 순수하게 하기</h3><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> s: <span class="type">FooState</span> = ...</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">bar</span></span>: <span class="type">Bar</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">baz</span></span>: <span class="type">Int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">bar</span></span>: (<span class="type">Bar</span>, <span class="type">Foo</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">baz</span></span>: (<span class="type">Int</span>, <span class="type">Foo</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>bar</code> 과 <code>baz</code> 가 상태 s를 변이한다고 하자. 이 함수들을 순수 함수적으로 만들려면 앞의 난수 생성기와 같이 새로운 상태가 담긴 Foo 객체를 반환하는 패턴을 사용하면 된다. </p>
+<blockquote>
+<p>이 패턴을 적용한다는 것은 계산된 다음 상태를 프로그램의 나머지 부분에 전달하는 책임을 호출자에게 넘기는 것과 같다.</p>
+</blockquote>
+<p>앞의 난수 생성의 순수함수 패턴을 일반화가 필요한 시점이다.</p>
+<p>잠깐 연습문제를 풀고 넘어가자.</p>
+<h5 id="연습문제-6-1"><a href="#연습문제-6-1" class="headerlink" title="연습문제 6.1"></a>연습문제 6.1</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 0 이상, Int.MaxValue 이하의 난수 Int를 반환하는 함수 만들기</span></span><br><span class="line"><span class="comment">// Int.MinValue도 대응하기 (Math.abs(Int.MinValue) == -2147483648)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">nonNegativeInt</span></span>(rng: <span class="type">RNG</span>): (<span class="type">Int</span>, <span class="type">RNG</span>) = &#123;</span><br><span class="line">    <span class="keyword">val</span> (i, newRng) = rng.nextInt</span><br><span class="line">    <span class="keyword">val</span> result = <span class="keyword">if</span> (i == <span class="type">Int</span>.<span class="type">MinValue</span>) i + <span class="number">1</span> <span class="keyword">else</span> i</span><br><span class="line">    <span class="keyword">val</span> t = result &gt;&gt; <span class="number">31</span></span><br><span class="line"></span><br><span class="line">    ((result ^ t) + (t &amp; <span class="number">1</span>), newRng) </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 참고: 조건문 없는 절대값 함수 구하기 (http://alloc.tistory.com/137)</span></span><br></pre></td></tr></table></figure>
+<p>결과</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; <span class="keyword">val</span> (i, rng2) = nonNegativeInt(rng)</span><br><span class="line">i: <span class="type">Int</span> = <span class="number">16159453</span></span><br><span class="line">rng2: <span class="type">RNG</span> = <span class="type">SimpleRNG</span>(<span class="number">1059025964525</span>)</span><br><span class="line"></span><br><span class="line">scala&gt; <span class="keyword">val</span> (i2, rng3) = nonNegativeInt(rng2)</span><br><span class="line">i2: <span class="type">Int</span> = <span class="number">1281479697</span></span><br><span class="line">rng3: <span class="type">RNG</span> = <span class="type">SimpleRNG</span>(<span class="number">197491923327988</span>)</span><br><span class="line"></span><br><span class="line">scala&gt; <span class="keyword">val</span> (i3, rng4) = nonNegativeInt(rng3)</span><br><span class="line">i3: <span class="type">Int</span> = <span class="number">340305902</span></span><br><span class="line">rng4: <span class="type">RNG</span> = <span class="type">SimpleRNG</span>(<span class="number">259172689157871</span>)</span><br></pre></td></tr></table></figure>
+<h5 id="연습문제-6-2"><a href="#연습문제-6-2" class="headerlink" title="연습문제 6.2"></a>연습문제 6.2</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 0 이상, 1 미만의 Double 난수 구하기</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">double</span></span>(rng: <span class="type">RNG</span>): (<span class="type">Double</span>, <span class="type">RNG</span>) = &#123;</span><br><span class="line">    <span class="keyword">val</span> (i, r) = nonNegativeInt(rng)</span><br><span class="line">    (i / (<span class="type">Int</span>.<span class="type">MaxValue</span>.toDouble + <span class="number">1</span>), r)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>결과</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; <span class="keyword">val</span> (d, rng1) = double(rng)</span><br><span class="line">d: <span class="type">Double</span> = <span class="number">0.007524831686168909</span></span><br><span class="line">rng1: <span class="type">RNG</span> = <span class="type">SimpleRNG</span>(<span class="number">1059025964525</span>)</span><br><span class="line"></span><br><span class="line">scala&gt; <span class="keyword">val</span> (d, rng2) = double(rng1)</span><br><span class="line">d: <span class="type">Double</span> = <span class="number">0.5967354853637516</span></span><br><span class="line">rng2: <span class="type">RNG</span> = <span class="type">SimpleRNG</span>(<span class="number">197491923327988</span>)</span><br><span class="line"></span><br><span class="line">scala&gt; <span class="keyword">val</span> (d, rng3) = double(rng2)</span><br><span class="line">d: <span class="type">Double</span> = <span class="number">0.15846728440374136</span></span><br><span class="line">rng3: <span class="type">RNG</span> = <span class="type">SimpleRNG</span>(<span class="number">259172689157871</span>)</span><br></pre></td></tr></table></figure>
+<p>연습문제 6.3</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">intDouble</span></span>(rng: <span class="type">RNG</span>): ((<span class="type">Int</span>, <span class="type">Double</span>), <span class="type">RNG</span>) = &#123;</span><br><span class="line">    <span class="keyword">val</span> (i, rng2) = nonNegativeInt(rng)</span><br><span class="line">    <span class="keyword">val</span> (d, rng3) = double(rng2)</span><br><span class="line">    ((i, d), rng3)</span><br><span class="line">&#125;</span><br><span class="line">intDouble: (rng: <span class="type">RNG</span>)((<span class="type">Int</span>, <span class="type">Double</span>), <span class="type">RNG</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">doubleInt</span></span>(rng: <span class="type">RNG</span>): ((<span class="type">Double</span>, <span class="type">Int</span>), <span class="type">RNG</span>) = &#123;</span><br><span class="line">    <span class="keyword">val</span> (d, rng2) = double(rng)</span><br><span class="line">    <span class="keyword">val</span> (i, rng3) = nonNegativeInt(rng2)</span><br><span class="line">    ((d, i), rng3)</span><br><span class="line">&#125;</span><br><span class="line">doubleInt: (rng: <span class="type">RNG</span>)((<span class="type">Double</span>, <span class="type">Int</span>), <span class="type">RNG</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">double3</span></span>(rng: <span class="type">RNG</span>): ((<span class="type">Double</span>, <span class="type">Double</span>, <span class="type">Double</span>), <span class="type">RNG</span>) = &#123;</span><br><span class="line">    <span class="keyword">val</span> (d1, rng2) = double(rng)</span><br><span class="line">    <span class="keyword">val</span> (d2, rng3) = double(rng2)</span><br><span class="line">    <span class="keyword">val</span> (d3, rng4) = double(rng3)</span><br><span class="line">    ((d1, d2, d3), rng4)</span><br><span class="line">&#125;</span><br><span class="line">double3: (rng: <span class="type">RNG</span>)((<span class="type">Double</span>, <span class="type">Double</span>, <span class="type">Double</span>), <span class="type">RNG</span>)</span><br></pre></td></tr></table></figure>
+<p>결과</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; intDouble(rng)</span><br><span class="line">res35: ((<span class="type">Int</span>, <span class="type">Double</span>), <span class="type">RNG</span>) = ((<span class="number">16159453</span>,<span class="number">0.5967354853637516</span>),<span class="type">SimpleRNG</span>(<span class="number">197491923327988</span>))</span><br><span class="line"></span><br><span class="line">scala&gt; doubleInt(rng)</span><br><span class="line">res36: ((<span class="type">Double</span>, <span class="type">Int</span>), <span class="type">RNG</span>) = ((<span class="number">0.007524831686168909</span>,<span class="number">1281479697</span>),<span class="type">SimpleRNG</span>(<span class="number">197491923327988</span>))</span><br><span class="line"></span><br><span class="line">scala&gt; double3(rng)</span><br><span class="line">res37: ((<span class="type">Double</span>, <span class="type">Double</span>, <span class="type">Double</span>), <span class="type">RNG</span>) = ((<span class="number">0.007524831686168909</span>,<span class="number">0.5967354853637516</span>,<span class="number">0.15846728440374136</span>),<span class="type">SimpleRNG</span>(<span class="number">259172689157871</span>))</span><br></pre></td></tr></table></figure>
+<p>연습문제 6.4</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ints</span></span>(count: <span class="type">Int</span>)(rng: <span class="type">RNG</span>): (<span class="type">List</span>[<span class="type">Int</span>], <span class="type">RNG</span>) = &#123;</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">loop</span></span>(c: <span class="type">Int</span>, result: <span class="type">List</span>[<span class="type">Int</span>], pastRng: <span class="type">RNG</span>): (<span class="type">List</span>[<span class="type">Int</span>], <span class="type">RNG</span>) =</span><br><span class="line">        <span class="keyword">if</span> (c &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">val</span> (i, newRng) = nonNegativeInt(pastRng)</span><br><span class="line">            loop(c - <span class="number">1</span>, i :: result, newRng)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            (result, pastRng)</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">    loop(count, <span class="type">List</span>[<span class="type">Int</span>](), rng)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>결과</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; ints(<span class="number">10</span>)(rng)</span><br><span class="line">res41: (<span class="type">List</span>[<span class="type">Int</span>], <span class="type">RNG</span>) = (<span class="type">List</span>(<span class="number">1837487774</span>, <span class="number">94901159</span>, <span class="number">1163632441</span>, <span class="number">1015914512</span>, <span class="number">1934589059</span>, <span class="number">1770001318</span>, <span class="number">2015756020</span>, <span class="number">340305902</span>, <span class="number">1281479697</span>, <span class="number">16159453</span>),<span class="type">SimpleRNG</span>(<span class="number">120421598792892</span>))</span><br><span class="line"></span><br><span class="line">scala&gt; ints(<span class="number">5</span>)(rng)</span><br><span class="line">res42: (<span class="type">List</span>[<span class="type">Int</span>], <span class="type">RNG</span>) = (<span class="type">List</span>(<span class="number">1770001318</span>, <span class="number">2015756020</span>, <span class="number">340305902</span>, <span class="number">1281479697</span>, <span class="number">16159453</span>),<span class="type">SimpleRNG</span>(<span class="number">115998806404289</span>))</span><br><span class="line"></span><br><span class="line">scala&gt; ints(<span class="number">20</span>)(rng)</span><br><span class="line">res43: (<span class="type">List</span>[<span class="type">Int</span>], <span class="type">RNG</span>) = (<span class="type">List</span>(<span class="number">994512970</span>, <span class="number">1835563077</span>, <span class="number">1166376033</span>, <span class="number">384268462</span>, <span class="number">250029321</span>, <span class="number">1911657181</span>, <span class="number">1660936491</span>, <span class="number">1571634817</span>, <span class="number">141607732</span>, <span class="number">122709694</span>, <span class="number">1837487774</span>, <span class="number">94901159</span>, <span class="number">1163632441</span>, <span class="number">1015914512</span>, <span class="number">1934589059</span>, <span class="number">1770001318</span>, <span class="number">2015756020</span>, <span class="number">340305902</span>, <span class="number">1281479697</span>, <span class="number">16159453</span>),<span class="type">SimpleRNG</span>(<span class="number">65176402051806</span>))</span><br></pre></td></tr></table></figure>
+<h3 id="난수-발생기-일반화하기"><a href="#난수-발생기-일반화하기" class="headerlink" title="난수 발생기 일반화하기"></a>난수 발생기 일반화하기</h3><p>앞의 구현 패턴들을 살펴보면 <code>RNG =&gt; (A, RNG)</code>의 형태를 따른다. RNG에 대해 새로운 상태를 담은 RNG로 변환한다고 해서 이런 함수를 상태 동작(state action) or 상태 전이(state transition)이라고 부른다.</p>
+<p>위 함수에 대해 앨리어스를 만들자.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">type</span> <span class="title">Rand</span>[+<span class="type">A</span>] </span>= <span class="type">RNG</span> =&gt; (<span class="type">A</span>, <span class="type">RNG</span>) <span class="comment">// +A == A 일수도 있고 A의 상위일 수도 있다.</span></span><br></pre></td></tr></table></figure>
+<p>이를 사용하면 좀 더 간단하게 표시할 수 있다.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">int</span></span>: <span class="type">Rand</span>[<span class="type">Int</span>] = _.nextInt</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">unit</span></span>[<span class="type">A</span>](a: <span class="type">A</span>): <span class="type">Rand</span>[<span class="type">A</span>] = rng =&gt; (a, rng)</span><br></pre></td></tr></table></figure>
+<p>자 이제 난수 생성기는 건들지 않고 난수 값을 변환하는 map 함수를 만들어보자. (잉? 갑자기 쌩뚱맞게…)</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">map</span></span>[<span class="type">A</span>, <span class="type">B</span>](s: <span class="type">Rand</span>[<span class="type">A</span>])(f: <span class="type">A</span> =&gt; <span class="type">B</span>): <span class="type">Rand</span>[<span class="type">B</span>] = </span><br><span class="line">    rng =&gt; &#123;</span><br><span class="line">        <span class="keyword">val</span> (a, rng2) = s(rng)</span><br><span class="line">        (f(a), rng2)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>위 map 함수를 사용하면 0 이상이면서 2로 나누어지는 Int를 발생하는 함수를 쉽게 만들 수 있다.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">nonNegativeEven</span></span>: <span class="type">Rand</span>[<span class="type">Int</span>] = map(nonNegativeInt)(i =&gt; i - i % <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<h5 id="연습문제-6-5"><a href="#연습문제-6-5" class="headerlink" title="연습문제 6.5"></a>연습문제 6.5</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// double 함수를 map 함수를 이용해서 다시 만들어라.</span></span><br><span class="line"><span class="comment">// 0 이상, 1 미만의 Double 난수 구하기</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">double</span></span>(rng: <span class="type">RNG</span>): <span class="type">Rand</span>[<span class="type">Double</span>] = map(nonNegativeInt)(_ / (<span class="type">Int</span>.<span class="type">MaxValue</span>.toDouble + <span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+<p>결과</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; double(rng)</span><br><span class="line">res45: <span class="type">Rand</span>[<span class="type">Double</span>] = $$<span class="type">Lambda</span>$<span class="number">1497</span>/<span class="number">760675871</span>@<span class="number">6882</span>c069</span><br></pre></td></tr></table></figure>
+<h5 id="연습문제-6-6"><a href="#연습문제-6-6" class="headerlink" title="연습문제 6.6"></a>연습문제 6.6</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ra, rb라는 난수 결과와 이 결과들을 조합하는 함수 f를 조합한 함수를 만들어라</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">map2</span></span>[<span class="type">A</span>,<span class="type">B</span>,<span class="type">C</span>](ra: <span class="type">Rand</span>[<span class="type">A</span>], rb: <span class="type">Rand</span>[<span class="type">B</span>])(f: <span class="type">A</span>, <span class="type">B</span>) =&gt; <span class="type">C</span>): <span class="type">Rand</span>[<span class="type">C</span>] = &#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>지금까지의 구현에서 보면 RNG 값을 명시적으로 언급하거나 전달하지 않았다. 특히 map, map2라는 변환 함수에서는 RNG를 명시적으로 다루지 않아도 되어서 개발자가 실수할 일이 줄어들었다.</p>
+<blockquote>
+<p>그러나 map, map2로 커버할 수 없는 함수들도 있다.</p>
+<p>바로 nonNegativeLessThan 이다.</p>
+</blockquote>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">nonNegativeLessThan</span></span>(n: <span class="type">Int</span>): <span class="type">Rand</span>[<span class="type">Int</span>] = map(nonNegativeInt)&#123; _ % n &#125;</span><br></pre></td></tr></table></figure>
+<p>이게 왜 문제일까?</p>
+<ul>
+<li>Int.MaxValue가 n으로 나누어떨어지지 않을 수도 있으므로 전체적으로 난수들이 치우치게 된다.</li>
+<li>Int.MaxValue == 2147483647 이므로 n으로 나누어 떨어지지 않는 수가 발생하므로 0이 나오지 않고 0 이상의 값들이 좀 더 자주 나오게 된다.</li>
+</ul>
+<p>어떻게 해결해야 될까?</p>
+<ul>
+<li>n을 통해 나올 수 있는 최대 배수보다 더 큰 난수가 발생하면 난수를 다시 발생하게 한다.</li>
+<li>왜? 난수가 균등하게 나오게 하기 위해</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">nonNegativeLessThan</span></span>(n: <span class="type">Int</span>): <span class="type">Rand</span>[<span class="type">Int</span>] = </span><br><span class="line">    map(nonNegativeInt) &#123; i =&gt;</span><br><span class="line">        <span class="keyword">val</span> mod = i % n</span><br><span class="line">        <span class="keyword">if</span> (i + (n - <span class="number">1</span>) - mod &gt;= <span class="number">0</span>) mod <span class="keyword">else</span> nonNegativeLessThan(n)(???)</span><br><span class="line">        <span class="comment">// 난수(i)가 32비트 Int를 벗어나지 않는 n의 최대 배수보다 크면 난수를 다시 발생한다.</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>nonNegativeLessThan 함수는 애초에 커링이 안되는 함수인데 난수를 새로 만들려면 새로운 상태의 rng가 필요하다. 그런데 우리는 <code>Rand[Int]</code> 를 쓰기 때문에 rng를 명시적으로 넘길 수 없다. 어떻게 해결할까?</p>
+<ul>
+<li>답은 <code>map</code> 함수를 쓰지 않고 명시적으로 <code>(result, RNG)</code> 을 반환하는 식으로 코딩한다.</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">nonNegativeLessThan</span></span>(n: <span class="type">Int</span>): <span class="type">Rand</span>[<span class="type">Int</span>] = &#123; rng =&gt; </span><br><span class="line">    <span class="keyword">val</span> (i, rng2) = nonNegativeInt(rng)</span><br><span class="line">    <span class="keyword">val</span> mod = i % n</span><br><span class="line">    <span class="keyword">if</span> (i + (n - <span class="number">1</span>) - mod &gt;= <span class="number">0</span>) (mod, rng2)</span><br><span class="line">    <span class="keyword">else</span> nonNegativeLessThan(n)(rng2)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>이걸 쓰면 맨 앞에 나왔던 주사위의 버그를 손쉽게 해결할 수 있다. (주사위 함수가 0 ~ 5 까지 밖에 안나왔던 이슈)</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rollDie</span></span>: <span class="type">Rand</span>[<span class="type">Int</span>] = map(nonNegativeLessThan(<span class="number">6</span>))(_ + <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>nonNegativeLessThan 함수에서 쓸 map 함수와 같은 조합기가 필요한 시점이다. 우리는 이걸 flatMap이라 부른다.</p>
+<h5 id="연습문제6-8"><a href="#연습문제6-8" class="headerlink" title="연습문제6.8"></a>연습문제6.8</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">flatMap</span></span>[<span class="type">A</span>, <span class="type">B</span>](f: <span class="type">Rand</span>[<span class="type">A</span>])(g: <span class="type">A</span> =&gt; <span class="type">Rand</span>[<span class="type">B</span>]): <span class="type">Rand</span>[<span class="type">B</span>]</span><br></pre></td></tr></table></figure>
+<h5 id="연습문제6-9"><a href="#연습문제6-9" class="headerlink" title="연습문제6.9"></a>연습문제6.9</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map과 map2를 flatMap을 이용해서 다시 구현하라.</span><br></pre></td></tr></table></figure>
+<h3 id="순수-상태-함수-일반화하기"><a href="#순수-상태-함수-일반화하기" class="headerlink" title="순수 상태 함수 일반화하기"></a>순수 상태 함수 일반화하기</h3><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">map</span></span>[<span class="type">S</span>,<span class="type">A</span>,<span class="type">B</span>](a: <span class="type">S</span> =&gt; (<span class="type">A</span>, <span class="type">S</span>))(f: <span class="type">A</span> =&gt; <span class="type">B</span>): <span class="type">S</span> =&gt; (<span class="type">B</span>, <span class="type">S</span>)</span><br></pre></td></tr></table></figure>
+<p>이제 임의이 상태를 처리할 수 있는 Rand보다 더 일반적인 형식을 고려해보자.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">type</span> <span class="title">State</span>[<span class="type">S</span>, +<span class="type">A</span>] </span>= <span class="type">S</span> =&gt; (<span class="type">A</span>,<span class="type">S</span>)</span><br><span class="line"><span class="keyword">case</span> <span class="class"><span class="keyword">class</span> <span class="title">State</span>[<span class="type">S</span>, +<span class="type">A</span>](<span class="params">run: <span class="type">S</span> =&gt; (<span class="type">A</span>, <span class="type">S</span></span>))</span></span><br></pre></td></tr></table></figure>
+<p>이제 Rand는 그냥 State로도 표현할 수 있게 된다.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">type</span> <span class="title">Rand</span>[<span class="type">A</span>] </span>= <span class="type">State</span>[<span class="type">RNG</span>, <span class="type">A</span>]</span><br></pre></td></tr></table></figure>
+<p>또 flatMap 함수를 명령식으로도 작성할 수 있다.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> ns: <span class="type">Rand</span>[<span class="type">List</span>[<span class="type">Int</span>]] = </span><br><span class="line">	int.flatMap(x =&gt; </span><br><span class="line">        int.flatMap(y =&gt;</span><br><span class="line">            ints(x).map(xs =&gt;</span><br><span class="line">                xs.map(_ % y)</span><br><span class="line">            )</span><br><span class="line">        )</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> ns: <span class="type">Rand</span>[<span class="type">List</span>[<span class="type">Int</span>]] = <span class="keyword">for</span> &#123;</span><br><span class="line">    x &lt;- int</span><br><span class="line">    y &lt;- int</span><br><span class="line">    xs &lt;- ints(x)</span><br><span class="line">&#125; <span class="keyword">yield</span> xs.map(_ % y)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Icednut
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2018/12/25/20181226-scala-and-functional-programming-day05/" target="_blank" title="스칼라 스터디 Day05 - 순수 함수적 상태">http://icednut.github.io/2018/12/25/20181226-scala-and-functional-programming-day05/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+</div></div>
+      
+      
+        
+	<section id="comments" class="comment">
+	  <div id="disqus_thread">
+	  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	  </div>
+	</section>
+
+	<script type="text/javascript">
+	var disqus_shortname = 'icednut';
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	</script>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/12/17/20181218-scala-and-functional-programming-day04/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">스칼라 스터디 Day04 - 엄격성과 나태성</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2018 Icednut&#39;s Note All Rights Reserved.</p>
+	      
+	      
+  		   	<p id="copyRightCn">Icednut hold copyright</p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+  <script src="/js/home.js"></script>
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-91631073-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            Icednut&#39;s Note
+          </div>
+          <div class="panel-body">
+            Copyright © 2018 Icednut All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+</body>
+</html>
