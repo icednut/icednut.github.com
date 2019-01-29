@@ -194,9 +194,28 @@
 <p>ArticleContent를 엔티티로 생각할 수 있지만 ArticleContent는 Article의 내용을 담고 있는 밸류로 생각하는 것이 맞다. ARTICLE_CONTENT의 ID는 식별자이기는 하지만 이 식별자를 사용하는 이유는 ARTICLE 테이블의 데이터와 연결하기 위함이지 ARTICLE_CONTENT를 위한 별도 식별자가 필요하기 때문은 아니다. 즉, 이는 게시글의 특정 프로퍼티를 별도 테이블에 보관한 것으로 접근해야 한다.  </p>
 </blockquote>
 <p>아…그 동안 엔티티를 생각없이 무분별하게 남용해왔다는 것을 느꼈다. 여지껏 Article, ArticleContent와 비슷한 상황을 자주 경험하곤 했는데 그 때마다 1대1 연관관계를 맺어서 데이터를 조회해왔던 것이 생각이 났다. 이 책에서 Aggregate, Domain 등에 대해서 얘기하고 있는데 정작 나는 이런 개념들을 모른채 그저 생각없이 JPA를 써왔던 것 같다. ArticleContent를 밸류로 인식하기 위해서는 <code>@Embaddable</code> 대신 <code>@SecondaryTable</code>를 사용하는 것으로 책에는 설명을 하고 있다.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.persistence.*;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@Table</span>(name = <span class="string">"article"</span>)</span><br><span class="line"><span class="meta">@SecondaryTable</span>(</span><br><span class="line">    name = <span class="string">"article_content"</span>,</span><br><span class="line">    pkJoinColumns = <span class="meta">@PrimaryKeyJoinColumn</span>(name = <span class="string">"id"</span>)</span><br><span class="line">)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Article</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="keyword">private</span> String title;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@AttributeOverrides</span>(&#123;</span><br><span class="line">        <span class="meta">@AttributeOverride</span>(name = <span class="string">"content"</span>, column = <span class="meta">@Column</span>(table = <span class="string">"article_content"</span>)),</span><br><span class="line">        <span class="meta">@AttributeOverride</span>(name = <span class="string">"contentType"</span>, column = <span class="meta">@Column</span>(table = <span class="string">"article_content"</span>))</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">private</span> ArticleContent content;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>import javax.persistence.*;
+
+@Entity
+@Table(name = &quot;article&quot;)
+@SecondaryTable(
+    name = &quot;article_content&quot;,
+    pkJoinColumns = @PrimaryKeyJoinColumn(name = &quot;id&quot;)
+)
+public class Article {
+    @Id
+    private Long id;
+    private String title;
+
+    @AttributeOverrides({
+        @AttributeOverride(name = &quot;content&quot;, column = @Column(table = &quot;article_content&quot;)),
+        @AttributeOverride(name = &quot;contentType&quot;, column = @Column(table = &quot;article_content&quot;))
+    })
+    private ArticleContent content;
+}</code></pre>
 <p><br></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// @SecondaryTable로 매핑된 article_content 테이블을 조인</span></span><br><span class="line">Article article = entityManager.find(Article.class, <span class="number">1L</span>);</span><br></pre></td></tr></table></figure>
+<pre><code>&#x2F;&#x2F; @SecondaryTable로 매핑된 article_content 테이블을 조인
+Article article = entityManager.find(Article.class, 1L);</code></pre>
 <p>여기서 굳이 <code>@SecondaryTable</code>나 <code>@AttributeOverrides</code>와 같은 어노테이션을 소개하려고 이 글을 쓰려했던 것은 아니다. 엔티티와 밸류를 어떻게 취급하느냐에 대해 주목해야 될 것 같다. 4장에서 애그리거트에서 엔티티와 밸류를 어떻게 다뤄야 되는지에 대한 주옥같은 방법과 설명들이 있는데 그동안 JPA를 생각없이 썼던 나에겐 굉장한 충격이었다. 책을 좀 더 읽고 애그리거트와 엔티티를 어떻게 나눌지 고민하면서 코딩을 해야겠다.</p>
 
       

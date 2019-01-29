@@ -11,18 +11,18 @@
   
   
   
-  <meta name="description" content="Type Parameter와 Type Argument123456789101112public class Generics &amp;#123;    static class Hello&amp;lt;T&amp;gt; &amp;#123; // 여기서 T를 Type Variable 이라고도 한다. T is type parameter    &amp;#125;    static void print(Strin">
+  <meta name="description" content="Type Parameter와 Type Argumentpublic class Generics {     static class Hello&amp;lt;T&amp;gt; { // 여기서 T를 Type Variable 이라고도 한다. T is type parameter     }      static void print(String value) {         System.">
 <meta name="keywords" content="java,generics">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java Generics">
 <meta property="og:url" content="http://icednut.github.io/2016/12/15/20161215-java_generics/index.html">
 <meta property="og:site_name" content="Icednut&#39;s Note">
-<meta property="og:description" content="Type Parameter와 Type Argument123456789101112public class Generics &amp;#123;    static class Hello&amp;lt;T&amp;gt; &amp;#123; // 여기서 T를 Type Variable 이라고도 한다. T is type parameter    &amp;#125;    static void print(Strin">
+<meta property="og:description" content="Type Parameter와 Type Argumentpublic class Generics {     static class Hello&amp;lt;T&amp;gt; { // 여기서 T를 Type Variable 이라고도 한다. T is type parameter     }      static void print(String value) {         System.">
 <meta property="og:locale" content="Korean">
 <meta property="og:updated_time" content="2018-11-27T06:40:43.290Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java Generics">
-<meta name="twitter:description" content="Type Parameter와 Type Argument123456789101112public class Generics &amp;#123;    static class Hello&amp;lt;T&amp;gt; &amp;#123; // 여기서 T를 Type Variable 이라고도 한다. T is type parameter    &amp;#125;    static void print(Strin">
+<meta name="twitter:description" content="Type Parameter와 Type Argumentpublic class Generics {     static class Hello&amp;lt;T&amp;gt; { // 여기서 T를 Type Variable 이라고도 한다. T is type parameter     }      static void print(String value) {         System.">
   
     <link rel="alternate" href="/atom.xml" title="Icednut&#39;s Note" type="application/atom+xml">
   
@@ -184,26 +184,112 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="Type-Parameter와-Type-Argument"><a href="#Type-Parameter와-Type-Argument" class="headerlink" title="Type Parameter와 Type Argument"></a>Type Parameter와 Type Argument</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class Generics &#123;</span><br><span class="line">    static class Hello&lt;T&gt; &#123; // 여기서 T를 Type Variable 이라고도 한다. T is type parameter</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    static void print(String value) &#123;</span><br><span class="line">        System.out.println(value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        new Hello&lt;String&gt;(); // type argument</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Intersection-Type"><a href="#Intersection-Type" class="headerlink" title="Intersection Type"></a>Intersection Type</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class Generics &#123;</span><br><span class="line">  static &lt;T extends List &amp; Serializable &amp; Comparable &amp; Closeable&gt; void print(T t) &#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public static void main(String[] args) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Bounded-Type-Parameter"><a href="#Bounded-Type-Parameter" class="headerlink" title="Bounded Type Parameter"></a>Bounded Type Parameter</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class Generics &#123;</span><br><span class="line">    static long countGreaterThan(Integer[] arr, Integer elem) &#123;</span><br><span class="line">        return Arrays.stream(arr).filter(s -&gt; s &gt; elem).count();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Integer[] arr = new Integer[] &#123;1,2,3,4,5,6,7&#125;;</span><br><span class="line">        System.out.println(countGreaterThan(arr, 4));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>스트링 용의 countGreaterThan을 만들고 싶을 땐?<br>더 나아가서 일반적으로 만들고 싶을 때는?</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class Generics &#123;</span><br><span class="line">    static &lt;T extends Comparable&lt;T&gt;&gt; long countGreaterThan(T[] arr, T elem) &#123;</span><br><span class="line">        return Arrays.stream(arr).filter(s -&gt; s.compareTo(elem) &lt; 0).count();</span><br><span class="line">        // s 에서는 erase type이라고 해서 정보를 다 날린다.</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        String[] arr = new String[] &#123;&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;&#125;;</span><br><span class="line">        System.out.println(countGreaterThan(arr, &quot;c&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="제네릭과-상속"><a href="#제네릭과-상속" class="headerlink" title="제네릭과 상속"></a>제네릭과 상속</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class Generics &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Integer i = 10;</span><br><span class="line">        Number n = i; // 가능</span><br><span class="line"></span><br><span class="line">        List&lt;Integer&gt; ints = new ArrayList&lt;&gt;();</span><br><span class="line">        List&lt;Number&gt; numbers = ints; // 1. compile error, 2. runtime error, 3. ...</span><br><span class="line">        // Type parameter 사이에는 상속 관계를 컴파일 타임에 체크할 수 없다. 제네릭에는 상속관계에 영향을 줄 수 없다.</span><br><span class="line"></span><br><span class="line">        ArrayList&lt;Integer&gt; arrs = new ArrayLIst&lt;&gt;();</span><br><span class="line">        Lister&lt;Integer&gt; ints2 = arrs; // 잘 됨</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class Generics &#123;</span><br><span class="line">    static class MyList&lt;E, P&gt; implements List&lt;E&gt; &#123;...&#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        List&lt;String&gt; s1 = new MyList&lt;String, Integer&gt;();</span><br><span class="line">        List&lt;String&gt; s2 = new MyList&lt;String, String&gt;();</span><br><span class="line">        // 둘 다 컴파일 오류 없이 잘 됨</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="타입-추론"><a href="#타입-추론" class="headerlink" title="타입 추론"></a>타입 추론</h3><p>컴파일러가 추론해주는 일</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class Generics &#123;</span><br><span class="line">    static &lt;T&gt; void method(T t, List&lt;T&gt; list) &#123;...&#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        method(1, Arrays.asList(1,2,3)); // 타입을 명시하지 않아도 메소드의 파라미터로 넘겨주는 로직이 컴파일 타임에 Integer로 추론되서 컴파일 된다.</span><br><span class="line"></span><br><span class="line">        Generics.&lt;Integer&gt;method(1, Arrays.asList(1,2,3));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>빈 컬랙션이 타입 추론<br>List<string> c = Collections.<string>emptyList();</string></string></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">static &lt;T extends Comparable&gt; void method(List&lt;T&gt; t) &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static void method(List&lt;? extends Comparable&gt; t) &#123; // ? is wildcards</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Wild-Card"><a href="#Wild-Card" class="headerlink" title="Wild Card"></a>Wild Card</h3><p>List&lt;? extends Object&gt; list;</p>
+        <h3 id="Type-Parameter와-Type-Argument"><a href="#Type-Parameter와-Type-Argument" class="headerlink" title="Type Parameter와 Type Argument"></a>Type Parameter와 Type Argument</h3><pre><code>public class Generics {
+    static class Hello&lt;T&gt; { // 여기서 T를 Type Variable 이라고도 한다. T is type parameter
+    }
+
+    static void print(String value) {
+        System.out.println(value);
+    }
+
+    public static void main(String[] args) {
+        new Hello&lt;String&gt;(); // type argument
+    }
+}
+</code></pre><h3 id="Intersection-Type"><a href="#Intersection-Type" class="headerlink" title="Intersection Type"></a>Intersection Type</h3><pre><code>public class Generics {
+  static &lt;T extends List &amp; Serializable &amp; Comparable &amp; Closeable&gt; void print(T t) {
+  }
+
+  public static void main(String[] args) {
+  }
+}
+</code></pre><h3 id="Bounded-Type-Parameter"><a href="#Bounded-Type-Parameter" class="headerlink" title="Bounded Type Parameter"></a>Bounded Type Parameter</h3><pre><code>public class Generics {
+    static long countGreaterThan(Integer[] arr, Integer elem) {
+        return Arrays.stream(arr).filter(s -&gt; s &gt; elem).count();
+    }
+
+    public static void main(String[] args) {
+        Integer[] arr = new Integer[] {1,2,3,4,5,6,7};
+        System.out.println(countGreaterThan(arr, 4));
+    }
+}
+</code></pre><p>스트링 용의 countGreaterThan을 만들고 싶을 땐?<br>더 나아가서 일반적으로 만들고 싶을 때는?</p>
+<pre><code>public class Generics {
+    static &lt;T extends Comparable&lt;T&gt;&gt; long countGreaterThan(T[] arr, T elem) {
+        return Arrays.stream(arr).filter(s -&gt; s.compareTo(elem) &lt; 0).count();
+        // s 에서는 erase type이라고 해서 정보를 다 날린다.
+    }
+
+    public static void main(String[] args) {
+        String[] arr = new String[] {&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;};
+        System.out.println(countGreaterThan(arr, &quot;c&quot;));
+    }
+}
+</code></pre><h3 id="제네릭과-상속"><a href="#제네릭과-상속" class="headerlink" title="제네릭과 상속"></a>제네릭과 상속</h3><pre><code>public class Generics {
+    public static void main(String[] args) {
+        Integer i = 10;
+        Number n = i; // 가능
+
+        List&lt;Integer&gt; ints = new ArrayList&lt;&gt;();
+        List&lt;Number&gt; numbers = ints; // 1. compile error, 2. runtime error, 3. ...
+        // Type parameter 사이에는 상속 관계를 컴파일 타임에 체크할 수 없다. 제네릭에는 상속관계에 영향을 줄 수 없다.
+
+        ArrayList&lt;Integer&gt; arrs = new ArrayLIst&lt;&gt;();
+        Lister&lt;Integer&gt; ints2 = arrs; // 잘 됨
+    }
+}
+</code></pre><pre><code>public class Generics {
+    static class MyList&lt;E, P&gt; implements List&lt;E&gt; {...}
+
+    public static void main(String[] args) {
+        List&lt;String&gt; s1 = new MyList&lt;String, Integer&gt;();
+        List&lt;String&gt; s2 = new MyList&lt;String, String&gt;();
+        // 둘 다 컴파일 오류 없이 잘 됨
+    }
+}
+</code></pre><h3 id="타입-추론"><a href="#타입-추론" class="headerlink" title="타입 추론"></a>타입 추론</h3><p>컴파일러가 추론해주는 일</p>
+<pre><code>public class Generics {
+    static &lt;T&gt; void method(T t, List&lt;T&gt; list) {...}
+
+    public static void main(String[] args) {
+        method(1, Arrays.asList(1,2,3)); // 타입을 명시하지 않아도 메소드의 파라미터로 넘겨주는 로직이 컴파일 타임에 Integer로 추론되서 컴파일 된다.
+
+        Generics.&lt;Integer&gt;method(1, Arrays.asList(1,2,3));
+    }
+}
+</code></pre><p>빈 컬랙션이 타입 추론<br>List<string> c = Collections.<string>emptyList();</string></string></p>
+<pre><code>static &lt;T extends Comparable&gt; void method(List&lt;T&gt; t) {
+}
+
+static void method(List&lt;? extends Comparable&gt; t) { // ? is wildcards
+}
+</code></pre><h3 id="Wild-Card"><a href="#Wild-Card" class="headerlink" title="Wild Card"></a>Wild Card</h3><p>List&lt;? extends Object&gt; list;</p>
 <ul>
 <li>오브젝트의 기능이 담긴 타입의 객체를 사용하겠다는 의미</li>
 <li>타입이 뭐가 있던지 간에 리스트의 기능에 집중하겠다는 의미</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">static void printList1(List&lt;Object&gt; list) &#123;</span><br><span class="line">    list.forEach(s -&gt; System.out.println(s));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static void printList2(List&lt;?&gt; list) &#123;</span><br><span class="line">    list.forEach(s -&gt; System.out.println(s));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>위 두 메소드의 차이점은 뭘까?<br>printList1(Arrays.asList(1,2,3));<br>printList2(Arrays.asList(1,2,3));<br>둘 다 오류는 안남</p>
+<pre><code>static void printList1(List&lt;Object&gt; list) {
+    list.forEach(s -&gt; System.out.println(s));
+}
+
+static void printList2(List&lt;?&gt; list) {
+    list.forEach(s -&gt; System.out.println(s));
+}
+</code></pre><p>위 두 메소드의 차이점은 뭘까?<br>printList1(Arrays.asList(1,2,3));<br>printList2(Arrays.asList(1,2,3));<br>둘 다 오류는 안남</p>
 <p>그런데…<br>List<integer> list = Arrays.asList(1,2,3);<br>printList1(list); // 이 때는 컴파일 오류가 발생함. List<integer>는 List<object>의 서브타입이 아니기 때문에..<br>printList2(list); // 이거는 문제 없음</object></integer></integer></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class A &#123;&#125;</span><br><span class="line">class B extends A &#123;&#125;</span><br><span class="line"></span><br><span class="line">List&lt;B&gt; lb = new ArrayList&lt;B&gt;();</span><br><span class="line">List&lt;A&gt; la = lb; // 이거는 컴파일 오류가 발생함, List&lt;B&gt;는 List&lt;A&gt;의 서브타입이 아니기 떄문</span><br><span class="line">List&lt;? extends A&gt; la = lb; // 이거는 가능</span><br><span class="line">List&lt;? super A&gt; lc = lb; // 이거도 가능</span><br><span class="line">List&lt;? super B&gt; ld = lb; // 이거는 불가</span><br><span class="line"></span><br><span class="line">la.add(new A()); // 이거도 컴파일 오류</span><br><span class="line">la.add(new B()); // 이거도 컴파일 오류</span><br><span class="line">la.add(null); // 이거밖에 안됨</span><br></pre></td></tr></table></figure>
+<pre><code>class A {}
+class B extends A {}
+
+List&lt;B&gt; lb = new ArrayList&lt;B&gt;();
+List&lt;A&gt; la = lb; // 이거는 컴파일 오류가 발생함, List&lt;B&gt;는 List&lt;A&gt;의 서브타입이 아니기 떄문
+List&lt;? extends A&gt; la = lb; // 이거는 가능
+List&lt;? super A&gt; lc = lb; // 이거도 가능
+List&lt;? super B&gt; ld = lb; // 이거는 불가
+
+la.add(new A()); // 이거도 컴파일 오류
+la.add(new B()); // 이거도 컴파일 오류
+la.add(null); // 이거밖에 안됨
+</code></pre>
       
     </div>
     <footer class="article-footer">

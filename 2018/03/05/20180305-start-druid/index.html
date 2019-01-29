@@ -296,19 +296,100 @@
 <li>다양한 알고리즘을 이용한 데이터 압축</li>
 </ul>
 <p>이러한 인덱싱 작업을 거친 결과물을 드루이드에서는 <code>세그먼트(Segment)</code>라고 부른다. 세그먼트는 드루이드에서 데이터를 저장하는 기본 구조인 것이다. 세그먼트는 컬럼 기반으로 저장된 여러 개의 차원(Dimension)과 측정값(Metrics)를 포함하며 각 컬럼별로 인덱싱이 되어 있다.<br><br><br>세그먼트는 딥 스토리지(Deep Storage)라는 LOB / 파일 시스템에 저장된다. 그 후 데이터는 히스토리컬 노드의 로컬에 다운로드 되고 쿼리 실행하기 전에 메모리에 로딩된다. 히스토리컬 노드 하나가 죽어도 딥 스토리지에는 세그먼트가 있기 때문에 다른 히스토리컬 노드에서 쿼리 서비스를 제공한다.<br><br></p>
-<h3 id="Batch-Ingestion-in-Druid"><a href="#Batch-Ingestion-in-Druid" class="headerlink" title="Batch Ingestion in Druid"></a>Batch Ingestion in Druid</h3><p>먼저 아래와 같은 이벤트 데이터가 있다고 가정하자.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">timestamp             publisher          advertiser  gender  country  click  price</span><br><span class="line">2011-01-01T01:01:35Z  bieberfever.com    google.com  Male    USA      0      0.65</span><br><span class="line">2011-01-01T01:03:63Z  bieberfever.com    google.com  Male    USA      0      0.62</span><br><span class="line">2011-01-01T01:04:51Z  bieberfever.com    google.com  Male    USA      1      0.45</span><br><span class="line">2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Female  UK       0      0.87</span><br><span class="line">2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Female  UK       0      0.99</span><br><span class="line">2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Female  UK       1      1.53</span><br></pre></td></tr></table></figure></p>
-<p>드루이드는 이 데이터의 구조를 세 가지 요소로 분류한다.</p>
+<h3 id="Batch-Ingestion-in-Druid"><a href="#Batch-Ingestion-in-Druid" class="headerlink" title="Batch Ingestion in Druid"></a>Batch Ingestion in Druid</h3><p>먼저 아래와 같은 이벤트 데이터가 있다고 가정하자.</p>
+<pre><code>timestamp             publisher          advertiser  gender  country  click  price
+2011-01-01T01:01:35Z  bieberfever.com    google.com  Male    USA      0      0.65
+2011-01-01T01:03:63Z  bieberfever.com    google.com  Male    USA      0      0.62
+2011-01-01T01:04:51Z  bieberfever.com    google.com  Male    USA      1      0.45
+2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Female  UK       0      0.87
+2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Female  UK       0      0.99
+2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Female  UK       1      1.53
+</code></pre><p>드루이드는 이 데이터의 구조를 세 가지 요소로 분류한다.</p>
 <ul>
 <li>Timestamp columns</li>
 <li>Dimension columns</li>
 <li>Metric columns</li>
 </ul>
 <p>Timestamp 컬럼은 말 그대로 시간이 저장된 컬럼을 말하며 Dimension은 이벤트에서 각각의 컬럼을 말하며 필터링에 사용된다. 위 예에서 Dimension은 publisher, advertiser, gender, country를 말한다. Metric은 결합(Aggregation)과 계산(Computation)에서 사용되는 컬럼이다. 위 예에서는 click, price가 해당된다. Metric은 보통 count, sum, mean을 계산할 수 있는 숫자 타입이다. 드루이드는 기본적으로 데이터를 세그먼트 단위로 샤딩하며 샤딩 기준은 시간이다. (데이터 파편화에 대해서는 추후 다시 설명)</p>
-<h4 id="Roll-up"><a href="#Roll-up" class="headerlink" title="Roll-up"></a>Roll-up</h4><p>예제 데이터가 하루에 조 단위로 들어온다면 우리가 원하는 분석 결과를 빠르게 얻어서 인사이트를 찾아낼 수 있을까? 이러한 이벤트 데이터의 분석을 좀 더 빠르게 하기 위해 요약하는 작업을 <code>Roll-up</code>이라고 부른다.<br>드루이드에서 아래와 같이 롤업 규칙을 정하면 규칙에 따라 요약 데이터가 생성된다. (여기서 아래 규칙은 수도코드임)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GROUP BY timestamp, publisher, advertiser, gender, country</span><br><span class="line">  :: impressions = COUNT(1),  clicks = SUM(click),  revenue = SUM(price)</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">timestamp             publisher          advertiser  gender country impressions clicks revenue</span><br><span class="line">2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Male   USA     1800        25     15.70</span><br><span class="line">2011-01-01T01:00:00Z  bieberfever.com    google.com  Male   USA     2912        42     29.18</span><br><span class="line">2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Male   UK      1953        17     17.31</span><br><span class="line">2011-01-01T02:00:00Z  bieberfever.com    google.com  Male   UK      3194        170    34.01</span><br></pre></td></tr></table></figure>
-<p>이렇게 데이터를 롤업하면 데이터의 크기를 줄일 수 있다. 롤업 시간기준은 최대 밀리 초까지 지원한다고 한다.<br><br></p>
-<h4 id="Batch-Ingestion-Example"><a href="#Batch-Ingestion-Example" class="headerlink" title="Batch Ingestion Example"></a>Batch Ingestion Example</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;type&quot; : &quot;index_hadoop&quot;,</span><br><span class="line">  &quot;spec&quot; : &#123;</span><br><span class="line">    &quot;ioConfig&quot; : &#123;</span><br><span class="line">      &quot;type&quot; : &quot;hadoop&quot;,</span><br><span class="line">      &quot;inputSpec&quot; : &#123;</span><br><span class="line">        &quot;type&quot; : &quot;granularity&quot;,</span><br><span class="line">        &quot;dataGranularity&quot;: &quot;day&quot;,</span><br><span class="line">        &quot;inputPath&quot;: &quot;/path/to/hdfs/hive_table&quot;,</span><br><span class="line">        &quot;filePattern&quot;: &quot;.+&quot;,</span><br><span class="line">        &quot;pathFormat&quot;: &quot;&apos;time&apos;=yyyyMMdd&apos;00&apos;&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;dataSchema&quot; : &#123;</span><br><span class="line">      &quot;dataSource&quot; : &quot;hive_table_druid_data_source&quot;,</span><br><span class="line">      &quot;granularitySpec&quot; : &#123;</span><br><span class="line">        &quot;type&quot; : &quot;uniform&quot;,</span><br><span class="line">        &quot;rollup&quot;: &quot;false&quot;,</span><br><span class="line">        &quot;segmentGranularity&quot; : &#123;</span><br><span class="line">          &quot;type&quot;: &quot;period&quot;,</span><br><span class="line">          &quot;period&quot;: &quot;P1D&quot;,</span><br><span class="line">          &quot;timeZone&quot;: &quot;Asia/Seoul&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;queryGranularity&quot; : &quot;none&quot;,</span><br><span class="line">        &quot;intervals&quot; : [&quot;2017-11-26/2018-02-26&quot;]</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;parser&quot; : &#123;</span><br><span class="line">        &quot;type&quot; : &quot;hadoopyString&quot;,</span><br><span class="line">        &quot;parseSpec&quot; : &#123;</span><br><span class="line">          &quot;format&quot; : &quot;tsv&quot;,</span><br><span class="line">          &quot;listDelimiter&quot;:&quot;,&quot;,</span><br><span class="line">          &quot;columns&quot;: [</span><br><span class="line">            &quot;user_id&quot;,</span><br><span class="line">            &quot;col001&quot;,&quot;col002&quot;,&quot;col003&quot;,&quot;col004&quot;,&quot;col005&quot;,&quot;col006&quot;,&quot;col007&quot;,&quot;col008&quot;,&quot;col009&quot;,&quot;col010&quot;,</span><br><span class="line">            &quot;product_id&quot;,&quot;log_time&quot;</span><br><span class="line">          ],</span><br><span class="line">          &quot;dimensionsSpec&quot; : &#123;</span><br><span class="line">            &quot;dimensions&quot; : [</span><br><span class="line">              &quot;user_id&quot;,</span><br><span class="line">              &quot;col004&quot;,&quot;col005&quot;,&quot;col009&quot;,</span><br><span class="line">              &quot;product_id&quot;,&quot;log_time&quot;</span><br><span class="line">            ]</span><br><span class="line">          &#125;,</span><br><span class="line">          &quot;timestampSpec&quot; : &#123;</span><br><span class="line">            &quot;format&quot; : &quot;yyyyMMddHH&quot;,</span><br><span class="line">            &quot;column&quot; : &quot;log_time&quot;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;metricsSpec&quot; : [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;type&quot; : &quot;longSum&quot;,</span><br><span class="line">          &quot;name&quot; : &quot;audience_count&quot;,</span><br><span class="line">          &quot;fieldName&quot;: &quot;user_id&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;tuningConfig&quot; : &#123;</span><br><span class="line">      &quot;type&quot; : &quot;hadoop&quot;,</span><br><span class="line">      &quot;partitionsSpec&quot; : &#123;</span><br><span class="line">        &quot;type&quot; : &quot;hashed&quot;,</span><br><span class="line">        &quot;targetPartitionSize&quot; : 100000</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;jobProperties&quot; : &#123;</span><br><span class="line">        &quot;mapreduce.user.classpath.first&quot;: &quot;true&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><br></p>
+<h4 id="Roll-up"><a href="#Roll-up" class="headerlink" title="Roll-up"></a>Roll-up</h4><p>예제 데이터가 하루에 조 단위로 들어온다면 우리가 원하는 분석 결과를 빠르게 얻어서 인사이트를 찾아낼 수 있을까? 이러한 이벤트 데이터의 분석을 좀 더 빠르게 하기 위해 요약하는 작업을 <code>Roll-up</code>이라고 부른다.<br>드루이드에서 아래와 같이 롤업 규칙을 정하면 규칙에 따라 요약 데이터가 생성된다. (여기서 아래 규칙은 수도코드임)</p>
+<pre><code>GROUP BY timestamp, publisher, advertiser, gender, country
+  :: impressions = COUNT(1),  clicks = SUM(click),  revenue = SUM(price)
+</code></pre><pre><code>timestamp             publisher          advertiser  gender country impressions clicks revenue
+2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Male   USA     1800        25     15.70
+2011-01-01T01:00:00Z  bieberfever.com    google.com  Male   USA     2912        42     29.18
+2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Male   UK      1953        17     17.31
+2011-01-01T02:00:00Z  bieberfever.com    google.com  Male   UK      3194        170    34.01
+</code></pre><p>이렇게 데이터를 롤업하면 데이터의 크기를 줄일 수 있다. 롤업 시간기준은 최대 밀리 초까지 지원한다고 한다.<br><br></p>
+<h4 id="Batch-Ingestion-Example"><a href="#Batch-Ingestion-Example" class="headerlink" title="Batch Ingestion Example"></a>Batch Ingestion Example</h4><pre><code>{
+  &quot;type&quot; : &quot;index_hadoop&quot;,
+  &quot;spec&quot; : {
+    &quot;ioConfig&quot; : {
+      &quot;type&quot; : &quot;hadoop&quot;,
+      &quot;inputSpec&quot; : {
+        &quot;type&quot; : &quot;granularity&quot;,
+        &quot;dataGranularity&quot;: &quot;day&quot;,
+        &quot;inputPath&quot;: &quot;/path/to/hdfs/hive_table&quot;,
+        &quot;filePattern&quot;: &quot;.+&quot;,
+        &quot;pathFormat&quot;: &quot;&#39;time&#39;=yyyyMMdd&#39;00&#39;&quot;
+      }
+    },
+    &quot;dataSchema&quot; : {
+      &quot;dataSource&quot; : &quot;hive_table_druid_data_source&quot;,
+      &quot;granularitySpec&quot; : {
+        &quot;type&quot; : &quot;uniform&quot;,
+        &quot;rollup&quot;: &quot;false&quot;,
+        &quot;segmentGranularity&quot; : {
+          &quot;type&quot;: &quot;period&quot;,
+          &quot;period&quot;: &quot;P1D&quot;,
+          &quot;timeZone&quot;: &quot;Asia/Seoul&quot;
+        },
+        &quot;queryGranularity&quot; : &quot;none&quot;,
+        &quot;intervals&quot; : [&quot;2017-11-26/2018-02-26&quot;]
+      },
+      &quot;parser&quot; : {
+        &quot;type&quot; : &quot;hadoopyString&quot;,
+        &quot;parseSpec&quot; : {
+          &quot;format&quot; : &quot;tsv&quot;,
+          &quot;listDelimiter&quot;:&quot;,&quot;,
+          &quot;columns&quot;: [
+            &quot;user_id&quot;,
+            &quot;col001&quot;,&quot;col002&quot;,&quot;col003&quot;,&quot;col004&quot;,&quot;col005&quot;,&quot;col006&quot;,&quot;col007&quot;,&quot;col008&quot;,&quot;col009&quot;,&quot;col010&quot;,
+            &quot;product_id&quot;,&quot;log_time&quot;
+          ],
+          &quot;dimensionsSpec&quot; : {
+            &quot;dimensions&quot; : [
+              &quot;user_id&quot;,
+              &quot;col004&quot;,&quot;col005&quot;,&quot;col009&quot;,
+              &quot;product_id&quot;,&quot;log_time&quot;
+            ]
+          },
+          &quot;timestampSpec&quot; : {
+            &quot;format&quot; : &quot;yyyyMMddHH&quot;,
+            &quot;column&quot; : &quot;log_time&quot;
+          }
+        }
+      },
+      &quot;metricsSpec&quot; : [
+        {
+          &quot;type&quot; : &quot;longSum&quot;,
+          &quot;name&quot; : &quot;audience_count&quot;,
+          &quot;fieldName&quot;: &quot;user_id&quot;
+        }
+      ]
+    },
+    &quot;tuningConfig&quot; : {
+      &quot;type&quot; : &quot;hadoop&quot;,
+      &quot;partitionsSpec&quot; : {
+        &quot;type&quot; : &quot;hashed&quot;,
+        &quot;targetPartitionSize&quot; : 100000
+      },
+      &quot;jobProperties&quot; : {
+        &quot;mapreduce.user.classpath.first&quot;: &quot;true&quot;
+      }
+    }
+  }
+}
+</code></pre><p><br></p>
 <h3 id="Druid-Querying"><a href="#Druid-Querying" class="headerlink" title="Druid Querying"></a>Druid Querying</h3><p>드루이드에서는 먼저 브로커에서 쿼리 실행을 받으면 세그먼트에 따라 쿼리를 재작성하여 히스토리컬 노드 혹은 리얼타임 노드에게 쿼리 실행을 위임한다. 브로커 노드는 결국 결과를 모으로 머지하여 최종 결과를 반환한다. Druid에서 할 수 있는 쿼리는 다음과 같다.</p>
 <h4 id="Aggregation-Queries"><a href="#Aggregation-Queries" class="headerlink" title="Aggregation Queries"></a>Aggregation Queries</h4><ul>
 <li>Timeseries</li>

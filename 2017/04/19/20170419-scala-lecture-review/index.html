@@ -236,19 +236,55 @@
 </ul>
 </li>
 </ul>
-<figure class="highlight plain"><figcaption><span>lesson1.sc</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">object Lesson1 &#123;</span><br><span class="line">  val answer = 8 * 5 + 2</span><br><span class="line">  var greeting: String = &quot;Hello World&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><figcaption><span>lesson2.sc</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">object Lesson2 &#123;</span><br><span class="line">  1.to(10) // 1 ~ 10까지 값을 갖고 있는 배열이 만들어짐</span><br><span class="line">  &quot;Hello&quot;.intersect(&quot;World&quot;) // lo</span><br><span class="line">  &quot;Hello&quot; intersect &quot;World&quot;</span><br><span class="line"></span><br><span class="line">  1.+(10)</span><br><span class="line">  1 + 10</span><br><span class="line"></span><br><span class="line">  var i = 0</span><br><span class="line">  // i++ 이거는 안됨</span><br><span class="line">  i += 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>object Lesson1 {
+  val answer = 8 * 5 + 2
+  var greeting: String = &quot;Hello World&quot;
+}</code></pre>
+<pre><code>object Lesson2 {
+  1.to(10) &#x2F;&#x2F; 1 ~ 10까지 값을 갖고 있는 배열이 만들어짐
+  &quot;Hello&quot;.intersect(&quot;World&quot;) &#x2F;&#x2F; lo
+  &quot;Hello&quot; intersect &quot;World&quot;
+
+  1.+(10)
+  1 + 10
+
+  var i = 0
+  &#x2F;&#x2F; i++ 이거는 안됨
+  i += 1
+}</code></pre>
 <h2 id="3-함수와-메소드"><a href="#3-함수와-메소드" class="headerlink" title="3. 함수와 메소드"></a>3. 함수와 메소드</h2><ul>
-<li>파라미터 없는 함수 호출은 다음과 같다.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;hello&quot;.distinct</span><br></pre></td></tr></table></figure></li>
-<li>스트링에 아래와 같이 함수 이름 없이 호출하면 apply 함수가 실행 되는 것과 같음<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;Hello&quot;.(4)</span><br><span class="line">&quot;Hello&quot;.apply(4)</span><br><span class="line"></span><br><span class="line">&quot;Hello&quot;(4)</span><br></pre></td></tr></table></figure>
+<li>파라미터 없는 함수 호출은 다음과 같다.<pre><code>&quot;hello&quot;.distinct</code></pre></li>
+<li>스트링에 아래와 같이 함수 이름 없이 호출하면 apply 함수가 실행 되는 것과 같음<pre><code>&quot;Hello&quot;.(4)
+&quot;Hello&quot;.apply(4)
+
+&quot;Hello&quot;(4)</code></pre>
 </li>
 </ul>
-<h4 id="Lab-1"><a href="#Lab-1" class="headerlink" title="Lab 1"></a>Lab 1</h4><figure class="highlight plain"><figcaption><span>lesson4.sc</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">object Lesson4 &#123;</span><br><span class="line">  import scala.math._</span><br><span class="line"></span><br><span class="line">  sqrt(10)</span><br><span class="line">  1.to(10).map(sqrt(_))</span><br><span class="line">  6.*(7)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Lab-1"><a href="#Lab-1" class="headerlink" title="Lab 1"></a>Lab 1</h4><pre><code>object Lesson4 {
+  import scala.math._
+
+  sqrt(10)
+  1.to(10).map(sqrt(_))
+  6.*(7)
+}</code></pre>
 <h2 id="4-제어구조"><a href="#4-제어구조" class="headerlink" title="4. 제어구조"></a>4. 제어구조</h2><ul>
-<li>if 표현식은 값을 반환할 수 있다.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if (x &gt; 0) 1 else -1</span><br><span class="line">if (x &gt; 0) &quot;positive&quot; else -1 // Type is Any</span><br><span class="line"></span><br><span class="line">if (x &gt; 0) 1 // Missing else... else일 때는 Unit을 반환</span><br><span class="line">if (x &gt; 0) 1 else () // 위 수식과 이 수식은 같음</span><br></pre></td></tr></table></figure></li>
-<li>변수나 상수 선언 시 아래와 같이 스코프 지정이 가능<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">val distance = &#123;</span><br><span class="line">  import scala.math._</span><br><span class="line">  val dx = x - x0</span><br><span class="line">  val dy = y - y0</span><br><span class="line">  sqrt(dx * dx + dy * dy)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>기본적인 For Loop<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for (i &lt;- 1 to n)</span><br><span class="line">for (ch &lt;- &quot;Hello&quot;)</span><br><span class="line">for (i &lt;- 1 to 3; j &lt;- 1 to 3) print((10 * i + j) + &quot; &quot;) // multiple generator</span><br></pre></td></tr></table></figure></li>
-<li>For Loop Guard<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for (ch &lt;- &quot;Hello&quot;) // 한 글자씩 Loop</span><br><span class="line">for (i &lt;- 1 to 3; j &lt;- 1 to 3 if i != j) print((10 * i + j) + &quot; &quot;)</span><br><span class="line">for (i &lt;- 1 to 10) yield i % 3</span><br></pre></td></tr></table></figure>
+<li>if 표현식은 값을 반환할 수 있다.<pre><code>if (x &gt; 0) 1 else -1
+if (x &gt; 0) &quot;positive&quot; else -1 &#x2F;&#x2F; Type is Any
+
+if (x &gt; 0) 1 &#x2F;&#x2F; Missing else... else일 때는 Unit을 반환
+if (x &gt; 0) 1 else () &#x2F;&#x2F; 위 수식과 이 수식은 같음</code></pre></li>
+<li>변수나 상수 선언 시 아래와 같이 스코프 지정이 가능<pre><code>val distance = {
+  import scala.math._
+  val dx = x - x0
+  val dy = y - y0
+  sqrt(dx * dx + dy * dy)
+}</code></pre></li>
+<li>기본적인 For Loop<pre><code>for (i &lt;- 1 to n)
+for (ch &lt;- &quot;Hello&quot;)
+for (i &lt;- 1 to 3; j &lt;- 1 to 3) print((10 * i + j) + &quot; &quot;) &#x2F;&#x2F; multiple generator</code></pre></li>
+<li>For Loop Guard<pre><code>for (ch &lt;- &quot;Hello&quot;) &#x2F;&#x2F; 한 글자씩 Loop
+for (i &lt;- 1 to 3; j &lt;- 1 to 3 if i != j) print((10 * i + j) + &quot; &quot;)
+for (i &lt;- 1 to 10) yield i % 3</code></pre>
 </li>
 </ul>
 <h2 id="5-함수-정의"><a href="#5-함수-정의" class="headerlink" title="5. 함수 정의"></a>5. 함수 정의</h2><ul>
@@ -258,19 +294,39 @@
 </ul>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">def abs(x: Double) = if (x &gt;= 0) x else -x</span><br><span class="line">def fac(n: Int): Int = &#123;</span><br><span class="line">  if (n &lt;= 0) 1 else n * fac(n - 1)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">def box(s: String) &#123;</span><br><span class="line">  val border = &quot;-&quot; * s.length + &quot;--\n&quot;</span><br><span class="line">  println(border + &quot;|&quot; + s + &quot;|\n&quot; + border)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>def abs(x: Double) = if (x &gt;= 0) x else -x
+def fac(n: Int): Int = {
+  if (n &lt;= 0) 1 else n * fac(n - 1)
+}
+
+def box(s: String) {
+  val border = &quot;-&quot; * s.length + &quot;--\n&quot;
+  println(border + &quot;|&quot; + s + &quot;|\n&quot; + border)
+}</code></pre>
 <ul>
 <li><p>아래와 같이 반환값이 있는 함수를 작성하고 싶은데 =를 안붙이면 컴파일 오류가 발생한다.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">def fac(n: Int) &#123;</span><br><span class="line">  var r = 1</span><br><span class="line">  for (i &lt;- 1 to n) r = r * i</span><br><span class="line">  r</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>def fac(n: Int) {
+  var r = 1
+  for (i &lt;- 1 to n) r = r * i
+  r
+}</code></pre>
 </li>
 <li><p>Named argument</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def decorate(str: String, left: String = &quot;[&quot;, right: String = &quot;]&quot;) = left + str + right</span><br><span class="line"></span><br><span class="line">decorate(&quot;Hello&quot;, right = &quot;]&lt;&lt;&lt;&quot;) // [Hello]&lt;&lt;&lt;</span><br></pre></td></tr></table></figure>
+<pre><code>def decorate(str: String, left: String = &quot;[&quot;, right: String = &quot;]&quot;) = left + str + right
+
+decorate(&quot;Hello&quot;, right = &quot;]&lt;&lt;&lt;&quot;) &#x2F;&#x2F; [Hello]&lt;&lt;&lt;</code></pre>
 </li>
 <li><p>다항 파라미터는 파라미터 데이터타입 뒤에 *을 붙여준다.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">def sum(args: Int*) = &#123;</span><br><span class="line">  var result = 0</span><br><span class="line">  for (arg &lt;- args) result += arg</span><br><span class="line">  result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>def sum(args: Int*) = {
+  var result = 0
+  for (arg &lt;- args) result += arg
+  result
+}</code></pre>
 </li>
 <li><p>위 메소드의 파라미터에 Seq[Int]를 다항 파라미터로 변환하여 넣고 싶을 경우 아래와 같이 한다.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val s = sum(1 to 5: _*)</span><br><span class="line"></span><br><span class="line">// 1 to 5의 반환값은 Seq[Int]</span><br></pre></td></tr></table></figure>
+<pre><code>val s = sum(1 to 5: _*)
+
+&#x2F;&#x2F; 1 to 5의 반환값은 Seq[Int]</code></pre>
 </li>
 <li><p>What is that _? _ is joker</p>
 </li>
@@ -283,43 +339,276 @@
 <li>Array.reverse</li>
 <li>Array.mkString() // Array의 내용물을 스트링으로 출력 (예쁘게)</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">val c = Array(2,3,5,7,8,11)                     //&gt; c  : Array[Int] = Array(2, 3, 5, 7, 8, 11)</span><br><span class="line">val result = for (elem &lt;- c if elem % 2 != 0) yield 2 % elem</span><br><span class="line">                                                //&gt; result  : Array[Int] = Array(2, 2, 2, 2)</span><br><span class="line"></span><br><span class="line">val mySong = ArrayBuffer(&quot;Mary&quot;, &quot;had&quot;, &quot;a&quot;, &quot;little&quot;, &quot;lamb&quot;)</span><br><span class="line">                                                //&gt; mySong  : scala.collection.mutable.ArrayBuffer[String] = ArrayBuffer(Mary, h</span><br><span class="line">                                                //| ad, a, little, lamb)</span><br><span class="line">mySong.max                                      //&gt; res11: String = little</span><br><span class="line">mySong.sorted                                   //&gt; res12: scala.collection.mutable.ArrayBuffer[String] = ArrayBuffer(Mary, a, h</span><br><span class="line">                                                //| ad, lamb, little)</span><br><span class="line">Array(1,7,4,5).sorted                           //&gt; res13: Array[Int] = Array(1, 4, 5, 7)</span><br><span class="line">Array(1,7,4,5).reverse                          //&gt; res14: Array[Int] = Array(5, 4, 7, 1)</span><br><span class="line">Array(1,2,3).mkString(&quot;[&quot;, &quot;, &quot;, &quot;]&quot;)           //&gt; res15: String = [1, 2, 3]</span><br></pre></td></tr></table></figure>
+<pre><code>val c = Array(2,3,5,7,8,11)                     &#x2F;&#x2F;&gt; c  : Array[Int] = Array(2, 3, 5, 7, 8, 11)
+val result = for (elem &lt;- c if elem % 2 != 0) yield 2 % elem
+                                                &#x2F;&#x2F;&gt; result  : Array[Int] = Array(2, 2, 2, 2)
+
+val mySong = ArrayBuffer(&quot;Mary&quot;, &quot;had&quot;, &quot;a&quot;, &quot;little&quot;, &quot;lamb&quot;)
+                                                &#x2F;&#x2F;&gt; mySong  : scala.collection.mutable.ArrayBuffer[String] = ArrayBuffer(Mary, h
+                                                &#x2F;&#x2F;| ad, a, little, lamb)
+mySong.max                                      &#x2F;&#x2F;&gt; res11: String = little
+mySong.sorted                                   &#x2F;&#x2F;&gt; res12: scala.collection.mutable.ArrayBuffer[String] = ArrayBuffer(Mary, a, h
+                                                &#x2F;&#x2F;| ad, lamb, little)
+Array(1,7,4,5).sorted                           &#x2F;&#x2F;&gt; res13: Array[Int] = Array(1, 4, 5, 7)
+Array(1,7,4,5).reverse                          &#x2F;&#x2F;&gt; res14: Array[Int] = Array(5, 4, 7, 1)
+Array(1,2,3).mkString(&quot;[&quot;, &quot;, &quot;, &quot;]&quot;)           &#x2F;&#x2F;&gt; res15: String = [1, 2, 3]</code></pre>
 <h3 id="6-1-Maps"><a href="#6-1-Maps" class="headerlink" title="6.1 Maps"></a>6.1 Maps</h3><ul>
 <li>Map.getOrElse 메소드는 key에 해당하는 value를 못찾을 경우 기본 값을 반환한다.</li>
 <li>updating map을 하고 싶을 땐 그냥 Map(“Bob”) = 20</li>
 <li>append와 remove는 연산자 메소드를 통해서 가능 (+=, -=)</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"> val scores = Map(&quot;Alice&quot; -&gt; 20, &quot;Bob&quot; -&gt; 10, &quot;Cindy&quot; -&gt; 8)</span><br><span class="line">                                                 //&gt; scores  : scala.collection.immutable.Map[String,Int] = Map(Alice -&gt; 20, Bob -</span><br><span class="line">                                                 //| &gt; 10, Cindy -&gt; 8)</span><br><span class="line"> scores(&quot;Alice&quot;) = 291 // immutable map이라서 value 값을 바꿀 수 없음</span><br><span class="line"></span><br><span class="line"> val mscores = scala.collection.mutable.Map(&quot;Alice&quot; -&gt; 10)</span><br><span class="line">                                                 //&gt; mscores  : scala.collection.mutable.Map[String,Int] = Map(Alice -&gt; 10)</span><br><span class="line"> val bobsScore = scores(&quot;Bob&quot;)                   //&gt; bobsScore  : Int = 10</span><br><span class="line"> val bogsScore = scores(&quot;Bog&quot;)                   //&gt; java.util.NoSuchElementException: key not found: Bog</span><br><span class="line">                                                 //| 	at scala.collection.MapLike$class.default(MapLike.scala:228)</span><br><span class="line">                                                 //| 	at scala.collection.AbstractMap.default(Map.scala:59)</span><br><span class="line">                                                 //| 	at scala.collection.MapLike$class.apply(MapLike.scala:141)</span><br><span class="line">                                                 //| 	at scala.collection.AbstractMap.apply(Map.scala:59)</span><br><span class="line">                                                 //| 	at Lesson5$$anonfun$main$1.apply$mcV$sp(Lesson5.scala:6)</span><br><span class="line">                                                 //| 	at org.scalaide.worksheet.runtime.library.WorksheetSupport$$anonfun$$exe</span><br><span class="line">                                                 //| cute$1.apply$mcV$sp(WorksheetSupport.scala:76)</span><br><span class="line">                                                 //| 	at org.scalaide.worksheet.runtime.library.WorksheetSupport$.redirected(W</span><br><span class="line">                                                 //| orksheetSupport.scala:65)</span><br><span class="line">                                                 //| 	at org.scalaide.worksheet.runtime.library.WorksheetSupport$.$execute(Wor</span><br><span class="line">                                                 //| ksheetSupport.scala:75)</span><br><span class="line">                                                 //| 	at Lesson5$.main(Lesson5.scala:1)</span><br><span class="line">                                                 //| 	at Lesson5.main(Lesson5.scala)</span><br><span class="line"></span><br><span class="line"> val bogsDefaultScore = scores.getOrElse(&quot;Bog&quot;, 0)</span><br><span class="line">                                                 //&gt; bogsDefaultScore  : Int = 0</span><br><span class="line"></span><br><span class="line">val mbogScore = mscores.contains(&quot;Bog&quot;)   //&gt; mbogScore  : Boolean = false</span><br><span class="line"></span><br><span class="line">mscores(&quot;Alice&quot;) = 100</span><br><span class="line">mscores                                   //&gt; res0: scala.collection.mutable.Map[String,Int] = Map(Alice -&gt; 100)</span><br><span class="line"></span><br><span class="line">val newScores2 = scores + (&quot;Fred&quot; -&gt; 91)  //&gt; newScores2  : scala.collection.immutable.Map[String,Int] = Map(Alice -&gt; 20, </span><br><span class="line">                                                 //| Bob -&gt; 10, Cindy -&gt; 8, Fred -&gt; 91)</span><br><span class="line">val newScores3 = newScores2 - &quot;Alice&quot;     //&gt; newScores3  : scala.collection.immutable.Map[String,Int] = Map(Bob -&gt; 10, Ci</span><br><span class="line">                                                 //| ndy -&gt; 8, Fred -&gt; 91)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">for ((k, v) &lt;- scores) println(k + &quot; has score &quot; + v)</span><br><span class="line">                                                 //&gt; Alice has score 20</span><br><span class="line">                                                 //| Bob has score 10</span><br><span class="line">                                                 //| Cindy has score 8</span><br><span class="line">for ((k, v) &lt;- scores) yield (v, k)       //&gt; res1: scala.collection.immutable.Map[Int,String] = Map(20 -&gt; Alice, 10 -&gt; Bo</span><br><span class="line">                                                 //| b, 8 -&gt; Cindy)</span><br><span class="line"></span><br><span class="line">scores.keySet                             //&gt; res2: scala.collection.immutable.Set[String] = Set(Alice, Bob, Cindy)</span><br><span class="line">scores.values                             //&gt; res3: Iterable[Int] = MapLike(20, 10, 8)</span><br></pre></td></tr></table></figure>
+<pre><code> val scores = Map(&quot;Alice&quot; -&gt; 20, &quot;Bob&quot; -&gt; 10, &quot;Cindy&quot; -&gt; 8)
+                                                 &#x2F;&#x2F;&gt; scores  : scala.collection.immutable.Map[String,Int] = Map(Alice -&gt; 20, Bob -
+                                                 &#x2F;&#x2F;| &gt; 10, Cindy -&gt; 8)
+ scores(&quot;Alice&quot;) = 291 &#x2F;&#x2F; immutable map이라서 value 값을 바꿀 수 없음
+
+ val mscores = scala.collection.mutable.Map(&quot;Alice&quot; -&gt; 10)
+                                                 &#x2F;&#x2F;&gt; mscores  : scala.collection.mutable.Map[String,Int] = Map(Alice -&gt; 10)
+ val bobsScore = scores(&quot;Bob&quot;)                   &#x2F;&#x2F;&gt; bobsScore  : Int = 10
+ val bogsScore = scores(&quot;Bog&quot;)                   &#x2F;&#x2F;&gt; java.util.NoSuchElementException: key not found: Bog
+                                                 &#x2F;&#x2F;| 	at scala.collection.MapLike$class.default(MapLike.scala:228)
+                                                 &#x2F;&#x2F;| 	at scala.collection.AbstractMap.default(Map.scala:59)
+                                                 &#x2F;&#x2F;| 	at scala.collection.MapLike$class.apply(MapLike.scala:141)
+                                                 &#x2F;&#x2F;| 	at scala.collection.AbstractMap.apply(Map.scala:59)
+                                                 &#x2F;&#x2F;| 	at Lesson5$$anonfun$main$1.apply$mcV$sp(Lesson5.scala:6)
+                                                 &#x2F;&#x2F;| 	at org.scalaide.worksheet.runtime.library.WorksheetSupport$$anonfun$$exe
+                                                 &#x2F;&#x2F;| cute$1.apply$mcV$sp(WorksheetSupport.scala:76)
+                                                 &#x2F;&#x2F;| 	at org.scalaide.worksheet.runtime.library.WorksheetSupport$.redirected(W
+                                                 &#x2F;&#x2F;| orksheetSupport.scala:65)
+                                                 &#x2F;&#x2F;| 	at org.scalaide.worksheet.runtime.library.WorksheetSupport$.$execute(Wor
+                                                 &#x2F;&#x2F;| ksheetSupport.scala:75)
+                                                 &#x2F;&#x2F;| 	at Lesson5$.main(Lesson5.scala:1)
+                                                 &#x2F;&#x2F;| 	at Lesson5.main(Lesson5.scala)
+
+ val bogsDefaultScore = scores.getOrElse(&quot;Bog&quot;, 0)
+                                                 &#x2F;&#x2F;&gt; bogsDefaultScore  : Int = 0
+
+val mbogScore = mscores.contains(&quot;Bog&quot;)   &#x2F;&#x2F;&gt; mbogScore  : Boolean = false
+
+mscores(&quot;Alice&quot;) = 100
+mscores                                   &#x2F;&#x2F;&gt; res0: scala.collection.mutable.Map[String,Int] = Map(Alice -&gt; 100)
+
+val newScores2 = scores + (&quot;Fred&quot; -&gt; 91)  &#x2F;&#x2F;&gt; newScores2  : scala.collection.immutable.Map[String,Int] = Map(Alice -&gt; 20, 
+                                                 &#x2F;&#x2F;| Bob -&gt; 10, Cindy -&gt; 8, Fred -&gt; 91)
+val newScores3 = newScores2 - &quot;Alice&quot;     &#x2F;&#x2F;&gt; newScores3  : scala.collection.immutable.Map[String,Int] = Map(Bob -&gt; 10, Ci
+                                                 &#x2F;&#x2F;| ndy -&gt; 8, Fred -&gt; 91)
+
+
+for ((k, v) &lt;- scores) println(k + &quot; has score &quot; + v)
+                                                 &#x2F;&#x2F;&gt; Alice has score 20
+                                                 &#x2F;&#x2F;| Bob has score 10
+                                                 &#x2F;&#x2F;| Cindy has score 8
+for ((k, v) &lt;- scores) yield (v, k)       &#x2F;&#x2F;&gt; res1: scala.collection.immutable.Map[Int,String] = Map(20 -&gt; Alice, 10 -&gt; Bo
+                                                 &#x2F;&#x2F;| b, 8 -&gt; Cindy)
+
+scores.keySet                             &#x2F;&#x2F;&gt; res2: scala.collection.immutable.Set[String] = Set(Alice, Bob, Cindy)
+scores.values                             &#x2F;&#x2F;&gt; res3: Iterable[Int] = MapLike(20, 10, 8)</code></pre>
 <h3 id="6-2-Tuples"><a href="#6-2-Tuples" class="headerlink" title="6.2 Tuples"></a>6.2 Tuples</h3><ul>
-<li>Map과 비슷하지만 서로다른 자료형의 데이터를 묶을 수 있음<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val myTuples = (1, 3.14, &quot;Fred&quot;)</span><br><span class="line">val pie = myTuples._2</span><br><span class="line"></span><br><span class="line">val (_, second, third) = t</span><br></pre></td></tr></table></figure>
+<li>Map과 비슷하지만 서로다른 자료형의 데이터를 묶을 수 있음<pre><code>val myTuples = (1, 3.14, &quot;Fred&quot;)
+val pie = myTuples._2
+
+val (_, second, third) = t</code></pre>
 </li>
 </ul>
 <h4 id="Lab-3-1-Remove-First-Negative"><a href="#Lab-3-1-Remove-First-Negative" class="headerlink" title="Lab 3.1 Remove First Negative"></a>Lab 3.1 Remove First Negative</h4><ul>
 <li>ArrayBuffer가 주어졌을 때 양수 값은 모두 출력 &amp; 첫 번째 음수만 출력하고 나머지 음수들은 제거하는 함수 작성</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">val myArray = ArrayBuffer(3,6,7,3,-4,8,-3,-5,6,7,-2,9,-1)</span><br><span class="line"></span><br><span class="line">def myRmNeg(targetArray: ArrayBuffer[Int]): ArrayBuffer[Int] = &#123;</span><br><span class="line"> var index = 0</span><br><span class="line"> var limit = myArray.length</span><br><span class="line"> var isNegativeFound: Boolean = false</span><br><span class="line"> val newMyArray = ArrayBuffer[Int]()</span><br><span class="line"></span><br><span class="line"> while(index &lt; limit) &#123;</span><br><span class="line"> 	val num = targetArray(index)</span><br><span class="line">	</span><br><span class="line"> 	if (num &lt; 0) &#123;</span><br><span class="line"> 		if (!isNegativeFound) &#123;</span><br><span class="line"> 			isNegativeFound = true</span><br><span class="line"> 			newMyArray += num</span><br><span class="line"> 		&#125;</span><br><span class="line"> 	&#125;</span><br><span class="line"> 	else newMyArray += num</span><br><span class="line"> 	</span><br><span class="line"> 	index += 1</span><br><span class="line"> &#125;</span><br><span class="line"> newMyArray</span><br><span class="line">&#125;                                               //&gt; myRmNeg: (targetArray: scala.collection.mutable.ArrayBuffer[Int])scala.colle</span><br><span class="line">                                                //| ction.mutable.ArrayBuffer[Int]</span><br><span class="line"></span><br><span class="line">def myRmNeg2(targetArray: ArrayBuffer[Int]): ArrayBuffer[Int] = &#123;</span><br><span class="line">	val targetArraySize: Int = targetArray.length</span><br><span class="line"></span><br><span class="line">	// 음수를 가진 인덱스 번호만 끄집어 낸다.</span><br><span class="line">	var negativeIndexArray = for (index &lt;- 0 until targetArraySize if targetArray(index) &lt; 0) yield index</span><br><span class="line">negativeIndexArray = negativeIndexArray.drop(1).reverse</span><br><span class="line"></span><br><span class="line">	val filterdArray = for (index &lt;- 0 until targetArray.length if !negativeIndexArray.contains(index)) yield targetArray(index)</span><br><span class="line">	ArrayBuffer[Int]() ++= filterdArray</span><br><span class="line">&#125;                                               //&gt; myRmNeg2: (targetArray: scala.collection.mutable.ArrayBuffer[Int])scala.col</span><br><span class="line">                                                //| lection.mutable.ArrayBuffer[Int]</span><br></pre></td></tr></table></figure>
+<pre><code>val myArray = ArrayBuffer(3,6,7,3,-4,8,-3,-5,6,7,-2,9,-1)
+
+def myRmNeg(targetArray: ArrayBuffer[Int]): ArrayBuffer[Int] = {
+ var index = 0
+ var limit = myArray.length
+ var isNegativeFound: Boolean = false
+ val newMyArray = ArrayBuffer[Int]()
+
+ while(index &lt; limit) {
+ 	val num = targetArray(index)
+	
+ 	if (num &lt; 0) {
+ 		if (!isNegativeFound) {
+ 			isNegativeFound = true
+ 			newMyArray += num
+ 		}
+ 	}
+ 	else newMyArray += num
+ 	
+ 	index += 1
+ }
+ newMyArray
+}                                               &#x2F;&#x2F;&gt; myRmNeg: (targetArray: scala.collection.mutable.ArrayBuffer[Int])scala.colle
+                                                &#x2F;&#x2F;| ction.mutable.ArrayBuffer[Int]
+
+def myRmNeg2(targetArray: ArrayBuffer[Int]): ArrayBuffer[Int] = {
+	val targetArraySize: Int = targetArray.length
+
+	&#x2F;&#x2F; 음수를 가진 인덱스 번호만 끄집어 낸다.
+	var negativeIndexArray = for (index &lt;- 0 until targetArraySize if targetArray(index) &lt; 0) yield index
+negativeIndexArray = negativeIndexArray.drop(1).reverse
+
+	val filterdArray = for (index &lt;- 0 until targetArray.length if !negativeIndexArray.contains(index)) yield targetArray(index)
+	ArrayBuffer[Int]() ++= filterdArray
+}                                               &#x2F;&#x2F;&gt; myRmNeg2: (targetArray: scala.collection.mutable.ArrayBuffer[Int])scala.col
+                                                &#x2F;&#x2F;| lection.mutable.ArrayBuffer[Int]</code></pre>
 <h4 id="Lab-3-2-Word-Count"><a href="#Lab-3-2-Word-Count" class="headerlink" title="Lab 3.2 Word Count"></a>Lab 3.2 Word Count</h4><ul>
-<li>파일을 읽어서 특정 단어가 몇 번 나왔는지 세보는 코드 작성하기<br>보<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">def wordCount(filename: String): scala.collection.mutable.Map[String, Int] = &#123;</span><br><span class="line">  import scala.io.Source</span><br><span class="line">  val count = scala.collection.mutable.Map[String, Int]()</span><br><span class="line">  </span><br><span class="line">  for (line &lt;- Source.fromFile(filename).getLines) &#123;</span><br><span class="line">    for (word &lt;- line.split(&quot; &quot;)) &#123;</span><br><span class="line">	    count(word) = count.getOrElse(word, 0) + 1</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  count</span><br><span class="line">&#125;                                         //&gt; wordCount: (filename: String)scala.collection.mutable.Map[String,Int]</span><br><span class="line"></span><br><span class="line">def wordCountWithImmutableMap(filename: String): scala.collection.immutable.Map[String, Int] = &#123;</span><br><span class="line">	import scala.io.Source</span><br><span class="line">  var countMap = scala.collection.immutable.Map[String, Int]()</span><br><span class="line">  </span><br><span class="line">  for (line &lt;- Source.fromFile(filename).getLines) &#123;</span><br><span class="line">    for (word &lt;- line.split(&quot; &quot;)) &#123;</span><br><span class="line">	    val wordCount = countMap.getOrElse(word, 0) + 1</span><br><span class="line">	    countMap += (word -&gt; wordCount)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  countMap</span><br><span class="line">&#125;                                         //&gt; wordCountWithImmutableMap: (filename: String)scala.collection.immutable.Map[</span><br><span class="line">                                                 //| String,Int]</span><br><span class="line"></span><br><span class="line">val filename = &quot;C:\\Users\\Zotac023\\Desktop\\SCALA\\alice.txt&quot;</span><br><span class="line">                                                 //&gt; filename  : String = C:\Users\Zotac023\Desktop\SCALA\alice.txt</span><br><span class="line">val countMap = wordCount(filename)        //&gt; countMap  : scala.collection.mutable.Map[String,Int] = Map(talk: -&gt; 1, passi</span><br><span class="line">                                                 //| on, -&gt; 2, Visit -&gt; 1, etext92 -&gt; 1, follow -&gt; 1, OTHERWISE -&gt; 1, provisions </span><br><span class="line">                                                 //| -&gt; 1, machines, -&gt; 1, sighing -&gt; 2, is--&quot;Oh, -&gt; 1, sister -&gt; 5, curled -&gt; 2,</span><br><span class="line">                                                 //|  digging -&gt; 2, absurd, -&gt; 1, mouths. -&gt; 1, `When -&gt; 3, rose-tree, -&gt; 2, plea</span><br><span class="line">                                                 //| sant -&gt; 1, can--&apos; -&gt; 1, flapper -&gt; 1, dream. -&gt; 1, morning, -&gt; 2, requires -</span><br><span class="line">                                                 //| &gt; 1, worm. -&gt; 1, `Well! -&gt; 2, lessons -&gt; 4, Files -&gt; 1, `Boots -&gt; 1, `we -&gt; </span><br><span class="line">                                                 //| 3, expense -&gt; 1, Shakespeare, -&gt; 1, officers, -&gt; 1, Long -&gt; 1, RED -&gt; 1, shr</span><br><span class="line">                                                 //| ink -&gt; 1, Caterpillar, -&gt; 2, nasty, -&gt; 1, intellectual -&gt; 1, hard -&gt; 8, [Ori</span><br><span class="line">                                                 //| ginally -&gt; 1, welcome -&gt; 1, off.&apos; -&gt; 1, RIGHT -&gt; 1, Rabbit&apos;s -&gt; 3, carry -&gt; </span><br><span class="line">                                                 //| 1, opening -&gt; 3, matter,&apos; -&gt; 1, (luckily -&gt; 1, chimney!&apos; -&gt; 1, `As -&gt; 3, jur</span><br><span class="line">                                                 //| or -&gt; 1, [get -&gt; 1, grand, -&gt; 1, did!&apos; -&gt; 1, medium -&gt; 3, asking! -&gt; 1, gay </span><br><span class="line">                                                 //| -&gt; 1, bawled -&gt; 1, advance -&gt; 2, `YOU&apos;D -&gt; 1, THAT -&gt; 6, Free -&gt; 1, thunders</span><br><span class="line">                                                 //| torm. -&gt; 1, mustard-mine</span><br><span class="line">                                                 //| Output exceeds cutoff limit.</span><br><span class="line"></span><br><span class="line">val countMap2 = wordCountWithImmutableMap(filename)</span><br><span class="line">                                                 //&gt; countMap2  : scala.collection.immutable.Map[String,Int] = Map(herself. -&gt; 8,</span><br><span class="line">                                                 //|  Hatter -&gt; 24, sneezed -&gt; 1, forgotten -&gt; 6, of. -&gt; 1, Rabbit-Hole -&gt; 1, rat</span><br><span class="line">                                                 //| e -&gt; 4, pepper -&gt; 5, submitted -&gt; 1, NOT!&apos; -&gt; 1, `Fifteenth,&apos; -&gt; 1, like!&apos; -</span><br><span class="line">                                                 //| &gt; 1, remarked -&gt; 1, lost: -&gt; 1, croquet.&apos; -&gt; 2, est -&gt; 1, room!&apos; -&gt; 2, sighi</span><br><span class="line">                                                 //| ng. -&gt; 1, Bill!&apos; -&gt; 1, prizes.&apos; -&gt; 1, (a -&gt; 1, accident -&gt; 1, Cat,&apos; -&gt; 1, be</span><br><span class="line">                                                 //| !&apos; -&gt; 1, camomile -&gt; 1, ftp -&gt; 2, bats, -&gt; 1, conversations -&gt; 1, Down, -&gt; 2</span><br><span class="line">                                                 //| , `Why -&gt; 7, way? -&gt; 1, cakes,&apos; -&gt; 1, `Nonsense!&apos; -&gt; 1, used -&gt; 14, eye -&gt; 4</span><br><span class="line">                                                 //| , whisper.) -&gt; 1, PUNITIVE -&gt; 1, Owl -&gt; 2, pleased. -&gt; 1, up.&apos; -&gt; 2, then?&apos; </span><br><span class="line">                                                 //| -&gt; 1, `Keep -&gt; 1, instance, -&gt; 4, READ -&gt; 1, `Dear, -&gt; 1, $4 -&gt; 1, IN -&gt; 2, </span><br><span class="line">                                                 //| way?&apos;, -&gt; 1, II -&gt; 1, Still -&gt; 1, conversion -&gt; 1, Please -&gt; 2, At -&gt; 8, dee</span><br><span class="line">                                                 //| ply. -&gt; 1, &quot;Let -&gt; 1, shelves -&gt; 1, locked; -&gt; 1, beautiful -&gt; 8, mustard-mi</span><br><span class="line">                                                 //| ne -&gt; 1, leaders, -&gt; 1, `Don&apos;t -&gt; 4, does. -&gt; 1, timidly -&gt; 2, altogether -&gt;</span><br><span class="line">                                                 //|  1, writing -&gt; 4, Duches</span><br><span class="line">                                                 //| Output exceeds cutoff limit.</span><br></pre></td></tr></table></figure>
+<li>파일을 읽어서 특정 단어가 몇 번 나왔는지 세보는 코드 작성하기<br>보<pre><code>def wordCount(filename: String): scala.collection.mutable.Map[String, Int] = {
+  import scala.io.Source
+  val count = scala.collection.mutable.Map[String, Int]()
+  
+  for (line &lt;- Source.fromFile(filename).getLines) {
+    for (word &lt;- line.split(&quot; &quot;)) {
+	    count(word) = count.getOrElse(word, 0) + 1
+    }
+  }
+  count
+}                                         &#x2F;&#x2F;&gt; wordCount: (filename: String)scala.collection.mutable.Map[String,Int]
+
+def wordCountWithImmutableMap(filename: String): scala.collection.immutable.Map[String, Int] = {
+	import scala.io.Source
+  var countMap = scala.collection.immutable.Map[String, Int]()
+  
+  for (line &lt;- Source.fromFile(filename).getLines) {
+    for (word &lt;- line.split(&quot; &quot;)) {
+	    val wordCount = countMap.getOrElse(word, 0) + 1
+	    countMap += (word -&gt; wordCount)
+    }
+  }
+  countMap
+}                                         &#x2F;&#x2F;&gt; wordCountWithImmutableMap: (filename: String)scala.collection.immutable.Map[
+                                                 &#x2F;&#x2F;| String,Int]
+
+val filename = &quot;C:\\Users\\Zotac023\\Desktop\\SCALA\\alice.txt&quot;
+                                                 &#x2F;&#x2F;&gt; filename  : String = C:\Users\Zotac023\Desktop\SCALA\alice.txt
+val countMap = wordCount(filename)        &#x2F;&#x2F;&gt; countMap  : scala.collection.mutable.Map[String,Int] = Map(talk: -&gt; 1, passi
+                                                 &#x2F;&#x2F;| on, -&gt; 2, Visit -&gt; 1, etext92 -&gt; 1, follow -&gt; 1, OTHERWISE -&gt; 1, provisions 
+                                                 &#x2F;&#x2F;| -&gt; 1, machines, -&gt; 1, sighing -&gt; 2, is--&quot;Oh, -&gt; 1, sister -&gt; 5, curled -&gt; 2,
+                                                 &#x2F;&#x2F;|  digging -&gt; 2, absurd, -&gt; 1, mouths. -&gt; 1, `When -&gt; 3, rose-tree, -&gt; 2, plea
+                                                 &#x2F;&#x2F;| sant -&gt; 1, can--&#39; -&gt; 1, flapper -&gt; 1, dream. -&gt; 1, morning, -&gt; 2, requires -
+                                                 &#x2F;&#x2F;| &gt; 1, worm. -&gt; 1, `Well! -&gt; 2, lessons -&gt; 4, Files -&gt; 1, `Boots -&gt; 1, `we -&gt; 
+                                                 &#x2F;&#x2F;| 3, expense -&gt; 1, Shakespeare, -&gt; 1, officers, -&gt; 1, Long -&gt; 1, RED -&gt; 1, shr
+                                                 &#x2F;&#x2F;| ink -&gt; 1, Caterpillar, -&gt; 2, nasty, -&gt; 1, intellectual -&gt; 1, hard -&gt; 8, [Ori
+                                                 &#x2F;&#x2F;| ginally -&gt; 1, welcome -&gt; 1, off.&#39; -&gt; 1, RIGHT -&gt; 1, Rabbit&#39;s -&gt; 3, carry -&gt; 
+                                                 &#x2F;&#x2F;| 1, opening -&gt; 3, matter,&#39; -&gt; 1, (luckily -&gt; 1, chimney!&#39; -&gt; 1, `As -&gt; 3, jur
+                                                 &#x2F;&#x2F;| or -&gt; 1, [get -&gt; 1, grand, -&gt; 1, did!&#39; -&gt; 1, medium -&gt; 3, asking! -&gt; 1, gay 
+                                                 &#x2F;&#x2F;| -&gt; 1, bawled -&gt; 1, advance -&gt; 2, `YOU&#39;D -&gt; 1, THAT -&gt; 6, Free -&gt; 1, thunders
+                                                 &#x2F;&#x2F;| torm. -&gt; 1, mustard-mine
+                                                 &#x2F;&#x2F;| Output exceeds cutoff limit.
+
+val countMap2 = wordCountWithImmutableMap(filename)
+                                                 &#x2F;&#x2F;&gt; countMap2  : scala.collection.immutable.Map[String,Int] = Map(herself. -&gt; 8,
+                                                 &#x2F;&#x2F;|  Hatter -&gt; 24, sneezed -&gt; 1, forgotten -&gt; 6, of. -&gt; 1, Rabbit-Hole -&gt; 1, rat
+                                                 &#x2F;&#x2F;| e -&gt; 4, pepper -&gt; 5, submitted -&gt; 1, NOT!&#39; -&gt; 1, `Fifteenth,&#39; -&gt; 1, like!&#39; -
+                                                 &#x2F;&#x2F;| &gt; 1, remarked -&gt; 1, lost: -&gt; 1, croquet.&#39; -&gt; 2, est -&gt; 1, room!&#39; -&gt; 2, sighi
+                                                 &#x2F;&#x2F;| ng. -&gt; 1, Bill!&#39; -&gt; 1, prizes.&#39; -&gt; 1, (a -&gt; 1, accident -&gt; 1, Cat,&#39; -&gt; 1, be
+                                                 &#x2F;&#x2F;| !&#39; -&gt; 1, camomile -&gt; 1, ftp -&gt; 2, bats, -&gt; 1, conversations -&gt; 1, Down, -&gt; 2
+                                                 &#x2F;&#x2F;| , `Why -&gt; 7, way? -&gt; 1, cakes,&#39; -&gt; 1, `Nonsense!&#39; -&gt; 1, used -&gt; 14, eye -&gt; 4
+                                                 &#x2F;&#x2F;| , whisper.) -&gt; 1, PUNITIVE -&gt; 1, Owl -&gt; 2, pleased. -&gt; 1, up.&#39; -&gt; 2, then?&#39; 
+                                                 &#x2F;&#x2F;| -&gt; 1, `Keep -&gt; 1, instance, -&gt; 4, READ -&gt; 1, `Dear, -&gt; 1, $4 -&gt; 1, IN -&gt; 2, 
+                                                 &#x2F;&#x2F;| way?&#39;, -&gt; 1, II -&gt; 1, Still -&gt; 1, conversion -&gt; 1, Please -&gt; 2, At -&gt; 8, dee
+                                                 &#x2F;&#x2F;| ply. -&gt; 1, &quot;Let -&gt; 1, shelves -&gt; 1, locked; -&gt; 1, beautiful -&gt; 8, mustard-mi
+                                                 &#x2F;&#x2F;| ne -&gt; 1, leaders, -&gt; 1, `Don&#39;t -&gt; 4, does. -&gt; 1, timidly -&gt; 2, altogether -&gt;
+                                                 &#x2F;&#x2F;|  1, writing -&gt; 4, Duches
+                                                 &#x2F;&#x2F;| Output exceeds cutoff limit.</code></pre>
 </li>
 </ul>
 <h4 id="Lab-3-3-Grouping"><a href="#Lab-3-3-Grouping" class="headerlink" title="Lab 3.3 Grouping"></a>Lab 3.3 Grouping</h4><ul>
 <li>문자열 배열에서 길이가 같은 문자열끼리 묶는 코드 작성하기</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> val words = Array(&quot;Mary&quot;, &quot;had&quot;, &quot;a&quot;, &quot;little&quot;, &quot;lamb&quot;, &quot;its&quot;, &quot;fleece&quot;, &quot;was&quot;, &quot;white&quot;, &quot;as&quot;, &quot;snow&quot;, &quot;and&quot;, &quot;everywhere&quot;, &quot;that&quot;, &quot;Mary&quot;, &quot;went&quot;, &quot;the&quot;, &quot;lamb&quot;, &quot;was&quot;, &quot;sure&quot;, &quot;to&quot;, &quot;go&quot;)</span><br><span class="line">                                                 //&gt; words  : Array[String] = Array(Mary, had, a, little, lamb, its, fleece, was,</span><br><span class="line">                                                 //|  white, as, snow, and, everywhere, that, Mary, went, the, lamb, was, sure, t</span><br><span class="line">                                                 //| o, go)</span><br><span class="line"></span><br><span class="line">words.groupBy(_.length())                 //&gt; res0: scala.collection.immutable.Map[Int,Array[String]] = Map(5 -&gt; Array(whi</span><br><span class="line">                                                 //| te), 10 -&gt; Array(everywhere), 1 -&gt; Array(a), 6 -&gt; Array(little, fleece), 2 -</span><br><span class="line">                                                 //| &gt; Array(as, to, go), 3 -&gt; Array(had, its, was, and, the, was), 4 -&gt; Array(Ma</span><br><span class="line">                                                 //| ry, lamb, snow, that, Mary, went, lamb, sure))</span><br></pre></td></tr></table></figure>
+<pre><code> val words = Array(&quot;Mary&quot;, &quot;had&quot;, &quot;a&quot;, &quot;little&quot;, &quot;lamb&quot;, &quot;its&quot;, &quot;fleece&quot;, &quot;was&quot;, &quot;white&quot;, &quot;as&quot;, &quot;snow&quot;, &quot;and&quot;, &quot;everywhere&quot;, &quot;that&quot;, &quot;Mary&quot;, &quot;went&quot;, &quot;the&quot;, &quot;lamb&quot;, &quot;was&quot;, &quot;sure&quot;, &quot;to&quot;, &quot;go&quot;)
+                                                 &#x2F;&#x2F;&gt; words  : Array[String] = Array(Mary, had, a, little, lamb, its, fleece, was,
+                                                 &#x2F;&#x2F;|  white, as, snow, and, everywhere, that, Mary, went, the, lamb, was, sure, t
+                                                 &#x2F;&#x2F;| o, go)
+
+words.groupBy(_.length())                 &#x2F;&#x2F;&gt; res0: scala.collection.immutable.Map[Int,Array[String]] = Map(5 -&gt; Array(whi
+                                                 &#x2F;&#x2F;| te), 10 -&gt; Array(everywhere), 1 -&gt; Array(a), 6 -&gt; Array(little, fleece), 2 -
+                                                 &#x2F;&#x2F;| &gt; Array(as, to, go), 3 -&gt; Array(had, its, was, and, the, was), 4 -&gt; Array(Ma
+                                                 &#x2F;&#x2F;| ry, lamb, snow, that, Mary, went, lamb, sure))</code></pre>
 <h4 id="Lab-3-4-Partitions-and-Zips"><a href="#Lab-3-4-Partitions-and-Zips" class="headerlink" title="Lab 3.4 Partitions and Zips"></a>Lab 3.4 Partitions and Zips</h4><ul>
 <li>Lab 3.1 문제를 Array의 partition 메소드를 사용해서 풀기</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"> &quot;New York&quot;.partition(_.isUpper)                 //&gt; res0: (String, String) = (NY,ew ork)</span><br><span class="line"> </span><br><span class="line"> val symbols = Array(&quot;&lt;&quot;, &quot;-&quot;, &quot;&gt;&quot;)              //&gt; symbols  : Array[String] = Array(&lt;, -, &gt;)</span><br><span class="line"> val counts = Array(2, 10, 2)                    //&gt; counts  : Array[Int] = Array(2, 10, 2)</span><br><span class="line"> val pairs = symbols.zip(counts)                 //&gt; pairs  : Array[(String, Int)] = Array((&lt;,2), (-,10), (&gt;,2))</span><br><span class="line"> </span><br><span class="line"> import scala.collection.mutable.ArrayBuffer</span><br><span class="line"> val myArray = ArrayBuffer(3,6,7,3,-4,8,-3,-5,6,7,-2,9,-1)</span><br><span class="line">                                                 //&gt; myArray  : scala.collection.mutable.ArrayBuffer[Int] = ArrayBuffer(3, 6, 7, </span><br><span class="line">                                                 //| 3, -4, 8, -3, -5, 6, 7, -2, 9, -1)</span><br><span class="line"> </span><br><span class="line"> val (positiveArray, negativeArray) = myArray.partition(_ &gt; 0)</span><br><span class="line">                                                 //&gt; positiveArray  : scala.collection.mutable.ArrayBuffer[Int] = ArrayBuffer(3, </span><br><span class="line">                                                 //| 6, 7, 3, 8, 6, 7, 9)</span><br><span class="line">                                                 //| negativeArray  : scala.collection.mutable.ArrayBuffer[Int] = ArrayBuffer(-4,</span><br><span class="line">                                                 //|  -3, -5, -2, -1)</span><br><span class="line"></span><br><span class="line">val answer = positiveArray                //&gt; answer  : scala.collection.mutable.ArrayBuffer[Int] = ArrayBuffer(3, 6, 7, 3</span><br><span class="line">                                                 //| , 8, 6, 7, 9)</span><br><span class="line">answer += negativeArray(0)                //&gt; res1: Lesson9.answer.type = ArrayBuffer(3, 6, 7, 3, 8, 6, 7, 9, -4)</span><br></pre></td></tr></table></figure>
+<pre><code> &quot;New York&quot;.partition(_.isUpper)                 &#x2F;&#x2F;&gt; res0: (String, String) = (NY,ew ork)
+ 
+ val symbols = Array(&quot;&lt;&quot;, &quot;-&quot;, &quot;&gt;&quot;)              &#x2F;&#x2F;&gt; symbols  : Array[String] = Array(&lt;, -, &gt;)
+ val counts = Array(2, 10, 2)                    &#x2F;&#x2F;&gt; counts  : Array[Int] = Array(2, 10, 2)
+ val pairs = symbols.zip(counts)                 &#x2F;&#x2F;&gt; pairs  : Array[(String, Int)] = Array((&lt;,2), (-,10), (&gt;,2))
+ 
+ import scala.collection.mutable.ArrayBuffer
+ val myArray = ArrayBuffer(3,6,7,3,-4,8,-3,-5,6,7,-2,9,-1)
+                                                 &#x2F;&#x2F;&gt; myArray  : scala.collection.mutable.ArrayBuffer[Int] = ArrayBuffer(3, 6, 7, 
+                                                 &#x2F;&#x2F;| 3, -4, 8, -3, -5, 6, 7, -2, 9, -1)
+ 
+ val (positiveArray, negativeArray) = myArray.partition(_ &gt; 0)
+                                                 &#x2F;&#x2F;&gt; positiveArray  : scala.collection.mutable.ArrayBuffer[Int] = ArrayBuffer(3, 
+                                                 &#x2F;&#x2F;| 6, 7, 3, 8, 6, 7, 9)
+                                                 &#x2F;&#x2F;| negativeArray  : scala.collection.mutable.ArrayBuffer[Int] = ArrayBuffer(-4,
+                                                 &#x2F;&#x2F;|  -3, -5, -2, -1)
+
+val answer = positiveArray                &#x2F;&#x2F;&gt; answer  : scala.collection.mutable.ArrayBuffer[Int] = ArrayBuffer(3, 6, 7, 3
+                                                 &#x2F;&#x2F;| , 8, 6, 7, 9)
+answer += negativeArray(0)                &#x2F;&#x2F;&gt; res1: Lesson9.answer.type = ArrayBuffer(3, 6, 7, 3, 8, 6, 7, 9, -4)</code></pre>
 <h2 id="7-Class-Object-Companion-Object"><a href="#7-Class-Object-Companion-Object" class="headerlink" title="7. Class, Object, Companion Object"></a>7. Class, Object, Companion Object</h2><ul>
 <li>Class의 멤버 변수를 val로 선언하면 immutable, var로 선언하면 mutable</li>
 <li>val or var로 했느냐에 따라 getter, setter를 쓸 수 있음</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class myString(val jString: String) &#123;</span><br><span class="line">	private var extraData = &quot;&quot;</span><br><span class="line">	override def toString = f&quot;$&#123;jString&#125;$&#123;extraData&#125;&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">object myString &#123;</span><br><span class="line">	def apply(base: String, extras: String) = &#123;</span><br><span class="line">		val s = new myString(base)</span><br><span class="line">		s.extraData = extras</span><br><span class="line">		s</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	def apply(base: String) = new myString(base)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">println(myString(&quot;hello&quot;, &quot;world&quot;))             //&gt; helloworld</span><br><span class="line">println(myString(&quot;Goodbye&quot;))                    //&gt; Goodbye</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class Pizza(var crustSize: Int, var crustType: String) &#123;</span><br><span class="line">	def this(crustSize: Int) &#123;</span><br><span class="line">		this(crustSize, Pizza.DEFAULT_CRUST_TYPE)</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	def this(crustType: String) &#123;</span><br><span class="line">		this(Pizza.DEFAULT_CRUST_SIZE, crustType)</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	def this() &#123;</span><br><span class="line">		this(Pizza.DEFAULT_CRUST_SIZE, Pizza.DEFAULT_CRUST_TYPE)</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	override def toString = s&quot;A $crustSize inch pizza with a $crustType crust&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">object Pizza &#123;</span><br><span class="line">	val DEFAULT_CRUST_SIZE = 12</span><br><span class="line">	val DEFAULT_CRUST_TYPE = &quot;THIN&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">val pz1 = new Pizza(14, &quot;THICK&quot;)                //&gt; pz1  : Lesson10.Pizza = A 14 inch pizza with a THICK crust</span><br><span class="line">val pz2 = new Pizza(16)                         //&gt; pz2  : Lesson10.Pizza = A 16 inch pizza with a THIN crust</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">object Accounts &#123;</span><br><span class="line">	private var lastNumber = 0</span><br><span class="line">	def newUniqueNumber() = &#123;</span><br><span class="line">		lastNumber += 1</span><br><span class="line">	lastNumber</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Accounts                                        //&gt; res0: Lesson10.Accounts.type = Lesson10$$anonfun$main$1$Accounts$2$@68837a7</span><br><span class="line">                                                //| 7</span><br><span class="line">Accounts.newUniqueNumber()                      //&gt; res1: Int = 1</span><br><span class="line">Accounts.newUniqueNumber()                      //&gt; res2: Int = 2</span><br><span class="line">Accounts.newUniqueNumber()                      //&gt; res3: Int = 3</span><br><span class="line">Accounts.newUniqueNumber()                      //&gt; res4: Int = 4</span><br><span class="line">Accounts.newUniqueNumber()                      //&gt; res5: Int = 5</span><br></pre></td></tr></table></figure>
+<pre><code>class myString(val jString: String) {
+	private var extraData = &quot;&quot;
+	override def toString = f&quot;${jString}${extraData}&quot;
+}
+
+object myString {
+	def apply(base: String, extras: String) = {
+		val s = new myString(base)
+		s.extraData = extras
+		s
+	}
+	
+	def apply(base: String) = new myString(base)
+}
+
+println(myString(&quot;hello&quot;, &quot;world&quot;))             &#x2F;&#x2F;&gt; helloworld
+println(myString(&quot;Goodbye&quot;))                    &#x2F;&#x2F;&gt; Goodbye</code></pre>
+<pre><code>class Pizza(var crustSize: Int, var crustType: String) {
+	def this(crustSize: Int) {
+		this(crustSize, Pizza.DEFAULT_CRUST_TYPE)
+	}
+	
+	def this(crustType: String) {
+		this(Pizza.DEFAULT_CRUST_SIZE, crustType)
+	}
+	
+	def this() {
+		this(Pizza.DEFAULT_CRUST_SIZE, Pizza.DEFAULT_CRUST_TYPE)
+	}
+	
+	override def toString = s&quot;A $crustSize inch pizza with a $crustType crust&quot;
+}
+
+object Pizza {
+	val DEFAULT_CRUST_SIZE = 12
+	val DEFAULT_CRUST_TYPE = &quot;THIN&quot;
+}
+
+val pz1 = new Pizza(14, &quot;THICK&quot;)                &#x2F;&#x2F;&gt; pz1  : Lesson10.Pizza = A 14 inch pizza with a THICK crust
+val pz2 = new Pizza(16)                         &#x2F;&#x2F;&gt; pz2  : Lesson10.Pizza = A 16 inch pizza with a THIN crust</code></pre>
+<pre><code>object Accounts {
+	private var lastNumber = 0
+	def newUniqueNumber() = {
+		lastNumber += 1
+	lastNumber
+	}
+}
+
+Accounts                                        &#x2F;&#x2F;&gt; res0: Lesson10.Accounts.type = Lesson10$$anonfun$main$1$Accounts$2$@68837a7
+                                                &#x2F;&#x2F;| 7
+Accounts.newUniqueNumber()                      &#x2F;&#x2F;&gt; res1: Int = 1
+Accounts.newUniqueNumber()                      &#x2F;&#x2F;&gt; res2: Int = 2
+Accounts.newUniqueNumber()                      &#x2F;&#x2F;&gt; res3: Int = 3
+Accounts.newUniqueNumber()                      &#x2F;&#x2F;&gt; res4: Int = 4
+Accounts.newUniqueNumber()                      &#x2F;&#x2F;&gt; res5: Int = 5</code></pre>
 <ul>
 <li><p>Scala App 만들기</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">object HelloWorld extends App &#123;</span><br><span class="line">  println(&quot;Hello, world!&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>object HelloWorld extends App {
+  println(&quot;Hello, world!&quot;)
+}</code></pre>
 </li>
 <li><p>Uniform Access Method</p>
 <ul>
@@ -327,7 +616,13 @@
 </ul>
 </li>
 </ul>
-<figure class="highlight plain"><figcaption><span>Uniform Access Method Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Point(...) &#123;</span><br><span class="line">  private val r = ...</span><br><span class="line">  private val theta = ...</span><br><span class="line">  def x = r * cos(theta)</span><br><span class="line"></span><br><span class="line">  // 여기서 x를 유니폼 엑세스 메소드 라고 부르며, 이 메소드는 인자가 없다.</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>class Point(...) {
+  private val r = ...
+  private val theta = ...
+  def x = r * cos(theta)
+
+  &#x2F;&#x2F; 여기서 x를 유니폼 엑세스 메소드 라고 부르며, 이 메소드는 인자가 없다.
+}</code></pre>
 <ul>
 <li>scala에서 object 키워드가 붙은 코드는 싱글톤 객체를 말하며, 멤버 메소드는 static method이다.</li>
 <li>Companion Object란 class와 object의 이름이 같은 것을 말하며, 서로간에 private feature에 접근이 가능하다.<ul>
@@ -338,20 +633,127 @@
 <h4 id="Lab-4-1-Time"><a href="#Lab-4-1-Time" class="headerlink" title="Lab 4.1 Time"></a>Lab 4.1 Time</h4><ul>
 <li>시간을 나타내는 클래스 작성하기</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">class Time(val hours: Int = 0, var minutes: Int = 0) &#123;</span><br><span class="line"> </span><br><span class="line">	if (hours &lt; 0 || hours &gt;= 24 || minutes &lt; 0 || minutes &gt;= 60) &#123;</span><br><span class="line">		throw new IllegalArgumentException(&quot;hour or minute format incorrect&quot;)</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	def before(other: Time): Boolean = &#123;</span><br><span class="line">		val thisTimeMinutes = this.toMinutes()</span><br><span class="line">		val otherTimeMinutes = other.toMinutes()</span><br><span class="line"></span><br><span class="line">		thisTimeMinutes &lt; otherTimeMinutes</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	override def toString = f&quot;$&#123;hours&#125;:$&#123;minutes&#125;&quot;</span><br><span class="line">	def toMinutes(): Int = this.hours * Time.ONE_HOUR_MINUTES + this.minutes</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">object Time &#123;</span><br><span class="line">	val ONE_HOUR_MINUTES = 60</span><br><span class="line">	def apply(hours: Int, minutes: Int) = new Time(hours, minutes)</span><br><span class="line">	def apply(hours: Int) = new Time(hours)</span><br><span class="line">	def apply(hours: Unit, minutes: Int) = new Time(0, minutes)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">println(Time(12))</span><br><span class="line">println(Time(11, 24).before(Time(16, 11)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">val t1 = Time(12, 30)</span><br><span class="line">t1.minutes = -100</span><br></pre></td></tr></table></figure>
+<pre><code>class Time(val hours: Int = 0, var minutes: Int = 0) {
+ 
+	if (hours &lt; 0 || hours &gt;= 24 || minutes &lt; 0 || minutes &gt;= 60) {
+		throw new IllegalArgumentException(&quot;hour or minute format incorrect&quot;)
+	}
+	
+	def before(other: Time): Boolean = {
+		val thisTimeMinutes = this.toMinutes()
+		val otherTimeMinutes = other.toMinutes()
+
+		thisTimeMinutes &lt; otherTimeMinutes
+	}
+ 
+	override def toString = f&quot;${hours}:${minutes}&quot;
+	def toMinutes(): Int = this.hours * Time.ONE_HOUR_MINUTES + this.minutes
+}
+
+object Time {
+	val ONE_HOUR_MINUTES = 60
+	def apply(hours: Int, minutes: Int) = new Time(hours, minutes)
+	def apply(hours: Int) = new Time(hours)
+	def apply(hours: Unit, minutes: Int) = new Time(0, minutes)
+}
+
+println(Time(12))
+println(Time(11, 24).before(Time(16, 11)))
+
+
+val t1 = Time(12, 30)
+t1.minutes = -100</code></pre>
 <h4 id="Lab-4-2-Uniform-Access"><a href="#Lab-4-2-Uniform-Access" class="headerlink" title="Lab 4.2 Uniform Access"></a>Lab 4.2 Uniform Access</h4><ul>
 <li>시간 클래스의 멤버를 val로 선언한 뒤 해당 멤버 변수는 uniform access method로 접근하기 (class의 멤버 변수에 아무것도 안쓰면 자동으로 val로 선언됨)</li>
 <li>이렇게 하면 getter 메소드를 정의한 것과 비슷한 효과를 볼 수 있다.</li>
 <li>아래 코드와 같이 멤버 변수 uniform access method를 통해 값을 변경하는 것은 컴파일 오류가 발생한다.</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Time2(h: Int, m: Int) &#123;</span><br><span class="line">	private val minutesSinceMidnight = h * 60 + m</span><br><span class="line"></span><br><span class="line">	def hours = minutesSinceMidnight / 60</span><br><span class="line">	def minutes = minutesSinceMidnight % 60</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">object Time2 &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">val t2 = new Time2(12, 45)                      //&gt; t2  : Lesson12.Time2 = Lesson12$Time2@61e4705b</span><br><span class="line">// t2.minutes = 100</span><br><span class="line">t2.hours                                        //&gt; res0: Int = 12</span><br><span class="line">t2.minutes                                      //&gt; res1: Int = 45</span><br></pre></td></tr></table></figure>
+<pre><code>class Time2(h: Int, m: Int) {
+	private val minutesSinceMidnight = h * 60 + m
+
+	def hours = minutesSinceMidnight &#x2F; 60
+	def minutes = minutesSinceMidnight % 60
+}
+
+object Time2 {
+}
+
+val t2 = new Time2(12, 45)                      &#x2F;&#x2F;&gt; t2  : Lesson12.Time2 = Lesson12$Time2@61e4705b
+&#x2F;&#x2F; t2.minutes = 100
+t2.hours                                        &#x2F;&#x2F;&gt; res0: Int = 12
+t2.minutes                                      &#x2F;&#x2F;&gt; res1: Int = 45</code></pre>
 <h4 id="Lab-4-3-Uniform-Access-con’t"><a href="#Lab-4-3-Uniform-Access-con’t" class="headerlink" title="Lab 4.3 Uniform Access (con’t)"></a>Lab 4.3 Uniform Access (con’t)</h4><ul>
 <li>위 문제에서 uniform access method를 통해서 setter 구현해보기</li>
 <li>아래 코드를 보면 메소드명 바로 뒤에 ‘_=’가 붙는 것을 볼 수가 있는데 이것은 ‘변수명 =’과 같은 효과를 발휘한다.</li>
 <li>또한 setter uniform access method를 구현하려면 앞에서 작성했던 getter에 해당하는 uniform access method가 먼저 선언되어 있어야 한다.</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class Time3(h: Int, m: Int) &#123;</span><br><span class="line">	private var minutesSinceMidnight = h * 60 + m</span><br><span class="line"></span><br><span class="line">	def hours = minutesSinceMidnight / 60</span><br><span class="line"></span><br><span class="line">	def minutes = minutesSinceMidnight % 60</span><br><span class="line"></span><br><span class="line">	def hours_=(newHours: Int) &#123;</span><br><span class="line">		if (newHours &lt; 0 || newHours &gt;= 24) &#123;</span><br><span class="line">			throw new IllegalArgumentException(&quot;hours is invalid&quot;)</span><br><span class="line">		&#125;</span><br><span class="line">		this.minutesSinceMidnight = newHours * 60 + this.minutes</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	def minutes_=(newMinutes: Int) &#123;</span><br><span class="line">		if (newMinutes &lt; 0 || newMinutes &gt;= 60) &#123;</span><br><span class="line">			throw new IllegalArgumentException(&quot;minutes is invalid&quot;)</span><br><span class="line">		&#125;</span><br><span class="line">		this.minutesSinceMidnight = this.hours * 60 + newMinutes</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">val t3 = new Time3(12, 45)</span><br><span class="line"></span><br><span class="line">t3.hours = 19</span><br><span class="line">t3.minutes = 13</span><br><span class="line">t3.hours</span><br><span class="line">t3.minutes</span><br></pre></td></tr></table></figure>
-<h4 id="Lab-4-4-Operators"><a href="#Lab-4-4-Operators" class="headerlink" title="Lab 4.4 Operators"></a>Lab 4.4 Operators</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">object Time4 &#123;</span><br><span class="line">	def apply(hours: Int = 0, minutes: Int = 0) = new Time4(hours, minutes)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Time4(h: Int = 0, m: Int = 0) &#123;</span><br><span class="line">	private var minutesSinceMidnight = h * 60 + m</span><br><span class="line">	</span><br><span class="line">	if (h &lt; 0 || h &gt; 23) throw new IllegalArgumentException(&quot;hours is invalid&quot;)</span><br><span class="line">	if (m &lt; 0 || m &gt; 60) throw new IllegalArgumentException(&quot;minutes is invalid&quot;)</span><br><span class="line"></span><br><span class="line">	def hours = this.minutesSinceMidnight / 60</span><br><span class="line"></span><br><span class="line">	def minutes = this.minutesSinceMidnight % 60</span><br><span class="line"></span><br><span class="line">	def hours_=(newHours: Int) &#123;</span><br><span class="line">		if (newHours &lt; 0 || newHours &gt; 23) throw new IllegalArgumentException(&quot;hours is invalid&quot;)</span><br><span class="line">	else this.minutesSinceMidnight = newHours * 60 + this.minutes</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	def minutes_=(newMinutes: Int) &#123;</span><br><span class="line">		if (newMinutes &lt; 0 || newMinutes &gt; 59) throw new IllegalArgumentException(&quot;minutes is invalid&quot;)</span><br><span class="line">		else this.minutesSinceMidnight = this.hours * 60 + newMinutes</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	def &lt;(other: Time4): Boolean = this.minutesSinceMidnight &lt; other.minutesSinceMidnight</span><br><span class="line">	</span><br><span class="line">	override def toString() = f&quot;$&#123;this.hours&#125;:$&#123;this.minutes&#125;&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">val t4 = new Time4(12, 45)                      //&gt; t4  : Lesson14.Time4 = 12:45</span><br><span class="line"></span><br><span class="line">t4.hours = 17</span><br><span class="line">t4.minutes = 23</span><br><span class="line">t4                                              //&gt; res0: Lesson14.Time4 = 17:23</span><br><span class="line"></span><br><span class="line">t4.hours                                        //&gt; res1: Int = 17</span><br><span class="line">t4.minutes                                      //&gt; res2: Int = 23</span><br><span class="line"></span><br><span class="line">println(Time4(11, 24) &lt; Time4(16, 11))          //&gt; true</span><br></pre></td></tr></table></figure>
+<pre><code>class Time3(h: Int, m: Int) {
+	private var minutesSinceMidnight = h * 60 + m
+
+	def hours = minutesSinceMidnight &#x2F; 60
+
+	def minutes = minutesSinceMidnight % 60
+
+	def hours_=(newHours: Int) {
+		if (newHours &lt; 0 || newHours &gt;= 24) {
+			throw new IllegalArgumentException(&quot;hours is invalid&quot;)
+		}
+		this.minutesSinceMidnight = newHours * 60 + this.minutes
+	}
+
+	def minutes_=(newMinutes: Int) {
+		if (newMinutes &lt; 0 || newMinutes &gt;= 60) {
+			throw new IllegalArgumentException(&quot;minutes is invalid&quot;)
+		}
+		this.minutesSinceMidnight = this.hours * 60 + newMinutes
+	}
+}
+
+val t3 = new Time3(12, 45)
+
+t3.hours = 19
+t3.minutes = 13
+t3.hours
+t3.minutes</code></pre>
+<h4 id="Lab-4-4-Operators"><a href="#Lab-4-4-Operators" class="headerlink" title="Lab 4.4 Operators"></a>Lab 4.4 Operators</h4><pre><code>object Time4 {
+	def apply(hours: Int = 0, minutes: Int = 0) = new Time4(hours, minutes)
+}
+
+class Time4(h: Int = 0, m: Int = 0) {
+	private var minutesSinceMidnight = h * 60 + m
+	
+	if (h &lt; 0 || h &gt; 23) throw new IllegalArgumentException(&quot;hours is invalid&quot;)
+	if (m &lt; 0 || m &gt; 60) throw new IllegalArgumentException(&quot;minutes is invalid&quot;)
+
+	def hours = this.minutesSinceMidnight &#x2F; 60
+
+	def minutes = this.minutesSinceMidnight % 60
+
+	def hours_=(newHours: Int) {
+		if (newHours &lt; 0 || newHours &gt; 23) throw new IllegalArgumentException(&quot;hours is invalid&quot;)
+	else this.minutesSinceMidnight = newHours * 60 + this.minutes
+	}
+
+	def minutes_=(newMinutes: Int) {
+		if (newMinutes &lt; 0 || newMinutes &gt; 59) throw new IllegalArgumentException(&quot;minutes is invalid&quot;)
+		else this.minutesSinceMidnight = this.hours * 60 + newMinutes
+	}
+
+	def &lt;(other: Time4): Boolean = this.minutesSinceMidnight &lt; other.minutesSinceMidnight
+	
+	override def toString() = f&quot;${this.hours}:${this.minutes}&quot;
+}
+
+val t4 = new Time4(12, 45)                      &#x2F;&#x2F;&gt; t4  : Lesson14.Time4 = 12:45
+
+t4.hours = 17
+t4.minutes = 23
+t4                                              &#x2F;&#x2F;&gt; res0: Lesson14.Time4 = 17:23
+
+t4.hours                                        &#x2F;&#x2F;&gt; res1: Int = 17
+t4.minutes                                      &#x2F;&#x2F;&gt; res2: Int = 23
+
+println(Time4(11, 24) &lt; Time4(16, 11))          &#x2F;&#x2F;&gt; true</code></pre>
 <h2 id="9-Functional-Programming"><a href="#9-Functional-Programming" class="headerlink" title="9. Functional Programming"></a>9. Functional Programming</h2><h3 id="9-1-Function"><a href="#9-1-Function" class="headerlink" title="9.1 Function"></a>9.1 Function</h3><ul>
 <li>Functions as value</li>
 <li>Anonymous Functions</li>
@@ -363,18 +765,65 @@
 <h3 id="9-2-Closures"><a href="#9-2-Closures" class="headerlink" title="9.2 Closures"></a>9.2 Closures</h3><ul>
 <li>양자가 얽힌 것 처럼 함수도 얽힐 수 있다.</li>
 <li><p>클로저를 사용하면 함수가 필요한 정보를 어딘가에서 정의해서 받아 사용할 수 있다.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">package otherscope &#123;</span><br><span class="line">  class Foo &#123;</span><br><span class="line">    def exec(f: (String) =&gt; Unit, name: String) = &#123;</span><br><span class="line">      f(name)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">object HelloWorld extends App &#123;</span><br><span class="line">  var hello = &quot;Hello&quot;</span><br><span class="line">  </span><br><span class="line">  def sayHello(name: String) = &#123;</span><br><span class="line">    println(s&quot;$hello, $name&quot;)</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  val foo = new otherscope.Foo()</span><br><span class="line">  foo.exec(sayHello, &quot;Lee&quot;)</span><br><span class="line">  </span><br><span class="line">  hello = &quot;안녕하세요&quot;</span><br><span class="line">  foo.exec(sayHello, &quot;Lee&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>package otherscope {
+  class Foo {
+    def exec(f: (String) =&gt; Unit, name: String) = {
+      f(name)
+    }
+  }
+}
+
+object HelloWorld extends App {
+  var hello = &quot;Hello&quot;
+  
+  def sayHello(name: String) = {
+    println(s&quot;$hello, $name&quot;)
+  }
+  
+  val foo = new otherscope.Foo()
+  foo.exec(sayHello, &quot;Lee&quot;)
+  
+  hello = &quot;안녕하세요&quot;
+  foo.exec(sayHello, &quot;Lee&quot;)
+}</code></pre>
 </li>
 <li><p>위 코드를 보면 hello라는 변수가 다른 스코프에서 실행되더라도 hello 값을 참조하여 쓰고 있다. (런타임 시 클로저 변수가 참조됨)</p>
 </li>
 </ul>
 <h3 id="9-3-Currying"><a href="#9-3-Currying" class="headerlink" title="9.3 Currying"></a>9.3 Currying</h3><ul>
-<li>함수의 반환값이 함수일 때 해당 함수 호출의 호출을 바로 하는 것<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">def mul(x: Int, y: Int) = x * y                 //&gt; mul: (x: Int, y: Int)Int</span><br><span class="line">def mulOneAtATime(x: Int) = (y: Int) =&gt; x * y   //&gt; mulOneAtATime: (x: Int)Int =&gt; Int</span><br><span class="line">//def mulOneAtATime(x: Int)(y: Int) = x * y</span><br><span class="line"></span><br><span class="line">mulOneAtATime(10)(20)                           //&gt; res0: Int = 200</span><br></pre></td></tr></table></figure>
+<li>함수의 반환값이 함수일 때 해당 함수 호출의 호출을 바로 하는 것<pre><code>def mul(x: Int, y: Int) = x * y                 &#x2F;&#x2F;&gt; mul: (x: Int, y: Int)Int
+def mulOneAtATime(x: Int) = (y: Int) =&gt; x * y   &#x2F;&#x2F;&gt; mulOneAtATime: (x: Int)Int =&gt; Int
+&#x2F;&#x2F;def mulOneAtATime(x: Int)(y: Int) = x * y
+
+mulOneAtATime(10)(20)                           &#x2F;&#x2F;&gt; res0: Int = 200</code></pre>
 </li>
 </ul>
 <h2 id="10-Pattern-Matching"><a href="#10-Pattern-Matching" class="headerlink" title="10. Pattern Matching"></a>10. Pattern Matching</h2><ul>
 <li>var.isInstanceOf[Type] 보단 패턴 매칭이 더 best!</li>
-<li>주의: case의 변수명을 안쓰면 companion object를 지정하는 것처럼 보일 수 있음<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"> val ch = &apos;-&apos;                                    //&gt; ch  : Char = -</span><br><span class="line"> </span><br><span class="line"> val sign = ch match &#123;</span><br><span class="line"> 	case &apos;+&apos; =&gt; 1</span><br><span class="line"> 	case &apos;-&apos; =&gt; -1</span><br><span class="line"> 	case _ =&gt; 0</span><br><span class="line"> &#125;                                               //&gt; sign  : Int = -1</span><br><span class="line"></span><br><span class="line">val pair = (0, 1)                         //&gt; pair  : (Int, Int) = (0,1)</span><br><span class="line"></span><br><span class="line"> val st = pair match &#123;</span><br><span class="line"> 	case (0, _) =&gt; &quot;0 ...&quot;</span><br><span class="line"> 	case (y, 0) =&gt; y + &quot;0&quot;</span><br><span class="line"> 	case _ =&gt; &quot;neither is 0&quot;</span><br><span class="line"> &#125;                                               //&gt; st  : String = 0 ...</span><br><span class="line"> </span><br><span class="line"> val arr = Array(9, 1, 1)                        //&gt; arr  : Array[Int] = Array(9, 1, 1)</span><br><span class="line"> </span><br><span class="line"> val out = arr match &#123;</span><br><span class="line"> 	case Array(0) =&gt; &quot;0&quot;</span><br><span class="line"> 	case Array(x, y) =&gt; x + &quot; &quot; + y</span><br><span class="line"> 	case Array(0, _*) =&gt; &quot;0 ...&quot;</span><br><span class="line"> 	case _ =&gt; &quot;something else&quot;</span><br><span class="line"> &#125;                                               //&gt; out  : String = something else</span><br></pre></td></tr></table></figure>
+<li>주의: case의 변수명을 안쓰면 companion object를 지정하는 것처럼 보일 수 있음<pre><code> val ch = &#39;-&#39;                                    &#x2F;&#x2F;&gt; ch  : Char = -
+ 
+ val sign = ch match {
+ 	case &#39;+&#39; =&gt; 1
+ 	case &#39;-&#39; =&gt; -1
+ 	case _ =&gt; 0
+ }                                               &#x2F;&#x2F;&gt; sign  : Int = -1
+
+val pair = (0, 1)                         &#x2F;&#x2F;&gt; pair  : (Int, Int) = (0,1)
+
+ val st = pair match {
+ 	case (0, _) =&gt; &quot;0 ...&quot;
+ 	case (y, 0) =&gt; y + &quot;0&quot;
+ 	case _ =&gt; &quot;neither is 0&quot;
+ }                                               &#x2F;&#x2F;&gt; st  : String = 0 ...
+ 
+ val arr = Array(9, 1, 1)                        &#x2F;&#x2F;&gt; arr  : Array[Int] = Array(9, 1, 1)
+ 
+ val out = arr match {
+ 	case Array(0) =&gt; &quot;0&quot;
+ 	case Array(x, y) =&gt; x + &quot; &quot; + y
+ 	case Array(0, _*) =&gt; &quot;0 ...&quot;
+ 	case _ =&gt; &quot;something else&quot;
+ }                                               &#x2F;&#x2F;&gt; out  : String = something else</code></pre>
 </li>
 </ul>
 <h2 id="11-Case-Class"><a href="#11-Case-Class" class="headerlink" title="11. Case Class"></a>11. Case Class</h2><ul>

@@ -194,42 +194,56 @@
 <li>Setting SparkContext</li>
 <li>Load Data (ex: RDD[String] -&gt; RDD[Vector], CSV 파일을 읽어서 한 줄씩 Vector로 변환)</li>
 <li>Train Model<ul>
-<li>ex)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val model: KMeansModel = KMeans.train(parsedData, 2, 20)</span><br><span class="line">model.clusterCenters.foreach(println)</span><br></pre></td></tr></table></figure></li>
+<li>ex)<pre><code>val model: KMeansModel = KMeans.train(parsedData, 2, 20)
+model.clusterCenters.foreach(println)</code></pre></li>
 </ul>
 </li>
 <li>Show Results</li>
 <li>Evaluate (평가)<ul>
-<li>ex)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val cost: Double = model.computeCost(parsedData)</span><br></pre></td></tr></table></figure></li>
+<li>ex)<pre><code>val cost: Double = model.computeCost(parsedData)</code></pre></li>
 <li>cost 값이 0에 수렴할수록 좋은 모델</li>
 </ul>
 </li>
 <li>Predict<ul>
-<li>ex)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val predictions1: Int = model.predict(Vectors.dense(0.5, 0.5, 0.5))</span><br></pre></td></tr></table></figure></li>
+<li>ex)<pre><code>val predictions1: Int = model.predict(Vectors.dense(0.5, 0.5, 0.5))</code></pre></li>
 </ul>
 </li>
 </ol>
 </li>
 <li>ML 코딩 순서 (DataFrame-based APIs)<ol>
 <li>Setting SparkContext<ul>
-<li>ex)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val conf: SparkConf = ...</span><br><span class="line">val sc: SparkContext = new SparkContext(conf)</span><br><span class="line">val sqlContext: SQLContext = new SQLContext(sc) // RDD 프로그래밍과 차이점</span><br></pre></td></tr></table></figure></li>
+<li>ex)<pre><code>val conf: SparkConf = ...
+val sc: SparkContext = new SparkContext(conf)
+val sqlContext: SQLContext = new SQLContext(sc) &#x2F;&#x2F; RDD 프로그래밍과 차이점</code></pre></li>
 </ul>
 </li>
 <li>Load Data<ul>
-<li>ex)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">val dataSet: DataFrame = sqlContext.createDataFrame(Seq(</span><br><span class="line">    (1, Vectors.dense(0.0, 0.0, 0.0)),</span><br><span class="line">    (2, Vectors.dense(0.1, 0.1, 0.1))</span><br><span class="line">).toDF(&quot;id&quot;, &quot;features&quot;)</span><br><span class="line"></span><br><span class="line">// CSV 파일을 읽어서 String을 Vector로 변환해도 된다.</span><br></pre></td></tr></table></figure></li>
+<li>ex)<pre><code>val dataSet: DataFrame = sqlContext.createDataFrame(Seq(
+    (1, Vectors.dense(0.0, 0.0, 0.0)),
+    (2, Vectors.dense(0.1, 0.1, 0.1))
+).toDF(&quot;id&quot;, &quot;features&quot;)
+
+&#x2F;&#x2F; CSV 파일을 읽어서 String을 Vector로 변환해도 된다.</code></pre></li>
 </ul>
 </li>
 <li>Train Model<ul>
-<li>ex)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">val model: KMeans = new KMeans()</span><br><span class="line">  .setK(2)</span><br><span class="line">  .setFeaturesCol(&quot;features&quot;)</span><br><span class="line">  .setPredictionCol(&quot;prediction&quot;)</span><br><span class="line">val model: KMeansModel = kmeans.fit(dataSet)</span><br><span class="line"></span><br><span class="line">model.clusterCenters.foreach(println)</span><br></pre></td></tr></table></figure></li>
+<li>ex)<pre><code>val model: KMeans = new KMeans()
+  .setK(2)
+  .setFeaturesCol(&quot;features&quot;)
+  .setPredictionCol(&quot;prediction&quot;)
+val model: KMeansModel = kmeans.fit(dataSet)
+
+model.clusterCenters.foreach(println)</code></pre></li>
 </ul>
 </li>
 <li>Show Results</li>
 <li>Evaluate (평가)<ul>
-<li>ex)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val cost: Double = model.computeCost(dataSet)</span><br></pre></td></tr></table></figure></li>
+<li>ex)<pre><code>val cost: Double = model.computeCost(dataSet)</code></pre></li>
 <li>cost 값이 0에 수렴할수록 좋은 모델</li>
 </ul>
 </li>
 <li>Predict<ul>
-<li>ex)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val predictions1: Int = model.predict(Vectors.dense(0.5, 0.5, 0.5))</span><br></pre></td></tr></table></figure>
+<li>ex)<pre><code>val predictions1: Int = model.predict(Vectors.dense(0.5, 0.5, 0.5))</code></pre>
 </li>
 </ul>
 </li>

@@ -194,8 +194,29 @@
 <p>모든 철학자가 각자 자기 왼쪽에 있는 젓가락을 집은 다음 오른쪽 젓가락을 사용할 수 있을 때까지 기다렸다가 오른쪽 젓가락을 집어서 식사를 한다면, 모든 철학자가 더 이상 먹지 못하는 상황에 다다를 수 있다. 철학자 모두가 먹지 못하는 상황은 음식을 먹는 데 필요한 자원을 모두 다른 곳에서 확보하고 놓지 않기 때문에 모두가 서로 상대방이 자원을 놓기만을 기다리는, 이른바 <code>데드락</code>이 걸린다.<br><code>자바 병렬 프로그래밍 P.305</code></p>
 </blockquote>
 <p>식사하는 철학자의 문제를 Java Thread에 접목하여 Deadlock이 생기는 과정을 살펴보면 다음과 같다.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">// 데드락 위험이 있는 코드</span><br><span class="line">public class LeftRightDeadlock &#123;</span><br><span class="line">  private final Object left = new Object();</span><br><span class="line">  private final Object right = new Object();</span><br><span class="line"></span><br><span class="line">  public void leftRight() &#123;</span><br><span class="line">    synchronized (left) &#123;</span><br><span class="line">      synchronized (right) &#123;</span><br><span class="line">        doSomething();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public void rightLeft() &#123;</span><br><span class="line">    synchronized (right) &#123;</span><br><span class="line">      synchronized (left) &#123;</span><br><span class="line">        doSomethingElse();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
+<pre><code>// 데드락 위험이 있는 코드
+public class LeftRightDeadlock {
+  private final Object left = new Object();
+  private final Object right = new Object();
+
+  public void leftRight() {
+    synchronized (left) {
+      synchronized (right) {
+        doSomething();
+      }
+    }
+  }
+
+  public void rightLeft() {
+    synchronized (right) {
+      synchronized (left) {
+        doSomethingElse();
+      }
+    }
+  }
+
+}
+</code></pre><ul>
 <li>스레드 A가 락 left을 확보한 상태에서 락 right을 확보하려 대기</li>
 <li>스레드 B가 락 right을 확보한 상태에서 락 left을 확보하려고 대기</li>
 <li>양쪽 스레드 A, B는 서로가 락을 풀기를 영원히 기다리게 됨</li>
@@ -204,10 +225,63 @@
 <h2 id="Deadlock-예방하기"><a href="#Deadlock-예방하기" class="headerlink" title="Deadlock 예방하기"></a>Deadlock 예방하기</h2><h3 id="방법-1-Lock이-발생하는-순서를-정해놓는다"><a href="#방법-1-Lock이-발생하는-순서를-정해놓는다" class="headerlink" title="방법 1. Lock이 발생하는 순서를 정해놓는다."></a>방법 1. Lock이 발생하는 순서를 정해놓는다.</h3><blockquote>
 <p>프로그램 내부의 모든 스레드에서 필요한 락을 모두 같은 순서로만 사용한다면, 락 순서에 의한 데드락은 발생하지 않는다.<br><code>자바 병렬 프로그래밍 P.307</code></p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 해결 전: 데드락 위험이 있는 코드</span><br><span class="line">public void transferMoney (Account fromAccount, Account toAccount, DollarAmount amount) &#123;</span><br><span class="line">  synchronized (fromAccount) &#123;</span><br><span class="line">    synchronized (toAccount) &#123;</span><br><span class="line">      if (fromAccount.getBalance().compareTo(amount) &lt; 0) &#123;</span><br><span class="line">        throw new InsufficientFundsException();</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        fromAccount.debit(amount);</span><br><span class="line">        toAccount.credit(amount);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>위 코드를 얼핏보면 경합이 일어나지 않을 코드 같다. 하지만 파라미터 fromAccount와 toAccount에 순서만 달리해서 동시 호출이 일어난다면 데드락이 걸릴 확률이 증가하게 된다.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">// 해결 후: Lock이 발생하는 순서를 제어한 경우</span><br><span class="line">private static final Object tieLock = new Object();</span><br><span class="line"></span><br><span class="line">public void transferMoney(final Account fromAccount, final Account toAccount, final DollarAmount amount) &#123;</span><br><span class="line"></span><br><span class="line">  class Helper &#123;</span><br><span class="line">    public void transfer() &#123;</span><br><span class="line">      if (fromAccount.getBalance().compareTo(acmount) &lt; 0) &#123;</span><br><span class="line">        throw new InsufficientFuncsException();</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        fromAccount.debit(amount);</span><br><span class="line">        toAccount.credit(ammount);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  int fromHash = System.identityHashCode(fromAccount);</span><br><span class="line">  int toHash = System.identityHashCode(toAccount);</span><br><span class="line"></span><br><span class="line">  if (fromHash &lt; toHash) &#123;</span><br><span class="line">    synchronized(fromAccount) &#123;</span><br><span class="line">      synchronized(toAccount) &#123;</span><br><span class="line">        new Helper().transfer();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; else if (fromHash &gt; toHash) &#123;</span><br><span class="line">    synchronized(toAccount) &#123;</span><br><span class="line">      synchronized(fromAccount) &#123;</span><br><span class="line">        new Helper().transfer();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    synchronized (tieLock) &#123;</span><br><span class="line">      synchronized(fromAccount) &#123;</span><br><span class="line">        synchronized(toAccount) &#123;</span><br><span class="line">          new Helper().transfer();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="방법-2-오픈-호출"><a href="#방법-2-오픈-호출" class="headerlink" title="방법 2. 오픈 호출"></a>방법 2. 오픈 호출</h3><p>메소드 호출이라는 것은 그 너머에 어떤 일이 일어나는지 모르게 막아주는 추상화 방법이다. 하지만 호출한 메소드 내부에서 어떤 일이 일어나는지 알지 못하기 때문에 특정 락을 확보한 상태에서 다른 메소드를 호출한다는 것은 파급 효과를 분석하기가 어렵고 위험한 일이다. 이에 따라 락을 전혀 확보하지 않은 상태에서 메소드를 호출하는 것이 좋은데 이것을 오픈 호출이라고 한다. (스레드 안정성을 확보하기 위해 캡슐화 기법encapsulation을 사용하는 것과 비슷)  </p>
+<pre><code>// 해결 전: 데드락 위험이 있는 코드
+public void transferMoney (Account fromAccount, Account toAccount, DollarAmount amount) {
+  synchronized (fromAccount) {
+    synchronized (toAccount) {
+      if (fromAccount.getBalance().compareTo(amount) &lt; 0) {
+        throw new InsufficientFundsException();
+      } else {
+        fromAccount.debit(amount);
+        toAccount.credit(amount);
+      }
+    }
+  }
+}
+</code></pre><p>위 코드를 얼핏보면 경합이 일어나지 않을 코드 같다. 하지만 파라미터 fromAccount와 toAccount에 순서만 달리해서 동시 호출이 일어난다면 데드락이 걸릴 확률이 증가하게 된다.</p>
+<pre><code>// 해결 후: Lock이 발생하는 순서를 제어한 경우
+private static final Object tieLock = new Object();
+
+public void transferMoney(final Account fromAccount, final Account toAccount, final DollarAmount amount) {
+
+  class Helper {
+    public void transfer() {
+      if (fromAccount.getBalance().compareTo(acmount) &lt; 0) {
+        throw new InsufficientFuncsException();
+      } else {
+        fromAccount.debit(amount);
+        toAccount.credit(ammount);
+      }
+    }
+
+  }
+
+  int fromHash = System.identityHashCode(fromAccount);
+  int toHash = System.identityHashCode(toAccount);
+
+  if (fromHash &lt; toHash) {
+    synchronized(fromAccount) {
+      synchronized(toAccount) {
+        new Helper().transfer();
+      }
+    }
+  } else if (fromHash &gt; toHash) {
+    synchronized(toAccount) {
+      synchronized(fromAccount) {
+        new Helper().transfer();
+      }
+    }
+  } else {
+    synchronized (tieLock) {
+      synchronized(fromAccount) {
+        synchronized(toAccount) {
+          new Helper().transfer();
+        }
+      }
+    }
+  }
+}
+</code></pre><h3 id="방법-2-오픈-호출"><a href="#방법-2-오픈-호출" class="headerlink" title="방법 2. 오픈 호출"></a>방법 2. 오픈 호출</h3><p>메소드 호출이라는 것은 그 너머에 어떤 일이 일어나는지 모르게 막아주는 추상화 방법이다. 하지만 호출한 메소드 내부에서 어떤 일이 일어나는지 알지 못하기 때문에 특정 락을 확보한 상태에서 다른 메소드를 호출한다는 것은 파급 효과를 분석하기가 어렵고 위험한 일이다. 이에 따라 락을 전혀 확보하지 않은 상태에서 메소드를 호출하는 것이 좋은데 이것을 오픈 호출이라고 한다. (스레드 안정성을 확보하기 위해 캡슐화 기법encapsulation을 사용하는 것과 비슷)  </p>
 <p>락을 확보하지 않은 상태에서 메소드를 호출하는게 관건!  </p>
 <h3 id="방법-3-락의-시간-제한"><a href="#방법-3-락의-시간-제한" class="headerlink" title="방법 3. 락의 시간 제한"></a>방법 3. 락의 시간 제한</h3><p>암묵적인 락 synchronized 말고 락 시간을 제한할 있는 Lock 클래스의 tryLock 메소드를 사용한다. 암묵적인 락은 락을 확보할 때까지 영원히 기다리지만, Lock 클래스 등의 명시적인 락은 일정 시간을 정해두고 그 시간 동안 락을 확보하지 못한다면 tryLock 메소드가 오류를 발생시키도록 할 수 있다.</p>
 <h2 id="스레드-덤프를-활용한-Deadlock-분석하기"><a href="#스레드-덤프를-활용한-Deadlock-분석하기" class="headerlink" title="스레드 덤프를 활용한 Deadlock 분석하기"></a>스레드 덤프를 활용한 Deadlock 분석하기</h2><p>스레드 덤프 분석이라면 여기 훌륭한 글이 이미 있다.<br><a href="http://d2.naver.com/helloworld/10963" target="_blank" rel="noopener">http://d2.naver.com/helloworld/10963</a></p>

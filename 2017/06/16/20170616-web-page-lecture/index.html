@@ -225,7 +225,10 @@
 <li>태그 안에 style 속성을 써서 CSS를 선언하는 방식을 inline style이라고 부름. 이 방식은 해당 엘리먼트에만 적용이 됨. (재사용이 불가)</li>
 <li>link 태그를 여러개 하면 http 요청이 많아져서 성능이 떨어짐. 최대 2개만 유지하자. css 빌드 기능을 써도 좋음.</li>
 <li>user agent stylesheet는 브라우저에 설정된 기본적인 스타일시트</li>
-<li>아래 코드는 IE9 이하의 브라우저에서 html5 태그를 쓸 수 있게하는 polyfill js임<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--[if lt IE 9]&gt;</span><br><span class="line">&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;![endif]--&gt;</span><br></pre></td></tr></table></figure></li>
+<li>아래 코드는 IE9 이하의 브라우저에서 html5 태그를 쓸 수 있게하는 polyfill js임<pre><code>&lt;!--[if lt IE 9]&gt;
+&lt;script src=&quot;https:&#x2F;&#x2F;cdnjs.cloudflare.com&#x2F;ajax&#x2F;libs&#x2F;html5shiv&#x2F;3.7.3&#x2F;html5shiv.min.js&quot;&gt;&lt;&#x2F;script&gt;
+&lt;script src=&quot;https:&#x2F;&#x2F;cdnjs.cloudflare.com&#x2F;ajax&#x2F;libs&#x2F;respond.js&#x2F;1.4.2&#x2F;respond.min.js&quot;&gt;&lt;&#x2F;script&gt;
+&lt;![endif]--&gt;</code></pre></li>
 </ul>
 </li>
 <li>그 다음 script 태그가 위치하는데 이 태그는 head 혹은 body 엘리먼트 안에 위치해야 한다. (다른데 위치하면 안됨)<ul>
@@ -279,7 +282,10 @@
 </ul>
 <h3 id="main"><a href="#main" class="headerlink" title="main"></a>main</h3><ul>
 <li>해당 페이지의 중요한 컨텐츠를 여기에 위치시키자. (ex: 뉴스기사 본분, 블로그 컨텐츠 본문)</li>
-<li>화면을 수직으로 분할하고 싶을 때는 div로 한 번 wrapping해서 쓰자<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">  &lt;main&gt;...&lt;/main&gt;</span><br><span class="line">  &lt;aside&gt;...&lt;/aside&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<li>화면을 수직으로 분할하고 싶을 때는 div로 한 번 wrapping해서 쓰자<pre><code>&lt;div&gt;
+  &lt;main&gt;...&lt;&#x2F;main&gt;
+  &lt;aside&gt;...&lt;&#x2F;aside&gt;
+&lt;&#x2F;div&gt;</code></pre>
 </li>
 </ul>
 <h3 id="section"><a href="#section" class="headerlink" title="section"></a>section</h3><ul>
@@ -304,14 +310,20 @@
 <li>*은 공용 셀렉터로 html, body 등 모든 것을 다 선택한다.</li>
 <li>width 값에 border값과 padding값이 포함된 값으로 셋팅할 수는 없을까? <ul>
 <li><code>box-sizing: content-box;</code> 때문에 저렇게 동작하는 것인데 이 값을 border-box로 변경하면 원하는 대로 동작한다. <code>box-sizing: border-box;</code></li>
-<li>모든 DOM을 border-box로 하고 싶을 때는?<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">*,</span><br><span class="line">:before,</span><br><span class="line">:after &#123;</span><br><span class="line">  box-sizing: border-box;</span><br><span class="line">&#125; /* 셀럭터에서 쉼표(,)는 and를 의미한다. */</span><br></pre></td></tr></table></figure></li>
+<li>모든 DOM을 border-box로 하고 싶을 때는?<pre><code>*,
+:before,
+:after {
+  box-sizing: border-box;
+} &#x2F;* 셀럭터에서 쉼표(,)는 and를 의미한다. *&#x2F;</code></pre></li>
 </ul>
 </li>
 <li><p><code>body:before {}</code> 여기서 :before는 가상 선택자라고 하며, 실제로 DOM이 존재하지 않지만 브라우저가 DOM을 생성하게 해주는 것을 칭한다. :after도 있음</p>
 <ul>
 <li>before와 after는 화면 낭독기가 읽어주지 않기 때문에 컨텐츠를 담으면 웹접근성 위반.</li>
 <li>보통 before와 after에는 아이콘을 위치시킨다.</li>
-<li>body 앞에 가상 DOM을 생성해서 그 안에 hello world라고 출력하고 싶을때는?<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">body:before &#123;</span><br><span class="line">  content: &apos;hello world&apos;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li>body 앞에 가상 DOM을 생성해서 그 안에 hello world라고 출력하고 싶을때는?<pre><code>body:before {
+  content: &#39;hello world&#39;;
+}</code></pre>
 </li>
 </ul>
 </li>
@@ -353,38 +365,109 @@
 <li>block에 width를 주면 나머지 영역은 auto margin이 적용된다.</li>
 <li>auto margin 언제 필요할까? 중앙 정렬할 때 필요 (ex: <code>margin: 0 auto;</code>)</li>
 <li><p>아래와 같은 경우 b 앨리먼트는 margin이 어떻게 동작할까?</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.a &#123;</span><br><span class="line">  background: red;</span><br><span class="line">  color: #FFF;</span><br><span class="line">  margin-bottom: 100px;</span><br><span class="line">&#125;</span><br><span class="line">.b &#123;</span><br><span class="line">  background: blue;</span><br><span class="line">  color: #FFF;</span><br><span class="line">  margin-top: 100px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>.a {
+  background: red;
+  color: #FFF;
+  margin-bottom: 100px;
+}
+.b {
+  background: blue;
+  color: #FFF;
+  margin-top: 100px;
+}</code></pre>
 <ul>
 <li>a와 b의 마진이 겹친다. 이를 <code>수직 마진 중첩</code>이라고 부른다.</li>
 </ul>
 </li>
 <li><p>그럼 b의 margin-top을 200px로 하면 a와 b 사이는 300px이 될까?</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.a &#123;</span><br><span class="line">  background: red;</span><br><span class="line">  color: #FFF;</span><br><span class="line">  margin-bottom: 100px;</span><br><span class="line">&#125;</span><br><span class="line">.b &#123;</span><br><span class="line">  background: blue;</span><br><span class="line">  color: #FFF;</span><br><span class="line">  margin-top: 200px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>.a {
+  background: red;
+  color: #FFF;
+  margin-bottom: 100px;
+}
+.b {
+  background: blue;
+  color: #FFF;
+  margin-top: 200px;
+}</code></pre>
 <ul>
 <li>절대값이 작은 margin 값은 무시된다.</li>
 </ul>
 </li>
 <li><p>그럼 b의 margin-top을 -100px로 하면 어떻게 될까?</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.a &#123;</span><br><span class="line">  background: red;</span><br><span class="line">  color: #FFF;</span><br><span class="line">  margin-bottom: 100px;</span><br><span class="line">&#125;</span><br><span class="line">.b &#123;</span><br><span class="line">  background: blue;</span><br><span class="line">  color: #FFF;</span><br><span class="line">  margin-top: -100px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>.a {
+  background: red;
+  color: #FFF;
+  margin-bottom: 100px;
+}
+.b {
+  background: blue;
+  color: #FFF;
+  margin-top: -100px;
+}</code></pre>
 <ul>
 <li>이 때는 margin 값이 사라지게 된다.</li>
 </ul>
 </li>
 <li><p>그럼 a의 margin을 지우면 어떻게 될까?</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">.a &#123;</span><br><span class="line">  background: red;</span><br><span class="line">  color: #FFF;</span><br><span class="line">&#125;</span><br><span class="line">.b &#123;</span><br><span class="line">  background: blue;</span><br><span class="line">  color: #FFF;</span><br><span class="line">  margin-top: -100px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>.a {
+  background: red;
+  color: #FFF;
+}
+.b {
+  background: blue;
+  color: #FFF;
+  margin-top: -100px;
+}</code></pre>
 <ul>
 <li>이 때는 b가 a 위에 겹치게 된다.</li>
 </ul>
 </li>
 <li><p>아래와 같은 엘리먼트가 있을 때 margin은 어떻게 동작하게 될까?</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;c&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;a&quot;&gt;.a&lt;/div&gt;</span><br><span class="line">  &lt;div class=&quot;b&quot;&gt;.b&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">.a &#123;</span><br><span class="line">  background: red;</span><br><span class="line">  color: #FFF;</span><br><span class="line">  margin-top: 100px;</span><br><span class="line">&#125;</span><br><span class="line">.b &#123;</span><br><span class="line">  background: blue;</span><br><span class="line">  color: #FFF;</span><br><span class="line">&#125;</span><br><span class="line">.c &#123;</span><br><span class="line">  background: silver;</span><br><span class="line">  color: #FFF;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;div class=&quot;c&quot;&gt;
+  &lt;div class=&quot;a&quot;&gt;.a&lt;&#x2F;div&gt;
+  &lt;div class=&quot;b&quot;&gt;.b&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+
+.a {
+  background: red;
+  color: #FFF;
+  margin-top: 100px;
+}
+.b {
+  background: blue;
+  color: #FFF;
+}
+.c {
+  background: silver;
+  color: #FFF;
+}</code></pre>
 <ul>
 <li>c의 margin-top은 0 이므로 무시가 되고 a의 margin-top 값이 적용이 된다.</li>
 <li>c 박스 안에서 margin을 주고 싶을 떄는? <code>overflow: hidden</code> or <code>padding: 1px</code> or <code>border: 1px solid #000</code> 셋 중에 하나만 줘도 원하는대로 동작한다.</li>
 </ul>
 </li>
 <li><p>inline 요소는 수직 마진이 적용되지 않는다. 단 수평 마진은 적용된다.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">.a,</span><br><span class="line">.b &#123;</span><br><span class="line">  width: 100px;</span><br><span class="line">  height: 100px;</span><br><span class="line">  display: inline;</span><br><span class="line">  margin: 100px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.a &#123;</span><br><span class="line">  background: red;</span><br><span class="line">  color: #FFF;</span><br><span class="line">&#125;</span><br><span class="line">.b &#123;</span><br><span class="line">  background: blue;</span><br><span class="line">  color: #FFF;</span><br><span class="line">&#125;</span><br><span class="line">.c &#123;</span><br><span class="line">  background: silver;</span><br><span class="line">  color: #FFF;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>.a,
+.b {
+  width: 100px;
+  height: 100px;
+  display: inline;
+  margin: 100px;
+}
+
+.a {
+  background: red;
+  color: #FFF;
+}
+.b {
+  background: blue;
+  color: #FFF;
+}
+.c {
+  background: silver;
+  color: #FFF;
+}</code></pre>
 </li>
 </ul>
 <h3 id="position"><a href="#position" class="headerlink" title="position"></a>position</h3><ul>
@@ -400,7 +483,13 @@
 </ul>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">position: fixed;</span><br><span class="line">right: 0;</span><br><span class="line">bottom: 0;</span><br><span class="line">top: 0;</span><br><span class="line">left: 0;</span><br><span class="line">opacity: .5;</span><br><span class="line">margin: auto;</span><br></pre></td></tr></table></figure>
+<pre><code>position: fixed;
+right: 0;
+bottom: 0;
+top: 0;
+left: 0;
+opacity: .5;
+margin: auto;</code></pre>
 <ul>
 <li>relative: 이 속성을 줘도 z-index가 활성화 된다.</li>
 </ul>
@@ -408,7 +497,36 @@
 <li>float를 주면 position: absolute를 준 것과 같이 비슷한 효과를 볼 수 있다. (z-index가 활성화 되고 width, height가 수축된다.)</li>
 <li>width, height 수축되는 것을 막으려면 <code>overflow: hidden</code>을 주면 된다.</li>
 <li><code>overflow: hidden</code>을 주었을 때 box 바깥으로 넘칠 때 표시가 안되는 이슈가 있다.</li>
-<li>결과적으로 float를 주면서 수축이 안되게 하려면 <code>clear: both</code>라는 스타일을 갖는 앨리먼트를 추가하면 된다. (:after를 사용해서)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;c&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;a&quot;&gt;.a&lt;/div&gt;</span><br><span class="line">  &lt;div class=&quot;b&quot;&gt;.b&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">.a,</span><br><span class="line">.b &#123;</span><br><span class="line">  width: 100px;</span><br><span class="line">  height: 100px;</span><br><span class="line">  float: right;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.a &#123;</span><br><span class="line">  background: red;</span><br><span class="line">  color: #FFF;</span><br><span class="line">&#125;</span><br><span class="line">.b &#123;</span><br><span class="line">  background: black;</span><br><span class="line">  color: #FFF;</span><br><span class="line">&#125;</span><br><span class="line">.c &#123;</span><br><span class="line">  background: silver;</span><br><span class="line">  color: #FFF;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.c:after &#123;</span><br><span class="line">  display: block;</span><br><span class="line">  content: &quot;&quot;;</span><br><span class="line">  clear: both;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li>결과적으로 float를 주면서 수축이 안되게 하려면 <code>clear: both</code>라는 스타일을 갖는 앨리먼트를 추가하면 된다. (:after를 사용해서)<pre><code>&lt;div class=&quot;c&quot;&gt;
+  &lt;div class=&quot;a&quot;&gt;.a&lt;&#x2F;div&gt;
+  &lt;div class=&quot;b&quot;&gt;.b&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+
+.a,
+.b {
+  width: 100px;
+  height: 100px;
+  float: right;
+}
+
+.a {
+  background: red;
+  color: #FFF;
+}
+.b {
+  background: black;
+  color: #FFF;
+}
+.c {
+  background: silver;
+  color: #FFF;
+}
+
+.c:after {
+  display: block;
+  content: &quot;&quot;;
+  clear: both;
+}</code></pre>
 </li>
 </ul>
 <h3 id="그-밖에…"><a href="#그-밖에…" class="headerlink" title="그 밖에…"></a>그 밖에…</h3><ul>

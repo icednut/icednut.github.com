@@ -309,7 +309,8 @@ Stream (Lazy List)
 
 
 List의 한계스칼라에서 다음 코드는 어떻게 수행될까?
-1List(1,2,3,4).map(_ + 10).filter(_ % 2 == 0).map(_ * 3)
+List(1,2,3,4).map(_ + 10).filter(_ % 2 == 0).map(_ * 3)
+
 스칼라 List의 map과 filter 함수는 임시적인 목록을 만들어서 그 결과를 반환한...
         </p>
         <p class="article-more-link">
@@ -613,9 +614,10 @@ Load Balancing (Client-side, Server...
       
         <p class="article-excerpt-content">
           개요가장 빨리 만나는 코어 자바9 책을 읽다가 실무에서도 많이 쓰일 것 같은 Java9에서의 Stream 다루기가 나오길래 정리!! 
-null이 제거된 Stream 얻기id 목록 스트림이 있고, 아래의 lookup 메소드를 이용하여 얻어진 User 목록 중 null이 제거된 목록 스트림을 얻어내려면 어떻게 할까?1Optional&lt;User&gt; lookup(String id);
+null이 제거된 Stream 얻기id 목록 스트림이 있고, 아래의 lookup 메소드를 이용하여 얻어진 User 목록 중 null이 제거된 목록 스트림을 얻어내려면 어떻게 할까?Optional&lt;User> lookup(String id);
+
 보통 아래와 같이 작성할 것이다.
-1234Stream&l...
+Stream&lt;Strin...
         </p>
         <p class="article-more-link">
           <a href="/2018/05/24/20180524-java-stream-tips/#more">Read More</a>

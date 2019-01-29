@@ -205,20 +205,84 @@
 <li>Zeppelin 설치<ul>
 <li>Zeppelin 공식 사이트에서 제플린 다운로드</li>
 <li>zeppelin을 로컬에서 실행하기 위한 설정 진행 (아래 설정파일 참고)</li>
-<li>$ZEPPELIN_HOME/bin/zeppelin.sh 실행<figure class="highlight bash"><figcaption><span>$ZEPPELIN_HOME/conf/zeppelin-env.sh</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home</span><br><span class="line"><span class="built_in">export</span> HADOOP_HOME=/Users/1002371/Dev/hadoop-2.8.0</span><br><span class="line"><span class="built_in">export</span> SPARK_HOME=/Users/1002371/Dev/spark-2.1.1-bin-hadoop2.7</span><br><span class="line"><span class="built_in">export</span> HADOOP_CONF_DIR=<span class="variable">$&#123;HADOOP_HOME&#125;</span>/etc/hadoop</span><br><span class="line">    </span><br></pre></td></tr></table></figure></li>
+<li>$ZEPPELIN_HOME/bin/zeppelin.sh 실행<pre><code>#!&#x2F;bin&#x2F;bash
+...
+
+export JAVA_HOME=&#x2F;Library&#x2F;Java&#x2F;JavaVirtualMachines&#x2F;jdk1.8.0_121.jdk&#x2F;Contents&#x2F;Home
+export HADOOP_HOME=&#x2F;Users&#x2F;1002371&#x2F;Dev&#x2F;hadoop-2.8.0
+export SPARK_HOME=&#x2F;Users&#x2F;1002371&#x2F;Dev&#x2F;spark-2.1.1-bin-hadoop2.7
+export HADOOP_CONF_DIR=${HADOOP_HOME}&#x2F;etc&#x2F;hadoop
+    </code></pre></li>
 </ul>
 </li>
 <li>Hadoop(YARN) 설치<ul>
 <li>Hadoop 공식 사이트에서 하둡 다운로드</li>
 <li>$HADOOP_HOME/etc/haddop/hdfs-site.xml 등등 설정파일에 HDFS 관련 설정 진행하기 (아래 설정 예시 참고)</li>
-<li>$HADOOP_HOME/bin/start-all.sh 실행 (YARN과 HDFS 실행됨)<figure class="highlight xml"><figcaption><span>$HADDOP_HOME/etc/hadoop/core-site.xml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.defaultFS<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://127.0.0.1:8020/<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">description</span>&gt;</span>NameNode URI<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.proxyuser.teamsk.groups<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>*<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.proxyuser.teamsk.hosts<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>*<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">    </span><br></pre></td></tr></table></figure>
-<figure class="highlight xml"><figcaption><span>$HADDOP_HOME/etc/hadoop/hdfs-site.xml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="meta">&lt;?xml-stylesheet type="text/xsl" href="configuration.xsl"?&gt;</span></span><br><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">  Licensed under the Apache License, Version 2.0 (the "License");</span></span><br><span class="line"><span class="comment">  you may not use this file except in compliance with the License.</span></span><br><span class="line"><span class="comment">  You may obtain a copy of the License at</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    http://www.apache.org/licenses/LICENSE-2.0</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  Unless required by applicable law or agreed to in writing, software</span></span><br><span class="line"><span class="comment">  distributed under the License is distributed on an "AS IS" BASIS,</span></span><br><span class="line"><span class="comment">  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></span><br><span class="line"><span class="comment">  See the License for the specific language governing permissions and</span></span><br><span class="line"><span class="comment">  limitations under the License. See accompanying LICENSE file.</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- Put site-specific property overrides in this file. --&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.datanode.data.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>file:///home/teamsk/Sparklab/hadoop-2.8.0/data/datanode<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">description</span>&gt;</span>Comma separated list of paths on the local filesystem of a DataNode where it should store its blocks<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.replication<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">description</span>&gt;</span>Default block replication. The actual number of replications can be specified when the file is created. The default is used if replication is not specified in create time.<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.name.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>file:///home/teamsk/Sparklab/hadoop-2.8.0/data/namenode<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">description</span>&gt;</span>Path on the local filesystem where the NameNode stores the namespace and transaction logs persistently.<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.webhdfs.enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">    </span><br></pre></td></tr></table></figure></li>
+<li>$HADOOP_HOME/bin/start-all.sh 실행 (YARN과 HDFS 실행됨)<pre><code>&lt;configuration&gt;
+ &lt;property&gt;
+  &lt;name&gt;fs.defaultFS&lt;&#x2F;name&gt;
+  &lt;value&gt;hdfs:&#x2F;&#x2F;127.0.0.1:8020&#x2F;&lt;&#x2F;value&gt;
+  &lt;description&gt;NameNode URI&lt;&#x2F;description&gt;
+ &lt;&#x2F;property&gt;
+ &lt;property&gt;
+  &lt;name&gt;hadoop.proxyuser.teamsk.groups&lt;&#x2F;name&gt;
+  &lt;value&gt;*&lt;&#x2F;value&gt;
+ &lt;&#x2F;property&gt;
+ &lt;property&gt;
+  &lt;name&gt;hadoop.proxyuser.teamsk.hosts&lt;&#x2F;name&gt;
+  &lt;value&gt;*&lt;&#x2F;value&gt;
+ &lt;&#x2F;property&gt;
+&lt;&#x2F;configuration&gt;
+    </code></pre>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;?xml-stylesheet type=&quot;text&#x2F;xsl&quot; href=&quot;configuration.xsl&quot;?&gt;
+&lt;!--
+  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http:&#x2F;&#x2F;www.apache.org&#x2F;licenses&#x2F;LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License. See accompanying LICENSE file.
+--&gt;
+
+&lt;!-- Put site-specific property overrides in this file. --&gt;
+
+&lt;configuration&gt;
+ &lt;property&gt;
+  &lt;name&gt;dfs.datanode.data.dir&lt;&#x2F;name&gt;
+  &lt;value&gt;file:&#x2F;&#x2F;&#x2F;home&#x2F;teamsk&#x2F;Sparklab&#x2F;hadoop-2.8.0&#x2F;data&#x2F;datanode&lt;&#x2F;value&gt;
+  &lt;description&gt;Comma separated list of paths on the local filesystem of a DataNode where it should store its blocks&lt;&#x2F;description&gt;
+ &lt;&#x2F;property&gt;
+ &lt;property&gt;
+  &lt;name&gt;dfs.replication&lt;&#x2F;name&gt;
+  &lt;value&gt;1&lt;&#x2F;value&gt;
+  &lt;description&gt;Default block replication. The actual number of replications can be specified when the file is created. The default is used if replication is not specified in create time.&lt;&#x2F;description&gt;
+ &lt;&#x2F;property&gt;
+ &lt;property&gt;
+  &lt;name&gt;dfs.namenode.name.dir&lt;&#x2F;name&gt;
+  &lt;value&gt;file:&#x2F;&#x2F;&#x2F;home&#x2F;teamsk&#x2F;Sparklab&#x2F;hadoop-2.8.0&#x2F;data&#x2F;namenode&lt;&#x2F;value&gt;
+  &lt;description&gt;Path on the local filesystem where the NameNode stores the namespace and transaction logs persistently.&lt;&#x2F;description&gt;
+ &lt;&#x2F;property&gt;
+ &lt;property&gt;
+  &lt;name&gt;dfs.webhdfs.enabled&lt;&#x2F;name&gt;
+  &lt;value&gt;true&lt;&#x2F;value&gt;
+ &lt;&#x2F;property&gt;
+&lt;&#x2F;configuration&gt;
+    </code></pre></li>
 </ul>
 </li>
 <li>Spark 설치<ul>
 <li>Spark 공식 사이트에서 스파크 다운로드</li>
 <li>Spark App 코드 작성 후 jar로 묶기</li>
-<li>$SPARK_HOME/bin에서 spark-submit.sh 실행하는데 실행 파라미터로 앞에서 만든 JAR 파일 입력하면 스파크 구동됨<figure class="highlight bash"><figcaption><span>$SPARK_HOME/conf/spark-env.sh</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env bash</span></span><br><span class="line">...</span><br><span class="line"><span class="built_in">export</span> HADOOP_CONF_DIR=/Users/1002371/Dev/hadoop-2.8.0/etc/hadoop</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+<li>$SPARK_HOME/bin에서 spark-submit.sh 실행하는데 실행 파라미터로 앞에서 만든 JAR 파일 입력하면 스파크 구동됨<pre><code>#!&#x2F;usr&#x2F;bin&#x2F;env bash
+...
+export HADOOP_CONF_DIR=&#x2F;Users&#x2F;1002371&#x2F;Dev&#x2F;hadoop-2.8.0&#x2F;etc&#x2F;hadoop
+    </code></pre>
 </li>
 </ul>
 </li>

@@ -192,28 +192,44 @@
 <h2 id="Spark-DataFrames"><a href="#Spark-DataFrames" class="headerlink" title="Spark DataFrames"></a>Spark DataFrames</h2><ul>
 <li>RDD와 DataFrame의 차이점? Catelog optimizer의 유무 (DataFrames에만 있음. RDD는 디시리얼라이제이션 때문에 Heap 사용량이 많아 성능 저하.)</li>
 <li>DataFrames는 테이블 형태로 데이터를 한정했기 때문에 SQL에 국한된 로직만 작성할 수 있는 단점이 있다. (DataFrames를 보완하기 위해 Datasets가 나왔음)<ul>
-<li>ex)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dataFrames.filter($&quot;weight&quot; &lt; 60) // $&quot;weight&quot;와 같이 컬럼을 지정하여 필터링 할 수 있다.</span><br><span class="line">// 컬럼($)으로 쓰면 해당 컬럼에 대한 오퍼레이션을 더 추가할 수 있다. (ex: cast)</span><br></pre></td></tr></table></figure></li>
+<li>ex)<pre><code>dataFrames.filter($&quot;weight&quot; &lt; 60) &#x2F;&#x2F; $&quot;weight&quot;와 같이 컬럼을 지정하여 필터링 할 수 있다.
+&#x2F;&#x2F; 컬럼($)으로 쓰면 해당 컬럼에 대한 오퍼레이션을 더 추가할 수 있다. (ex: cast)</code></pre></li>
 </ul>
 </li>
 <li>DataFrames를 쓰면 많이 쓰는 메소드:  show, printSchema<ul>
-<li>ex)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val peopleRDD = spark.sparkContext.makeRDD(&quot;&quot;&quot;&#123;&quot;name&quot;:&quot;Yin&quot;,&quot;address&quot;:&#123;&quot;city&quot;:&quot;Columbus&quot;,&quot;state&quot;:&quot;Ohio&quot;&#125;&#125;&quot;&quot;&quot; :: Nil)</span><br><span class="line">val people = spark.read.json(peopleRDD)</span><br><span class="line"></span><br><span class="line">people.show()</span><br></pre></td></tr></table></figure></li>
-<li>ex)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val wikiDF = spark.read.json(&quot;/sparklab/dataset/wikiticker-2015-09-12-sampled.json.gz&quot;)</span><br><span class="line"></span><br><span class="line">wikiDF.show()</span><br><span class="line">wikiDF.printSchema()</span><br></pre></td></tr></table></figure></li>
+<li>ex)<pre><code>val peopleRDD = spark.sparkContext.makeRDD(&quot;&quot;&quot;{&quot;name&quot;:&quot;Yin&quot;,&quot;address&quot;:{&quot;city&quot;:&quot;Columbus&quot;,&quot;state&quot;:&quot;Ohio&quot;}}&quot;&quot;&quot; :: Nil)
+val people = spark.read.json(peopleRDD)
+
+people.show()</code></pre></li>
+<li>ex)<pre><code>val wikiDF = spark.read.json(&quot;&#x2F;sparklab&#x2F;dataset&#x2F;wikiticker-2015-09-12-sampled.json.gz&quot;)
+
+wikiDF.show()
+wikiDF.printSchema()</code></pre></li>
 </ul>
 </li>
 <li>DataFrames에서 explain 메소드를 쓰면 RDBMS와 같이 쿼리 수행 계획을 볼 수 있다.<ul>
-<li>ex)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wikiDF.select($&quot;page&quot;, $&quot;added&quot; + 1).explain(true)</span><br></pre></td></tr></table></figure></li>
+<li>ex)<pre><code>wikiDF.select($&quot;page&quot;, $&quot;added&quot; + 1).explain(true)</code></pre></li>
 </ul>
 </li>
 <li>Shuffle Read, Shuffle Write를 염두해두자. (엄청크면 뭔가 문제가 있다는 신호. 조인을 잘못걸경우 커짐. shuffle은 노드간에 데이터를 파티셔닝 및 섞는 것을 의미)</li>
 <li>explain 볼 때 밑에서부터 위로 읽어나가자.</li>
 <li>JSON을 RDD로 만든 뒤 DataFrame로 변환해서 출력해보면 알아서 컬럼 타입을 지정해준다.<ul>
-<li>ex)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">val cityRDD = spark.sparkContext.makeRDD(</span><br><span class="line">  &quot;&quot;&quot;&#123;&quot;cityName&quot;:&quot;Seoul&quot;,&quot;countryName&quot;:&quot;Republic of Korea&quot;,&quot;gdp&quot;:1321200&#125;&quot;&quot;&quot; ::</span><br><span class="line">  &quot;&quot;&quot;&#123;&quot;cityName&quot;:&quot;Tokyo&quot;,&quot;countryName&quot;:&quot;Japan&quot;,&quot;gdp&quot;:4412600&#125;&quot;&quot;&quot; ::</span><br><span class="line">  &quot;&quot;&quot;&#123;&quot;cityName&quot;:&quot;Moscow&quot;,&quot;countryName&quot;:&quot;Russia&quot;,&quot;gdp&quot;:113240&#125;&quot;&quot;&quot; ::</span><br><span class="line">  &quot;&quot;&quot;&#123;&quot;cityName&quot;:&quot;London&quot;,&quot;countryName&quot;:&quot;United Kingdom&quot;,&quot;gdp&quot;:2760960&#125;&quot;&quot;&quot; :: Nil)</span><br><span class="line">val cityDF = spark.read.json(cityRDD)</span><br><span class="line"></span><br><span class="line">cityDF.printSchema()</span><br><span class="line">cityDF.show</span><br></pre></td></tr></table></figure></li>
+<li>ex)<pre><code>val cityRDD = spark.sparkContext.makeRDD(
+  &quot;&quot;&quot;{&quot;cityName&quot;:&quot;Seoul&quot;,&quot;countryName&quot;:&quot;Republic of Korea&quot;,&quot;gdp&quot;:1321200}&quot;&quot;&quot; ::
+  &quot;&quot;&quot;{&quot;cityName&quot;:&quot;Tokyo&quot;,&quot;countryName&quot;:&quot;Japan&quot;,&quot;gdp&quot;:4412600}&quot;&quot;&quot; ::
+  &quot;&quot;&quot;{&quot;cityName&quot;:&quot;Moscow&quot;,&quot;countryName&quot;:&quot;Russia&quot;,&quot;gdp&quot;:113240}&quot;&quot;&quot; ::
+  &quot;&quot;&quot;{&quot;cityName&quot;:&quot;London&quot;,&quot;countryName&quot;:&quot;United Kingdom&quot;,&quot;gdp&quot;:2760960}&quot;&quot;&quot; :: Nil)
+val cityDF = spark.read.json(cityRDD)
+
+cityDF.printSchema()
+cityDF.show</code></pre></li>
 </ul>
 </li>
 <li>agg는 org.apache.spark.sql.functions를 참조</li>
 <li>DataFrame는 압축된 데이터 바이너리인 텅스텐으로 메모리에 저장됨</li>
 <li>z는 제플린 컨텍스트라고 해서 제플린 관련 설정을 바꿀 때 사용<ul>
-<li>ex)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val shufflePartitions = z.input(&quot;spark.sql.shuffle.partition&quot;, &quot;200&quot;)</span><br><span class="line">                            .asInstanceOf[String].toInt</span><br></pre></td></tr></table></figure></li>
+<li>ex)<pre><code>val shufflePartitions = z.input(&quot;spark.sql.shuffle.partition&quot;, &quot;200&quot;)
+                            .asInstanceOf[String].toInt</code></pre></li>
 </ul>
 </li>
 <li>일반적인 경우는 파티션의 크기를 10MB로 잡자.<ul>
@@ -223,18 +239,30 @@
 <li>parquet로 쓰면 컬럼 기반으로 데이터 구조가 잡혀있기 때문에 spark에서 읽을 때 오버헤드가 줄어든다.<ul>
 <li>parquet를 쓰면 SQL From 절에 바로 써서 조회할 수 있다.</li>
 <li>parquet를 쓰면 컬럼 기반으로 조회(column pruning)를 해서 분석 프로세스를 더 빨리 진행할 수 있다. (FileScan step에서 이미 필터링을 진행)</li>
-<li>ex)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val sqlDF = spark.sql(&quot;SELECT countryName, cityName, sum(gdp) FROM parquet.`/sparklab/tmp-output/wiki_gdp` WHERE gdp &gt; 1321200 GROUP BY countryName, cityName&quot;)</span><br></pre></td></tr></table></figure>
+<li>ex)<pre><code>val sqlDF = spark.sql(&quot;SELECT countryName, cityName, sum(gdp) FROM parquet.`&#x2F;sparklab&#x2F;tmp-output&#x2F;wiki_gdp` WHERE gdp &gt; 1321200 GROUP BY countryName, cityName&quot;)</code></pre>
 </li>
 </ul>
 </li>
 </ul>
 <h2 id="UDF-User-Defined-Function"><a href="#UDF-User-Defined-Function" class="headerlink" title="UDF (User Defined Function)"></a>UDF (User Defined Function)</h2><ul>
 <li>사용자가 만든 함수. 조인을 할 때 udf를 잘못 쓰면 옵티마이저가 안먹힐 수도 있다.<ul>
-<li>ex)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.spark.sql.functions._</span><br><span class="line"></span><br><span class="line">val coder: (Int =&gt; String) = (added: Int) =&gt; if (added &gt; 10) &quot;frequent&quot; else &quot;rare&quot;</span><br><span class="line">val sqlfunc = udf(coder)</span><br><span class="line"></span><br><span class="line">wikiDF.withColumn(&quot;Frequency&quot;, sqlfunc(col(&quot;added&quot;))).select($&quot;page&quot;, $&quot;added&quot;, $&quot;frequency&quot;).show()</span><br></pre></td></tr></table></figure></li>
+<li>ex)<pre><code>import org.apache.spark.sql.functions._
+
+val coder: (Int =&gt; String) = (added: Int) =&gt; if (added &gt; 10) &quot;frequent&quot; else &quot;rare&quot;
+val sqlfunc = udf(coder)
+
+wikiDF.withColumn(&quot;Frequency&quot;, sqlfunc(col(&quot;added&quot;))).select($&quot;page&quot;, $&quot;added&quot;, $&quot;frequency&quot;).show()</code></pre></li>
 </ul>
 </li>
 <li>SQL로 만든것을 Spark DataFrame 메소드로 바꿔보기 연습<ul>
-<li>ex)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">wikiDF</span><br><span class="line">  .select($&quot;countryName&quot;, $&quot;cityName&quot;, $&quot;comment&quot;, $&quot;added&quot;)</span><br><span class="line">  .groupBy($&quot;countryName&quot;, $&quot;cityName&quot;)</span><br><span class="line">  .agg(avg($&quot;added&quot;).alias(&quot;avg_added&quot;), max($&quot;added&quot;).alias(&quot;max_added&quot;))</span><br><span class="line">  .orderBy($&quot;avg_added&quot;.desc)</span><br><span class="line">  .limit(10)</span><br><span class="line">  .show</span><br><span class="line">// select 컬럼에 내가 보고자 하는 컬럼을 추가해도 groupBy에 지정 안한 컬럼은 결과로 나오지 않음</span><br></pre></td></tr></table></figure>
+<li>ex)<pre><code>wikiDF
+  .select($&quot;countryName&quot;, $&quot;cityName&quot;, $&quot;comment&quot;, $&quot;added&quot;)
+  .groupBy($&quot;countryName&quot;, $&quot;cityName&quot;)
+  .agg(avg($&quot;added&quot;).alias(&quot;avg_added&quot;), max($&quot;added&quot;).alias(&quot;max_added&quot;))
+  .orderBy($&quot;avg_added&quot;.desc)
+  .limit(10)
+  .show
+&#x2F;&#x2F; select 컬럼에 내가 보고자 하는 컬럼을 추가해도 groupBy에 지정 안한 컬럼은 결과로 나오지 않음</code></pre>
 </li>
 </ul>
 </li>
@@ -242,7 +270,12 @@
 <h2 id="Join"><a href="#Join" class="headerlink" title="Join"></a>Join</h2><h2 id="Pivoting"><a href="#Pivoting" class="headerlink" title="Pivoting"></a>Pivoting</h2><ul>
 <li>데이터를 Row로 쫙 늘리는 것?</li>
 </ul>
-<h2 id="Wikipedia-연습"><a href="#Wikipedia-연습" class="headerlink" title="Wikipedia 연습"></a>Wikipedia 연습</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pageCountsDF.withColumn(&quot;masked_project&quot;, regexp_replace(regexp_replace(regexp_replace($&quot;project&quot;, &quot;[0-9]+&quot;, &quot;9&quot;), &quot;[A-Z]+&quot;, &quot;A&quot;), &quot;[a-z]+&quot;, &quot;a&quot;))</span><br><span class="line">  .filter($&quot;masked_project&quot; === &quot;a-a&quot; or $&quot;masked_project&quot; === &quot;a-a-a&quot; or $&quot;masked_project&quot; === &quot;a-a-a.a&quot;) // &quot;masked_project = &apos;a-a&apos; or masked_project = &apos;a-a-a&apos;&quot; 이렇게도 쓸 수 있음</span><br><span class="line">  .groupBy($&quot;masked_project&quot;)</span><br><span class="line">  .count</span><br><span class="line">  .orderBy($&quot;count&quot;.desc)</span><br><span class="line">  .show(100)</span><br></pre></td></tr></table></figure>
+<h2 id="Wikipedia-연습"><a href="#Wikipedia-연습" class="headerlink" title="Wikipedia 연습"></a>Wikipedia 연습</h2><pre><code>pageCountsDF.withColumn(&quot;masked_project&quot;, regexp_replace(regexp_replace(regexp_replace($&quot;project&quot;, &quot;[0-9]+&quot;, &quot;9&quot;), &quot;[A-Z]+&quot;, &quot;A&quot;), &quot;[a-z]+&quot;, &quot;a&quot;))
+  .filter($&quot;masked_project&quot; === &quot;a-a&quot; or $&quot;masked_project&quot; === &quot;a-a-a&quot; or $&quot;masked_project&quot; === &quot;a-a-a.a&quot;) &#x2F;&#x2F; &quot;masked_project = &#39;a-a&#39; or masked_project = &#39;a-a-a&#39;&quot; 이렇게도 쓸 수 있음
+  .groupBy($&quot;masked_project&quot;)
+  .count
+  .orderBy($&quot;count&quot;.desc)
+  .show(100)</code></pre>
 <h2 id="Wikipedia-실습"><a href="#Wikipedia-실습" class="headerlink" title="Wikipedia 실습"></a>Wikipedia 실습</h2><ul>
 <li>spark.catalog.listTables().show(false)<ul>
 <li>메소드의 파라미터를 false로 주면 안짤리고 다 나옴</li>
