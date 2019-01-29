@@ -11,18 +11,18 @@
   
   
   
-  <meta name="description" content="출처: 스칼라로 배우는 함수형 프로그래밍 5장 Chapter05. 엄격성과 나태성이번 챕터에서 다룰 내용  List의 한계 Stream (Lazy List) 스트림 순회의 비엄격성과 나태성    List의 한계스칼라에서 다음 코드는 어떻게 수행될까? 1List(1,2,3,4).map(_ + 10).filter(_ % 2 == 0).map(_ * 3) 스칼라">
+  <meta name="description" content="출처: 스칼라로 배우는 함수형 프로그래밍 5장 Chapter 05. 엄격성과 나태성이번 챕터에서 다룰 내용  List의 한계 Stream (Lazy List) 스트림 순회의 비엄격성과 나태성    List의 한계스칼라에서 다음 코드는 어떻게 수행될까? 1List(1,2,3,4).map(_ + 10).filter(_ % 2 == 0).map(_ * 3) 스칼">
 <meta name="keywords" content="scala,functional programming">
 <meta property="og:type" content="article">
 <meta property="og:title" content="스칼라 스터디 Day04 - 엄격성과 나태성">
 <meta property="og:url" content="http://icednut.github.io/2018/12/17/20181218-scala-and-functional-programming-day04/index.html">
 <meta property="og:site_name" content="Icednut&#39;s Note">
-<meta property="og:description" content="출처: 스칼라로 배우는 함수형 프로그래밍 5장 Chapter05. 엄격성과 나태성이번 챕터에서 다룰 내용  List의 한계 Stream (Lazy List) 스트림 순회의 비엄격성과 나태성    List의 한계스칼라에서 다음 코드는 어떻게 수행될까? 1List(1,2,3,4).map(_ + 10).filter(_ % 2 == 0).map(_ * 3) 스칼라">
+<meta property="og:description" content="출처: 스칼라로 배우는 함수형 프로그래밍 5장 Chapter 05. 엄격성과 나태성이번 챕터에서 다룰 내용  List의 한계 Stream (Lazy List) 스트림 순회의 비엄격성과 나태성    List의 한계스칼라에서 다음 코드는 어떻게 수행될까? 1List(1,2,3,4).map(_ + 10).filter(_ % 2 == 0).map(_ * 3) 스칼">
 <meta property="og:locale" content="Korean">
-<meta property="og:updated_time" content="2018-12-25T06:44:44.705Z">
+<meta property="og:updated_time" content="2019-01-07T11:12:26.639Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="스칼라 스터디 Day04 - 엄격성과 나태성">
-<meta name="twitter:description" content="출처: 스칼라로 배우는 함수형 프로그래밍 5장 Chapter05. 엄격성과 나태성이번 챕터에서 다룰 내용  List의 한계 Stream (Lazy List) 스트림 순회의 비엄격성과 나태성    List의 한계스칼라에서 다음 코드는 어떻게 수행될까? 1List(1,2,3,4).map(_ + 10).filter(_ % 2 == 0).map(_ * 3) 스칼라">
+<meta name="twitter:description" content="출처: 스칼라로 배우는 함수형 프로그래밍 5장 Chapter 05. 엄격성과 나태성이번 챕터에서 다룰 내용  List의 한계 Stream (Lazy List) 스트림 순회의 비엄격성과 나태성    List의 한계스칼라에서 다음 코드는 어떻게 수행될까? 1List(1,2,3,4).map(_ + 10).filter(_ % 2 == 0).map(_ * 3) 스칼">
   
     <link rel="alternate" href="/atom.xml" title="Icednut&#39;s Note" type="application/atom+xml">
   
@@ -31,8 +31,6 @@
 
   <link rel="icon" href="/css/images/mylogo.jpg">
   <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
@@ -64,7 +62,8 @@
   
   
 
-</head>
+<link rel="stylesheet" href="/css/prism-coy.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 </html>
 
 
@@ -186,7 +185,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>출처: 스칼라로 배우는 함수형 프로그래밍 5장</p>
-<h2 id="Chapter05-엄격성과-나태성"><a href="#Chapter05-엄격성과-나태성" class="headerlink" title="Chapter05. 엄격성과 나태성"></a>Chapter05. 엄격성과 나태성</h2><p>이번 챕터에서 다룰 내용</p>
+<h2 id="Chapter-05-엄격성과-나태성"><a href="#Chapter-05-엄격성과-나태성" class="headerlink" title="Chapter 05. 엄격성과 나태성"></a>Chapter 05. 엄격성과 나태성</h2><p>이번 챕터에서 다룰 내용</p>
 <ul>
 <li>List의 한계</li>
 <li>Stream (Lazy List)</li>
@@ -382,7 +381,7 @@
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2018 Icednut&#39;s Note All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2019 Icednut&#39;s Note All Rights Reserved.</p>
 	      
 	      
   		   	<p id="copyRightCn">Icednut hold copyright</p>
@@ -540,7 +539,7 @@ ga('send', 'pageview');
             Icednut&#39;s Note
           </div>
           <div class="panel-body">
-            Copyright © 2018 Icednut All Rights Reserved.
+            Copyright © 2019 Icednut All Rights Reserved.
           </div>
         </div>
       </div>

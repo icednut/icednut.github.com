@@ -26,8 +26,6 @@
   <link rel="icon" href="/css/images/mylogo.jpg">
   <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
   
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
   <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
   <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
@@ -58,7 +56,8 @@
   
   
 
-</head>
+<link rel="stylesheet" href="/css/prism-coy.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 </html>
 
 
@@ -153,6 +152,60 @@
       <div id="content" class="outer">
         
           <section id="main" style="float:none;">
+  
+    <article id="post-20180329-understanding-visitor-pattern" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/03/29/20180329-understanding-visitor-pattern/">To-Do App 개발을 통한 Visitor Pattern 이해하기 (javascript 버전)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/03/29/20180329-understanding-visitor-pattern/" class="article-date">
+	  <time datetime="2018-03-29T11:04:52.000Z" itemprop="datePublished">2018-03-29</time>
+	</a>
+
+      
+      
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          다룰 내용
+앞에 Composite Pattern이 적용된 To-Do 앱의 문제점이 뭐고 어떻게 해결할지 진행
+문제점 해결에는 Visitor Pattern과 Reverse Visitor를 사용할 예정
+
+왜 Visitor Pattern인가?앞서 To-Do App 개발 시 할 일(Task)에 관련된 행위를 Composite Pattern으로 구현하였다. 그런데 이 코드에는 문제점이 있다. 바로 Composite이 전파된다는 점이다. Compos...
+        </p>
+        <p class="article-more-link">
+          <a href="/2018/03/29/20180329-understanding-visitor-pattern/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
   
     <article id="post-20180327-understanding-composite-pattern" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div id="articleInner" class="article-inner">
@@ -657,64 +710,6 @@ html5에서는 header, footer, aside 같은 division 태그들이 더 추가됨
 
 
   
-    <article id="post-20170530-spark-lecture-day04" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2017/05/30/20170530-spark-lecture-day04/">스파크 강의 노트 Day 4</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2017/05/30/20170530-spark-lecture-day04/" class="article-date">
-	  <time datetime="2017-05-30T00:08:40.000Z" itemprop="datePublished">2017-05-30</time>
-	</a>
-
-      
-      
-      
-
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          Machine Learing With SparkK-Means
-주어진 데이터를 K개의 클러스터로 묶는 알고리즘 (Clustering, unsupervised learning)
-Center 값을 기준으로 분포를 구분함
-PIC, K-means 참조
-
-
-ML 코딩 (RDD-based API)
-Setting SparkContext
-Load Data (ex: RDD[String] -&gt; RDD[Vector], CSV 파일을 읽어서 한 줄씩 Vec...
-        </p>
-        <p class="article-more-link">
-          <a href="/2017/05/30/20170530-spark-lecture-day04/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
 
 
   <nav id="page-nav">
@@ -734,7 +729,7 @@ Load Data (ex: RDD[String] -&gt; RDD[Vector], CSV 파일을 읽어서 한 줄씩
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2018 Icednut&#39;s Note All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2019 Icednut&#39;s Note All Rights Reserved.</p>
 	      
 	      
   		   	<p id="copyRightCn">Icednut hold copyright</p>
@@ -890,7 +885,7 @@ ga('send', 'pageview');
             Icednut&#39;s Note
           </div>
           <div class="panel-body">
-            Copyright © 2018 Icednut All Rights Reserved.
+            Copyright © 2019 Icednut All Rights Reserved.
           </div>
         </div>
       </div>

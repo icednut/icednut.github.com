@@ -11,18 +11,18 @@
   
   
   
-  <meta name="description" content="출처: 스칼라로 배우는 함수형 프로그래밍 6장 Chapter06. 순수 함수적 상태이번 챕터에서 다룰 내용  난수 발생(scala.util.Random)의 문제점 순수 함수적으로 난수 발생하기 상태가 있는 함수를 순수하게 하기 난수 발생기 일반화하기 순수 상태 함수 일반화하기    난수 발생(scala.util.Random)의 문제점스칼라의 난수 발생기 클">
+  <meta name="description" content="출처: 스칼라로 배우는 함수형 프로그래밍 6장 Chapter 06. 순수 함수적 상태이번 챕터에서 다룰 내용  난수 발생(scala.util.Random)의 문제점 순수 함수적으로 난수 발생하기 상태가 있는 함수를 순수하게 하기 난수 발생기 일반화하기 순수 상태 함수 일반화하기    난수 발생(scala.util.Random)의 문제점스칼라의 난수 발생기">
 <meta name="keywords" content="scala,functional programming">
 <meta property="og:type" content="article">
 <meta property="og:title" content="스칼라 스터디 Day05 - 순수 함수적 상태">
 <meta property="og:url" content="http://icednut.github.io/2018/12/25/20181226-scala-and-functional-programming-day05/index.html">
 <meta property="og:site_name" content="Icednut&#39;s Note">
-<meta property="og:description" content="출처: 스칼라로 배우는 함수형 프로그래밍 6장 Chapter06. 순수 함수적 상태이번 챕터에서 다룰 내용  난수 발생(scala.util.Random)의 문제점 순수 함수적으로 난수 발생하기 상태가 있는 함수를 순수하게 하기 난수 발생기 일반화하기 순수 상태 함수 일반화하기    난수 발생(scala.util.Random)의 문제점스칼라의 난수 발생기 클">
+<meta property="og:description" content="출처: 스칼라로 배우는 함수형 프로그래밍 6장 Chapter 06. 순수 함수적 상태이번 챕터에서 다룰 내용  난수 발생(scala.util.Random)의 문제점 순수 함수적으로 난수 발생하기 상태가 있는 함수를 순수하게 하기 난수 발생기 일반화하기 순수 상태 함수 일반화하기    난수 발생(scala.util.Random)의 문제점스칼라의 난수 발생기">
 <meta property="og:locale" content="Korean">
-<meta property="og:updated_time" content="2018-12-25T16:50:47.637Z">
+<meta property="og:updated_time" content="2019-01-07T11:12:26.640Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="스칼라 스터디 Day05 - 순수 함수적 상태">
-<meta name="twitter:description" content="출처: 스칼라로 배우는 함수형 프로그래밍 6장 Chapter06. 순수 함수적 상태이번 챕터에서 다룰 내용  난수 발생(scala.util.Random)의 문제점 순수 함수적으로 난수 발생하기 상태가 있는 함수를 순수하게 하기 난수 발생기 일반화하기 순수 상태 함수 일반화하기    난수 발생(scala.util.Random)의 문제점스칼라의 난수 발생기 클">
+<meta name="twitter:description" content="출처: 스칼라로 배우는 함수형 프로그래밍 6장 Chapter 06. 순수 함수적 상태이번 챕터에서 다룰 내용  난수 발생(scala.util.Random)의 문제점 순수 함수적으로 난수 발생하기 상태가 있는 함수를 순수하게 하기 난수 발생기 일반화하기 순수 상태 함수 일반화하기    난수 발생(scala.util.Random)의 문제점스칼라의 난수 발생기">
   
     <link rel="alternate" href="/atom.xml" title="Icednut&#39;s Note" type="application/atom+xml">
   
@@ -31,8 +31,6 @@
 
   <link rel="icon" href="/css/images/mylogo.jpg">
   <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
@@ -64,7 +62,8 @@
   
   
 
-</head>
+<link rel="stylesheet" href="/css/prism-coy.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 </html>
 
 
@@ -186,7 +185,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>출처: 스칼라로 배우는 함수형 프로그래밍 6장</p>
-<h2 id="Chapter06-순수-함수적-상태"><a href="#Chapter06-순수-함수적-상태" class="headerlink" title="Chapter06. 순수 함수적 상태"></a>Chapter06. 순수 함수적 상태</h2><p>이번 챕터에서 다룰 내용</p>
+<h2 id="Chapter-06-순수-함수적-상태"><a href="#Chapter-06-순수-함수적-상태" class="headerlink" title="Chapter 06. 순수 함수적 상태"></a>Chapter 06. 순수 함수적 상태</h2><p>이번 챕터에서 다룰 내용</p>
 <ul>
 <li>난수 발생(scala.util.Random)의 문제점</li>
 <li>순수 함수적으로 난수 발생하기</li>
@@ -368,6 +367,15 @@
     
 <nav id="article-nav">
   
+    <a href="/2019/01/07/20190107-scala-and-functional-programming-day06/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          스칼라 스터디 Day06 - 순수 함수적 병렬성
+        
+      </div>
+    </a>
+  
   
     <a href="/2018/12/17/20181218-scala-and-functional-programming-day04/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
@@ -391,7 +399,7 @@
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2018 Icednut&#39;s Note All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2019 Icednut&#39;s Note All Rights Reserved.</p>
 	      
 	      
   		   	<p id="copyRightCn">Icednut hold copyright</p>
@@ -549,7 +557,7 @@ ga('send', 'pageview');
             Icednut&#39;s Note
           </div>
           <div class="panel-body">
-            Copyright © 2018 Icednut All Rights Reserved.
+            Copyright © 2019 Icednut All Rights Reserved.
           </div>
         </div>
       </div>
