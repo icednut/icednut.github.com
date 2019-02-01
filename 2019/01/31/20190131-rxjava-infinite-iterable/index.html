@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="Icednut&#39;s Note">
 <meta property="og:description" content="얼마전에 작성한 Java Batch 프로그램 중에 이런 요구사항이 있었다.  HBase 특정 테이블에서 대량의 데이터를 조회한다. 조회한 데이터를 Kafka로 Producing한다.  ‘Java로 하지말고 다른 오픈소스 도구를 쓰면 되는거 아냐?’ 라고 할 수도 있겠지만 여러가지 제약사항 때문에 저 문제를 Java로 작성해야 한다고 하자. 이 문제를 어떻게">
 <meta property="og:locale" content="Korean">
-<meta property="og:updated_time" content="2019-02-01T05:36:47.265Z">
+<meta property="og:updated_time" content="2019-02-01T05:39:00.525Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RxJava를 이용하여 크기를 가늠할 수 없는 Iterable에서 데이터 읽고 처리하기">
 <meta name="twitter:description" content="얼마전에 작성한 Java Batch 프로그램 중에 이런 요구사항이 있었다.  HBase 특정 테이블에서 대량의 데이터를 조회한다. 조회한 데이터를 Kafka로 Producing한다.  ‘Java로 하지말고 다른 오픈소스 도구를 쓰면 되는거 아냐?’ 라고 할 수도 있겠지만 여러가지 제약사항 때문에 저 문제를 Java로 작성해야 한다고 하자. 이 문제를 어떻게">
@@ -340,9 +340,10 @@ Observable<span class="token punctuation">.</span><span class="token function">f
 <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     log<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>갑자기 <code>Observable</code>에서 <code>Flowable</code>을 바꾼거는 일단 둘 다 비슷한 녀석이니 무시하고 넘어가자 (<code>Flowable</code>에는 Backpressure 기능이 있어서 나중에 이 기능을 적용하려고 쓰긴 했다).</p>
-<p>그런데 어찌된 일인지 <code>blockingSubscribe</code>을 호출하는 순간 위 코드를 실행하면 1000건씩 끊어서 처리하지 않고 처음부터 계속 데이터를 모으고 있다. 어찌된 일일까?</p>
+
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>갑자기 <code>Observable</code>에서 <code>Flowable</code>을 바꾼거는 일단 둘 다 비슷한 녀석이니 무시하고 넘어가자 (<code>Flowable</code>에는 Backpressure 기능이 있어서 나중에 이 기능을 적용하려고 쓰긴 했다). 그런데 어찌된 일인지 <code>blockingSubscribe</code>을 호출하는 순간 위 코드를 실행하면 1000건씩 끊어서 처리하지 않고 처음부터 계속 데이터를 모으고 있다. 어찌된 일일까?</p>
 <p>일단 결과만 놓고 보자면 buffer을 통해 생성된 item에 대해 한 번 더 <code>Observable</code>이나 <code>Flowable</code> 을 변환해주면 이 문제는 해결이 된다. (왜 그럴까? 이건 시간 관계상 나중에 보충하자)</p>
 <pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">import</span> io<span class="token punctuation">.</span>reactivex<span class="token punctuation">.</span>Flowable<span class="token punctuation">;</span>
 <span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>TimeZone<span class="token punctuation">;</span>
@@ -365,7 +366,9 @@ Observable<span class="token punctuation">.</span><span class="token function">f
 <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     log<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>이렇게 하면 위와 같은 <code>Flowable</code>에  <code>blockingSubscribe</code>를 호출해도 데이터를 다 끌어 모을 때까지 블로킹이 되지 않고 1000건씩 끊어서 처리 후 5초 대기 그리고 그 다음 처리라는 동작 수행을 볼 수 있다.</p>
 <h3 id="다음-할-일"><a href="#다음-할-일" class="headerlink" title="다음 할 일"></a>다음 할 일</h3><p>여기서는 RxJava를 통해 데이터 배출을 특정 건수 만큼 그리고 특정 텀을 가지고 진행하는 것을 해보고 싶었다. 다음 할 일으로는 RxJava를 좀 더 잘 이해하여 여러 가지 상황에서 알맞게 사용해보자!!</p>
 
