@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Icednut's Notes]]></title><description><![CDATA[A starter blog demonstrating what Gatsby can do.]]></description><link>https://icednut.github.io</link><generator>RSS for Node</generator><lastBuildDate>Tue, 09 Jul 2019 22:02:15 GMT</lastBuildDate><item><title><![CDATA[Java Hbase-client 디펜던시 추가 후 로그가 제대로 안나오는 이슈 (with Slf4j, Logback)]]></title><description><![CDATA[이슈: hbase-client 디펜던시를 추가하면 로그가 안나옴최근 logback을 사용하고 있는 스칼라 Akka 프로젝트에서 hbase를 연동할 일이 있어서  디펜던시 추가 후 hbase…]]></description><link>https://icednut.github.io/2019/07/09/20190709-java-hbase-logback-slf4j/</link><guid isPermaLink="false">https://icednut.github.io/2019/07/09/20190709-java-hbase-logback-slf4j/</guid><pubDate>Tue, 09 Jul 2019 21:13:01 GMT</pubDate><content:encoded>&lt;h3&gt;이슈: hbase-client 디펜던시를 추가하면 로그가 안나옴&lt;/h3&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Icednut's Notes]]></title><description><![CDATA[A starter blog demonstrating what Gatsby can do.]]></description><link>https://icednut.github.io</link><generator>RSS for Node</generator><lastBuildDate>Wed, 10 Jul 2019 02:08:12 GMT</lastBuildDate><item><title><![CDATA[Java Hbase-client 디펜던시 추가 후 로그가 제대로 안나오는 이슈 (with Slf4j, Logback)]]></title><description><![CDATA[이슈: hbase-client 디펜던시를 추가하면 로그가 안나옴최근 logback을 사용하고 있는 스칼라 Akka 프로젝트에서 hbase를 연동할 일이 있어서  디펜던시 추가 후 hbase…]]></description><link>https://icednut.github.io/2019/07/09/20190709-java-hbase-logback-slf4j/</link><guid isPermaLink="false">https://icednut.github.io/2019/07/09/20190709-java-hbase-logback-slf4j/</guid><pubDate>Tue, 09 Jul 2019 21:13:01 GMT</pubDate><content:encoded>&lt;h3&gt;이슈: hbase-client 디펜던시를 추가하면 로그가 안나옴&lt;/h3&gt;
 &lt;p&gt;최근 logback을 사용하고 있는 스칼라 Akka 프로젝트에서 hbase를 연동할 일이 있어서 &lt;code class=&quot;language-text&quot;&gt;hbase-shaded-client&lt;/code&gt; 디펜던시 추가 후 hbase 관련 데이터 조회 및 저장 작업을 진행하게 되었다.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;scala&quot;&gt;&lt;pre style=&quot;counter-reset: linenumber NaN&quot; class=&quot;language-scala line-numbers&quot;&gt;&lt;code class=&quot;language-scala&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// build.sbt&lt;/span&gt;
 libraryDependencies &lt;span class=&quot;token operator&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
@@ -2125,11 +2125,80 @@ formatResult&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;sp
 &lt;blockquote&gt;
 &lt;h5&gt;RPC(Remote Procedure Call)이란?&lt;/h5&gt;
 &lt;p&gt;&lt;strong&gt;원격 프로시저 호출&lt;/strong&gt;(remote procedure call, 리모트 프로시저 콜, RPC)은 별도의 원격 제어를 위한 코딩 없이 다른 주소 공간에서 함수나 프로시저를 실행할 수 있게 하는 프로세스 간 통신 기술이다. 다시 말해, 원격 프로시저 호출을 이용하면 프로그래머는 함수가 실행 프로그램에 로컬 위치에 있든 원격 위치에 있든 동일한 코드를 이용할 수 있다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/07/06/20180706-about-grpc/rpc.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/500d4f1111e138f74287c9fc92dae2c0/bcf2d/rpc.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 46.48648648648649%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACAUlEQVQozzWR3WoTQRTH9w288BUEvfCqN76BgnohPoGg1JTG1EiblmALpZZe1EBShEUFG6uFJC3e+FGMCBqFajYlaCyJ3U026eajaWKS7c7O7szszDiJeDjDwP+c3/nPh8RHQVDLtWsI1jzc+acwglBHR50q7lQYsocKZyKH+/+QxIIDXf849i01pmyfN75edK2+qPffy/s3TyuT537dONXdDFEBYTKayj3ERIpJEqXcrSuP1sdvxTZvr8VTyXE6qHqcN7dWQsHgxGoiEF7OyyFBacVKXvmpFivIJghQkUMYd/eS21fuP5kJPw6k313j2BCtf14vRScvLczfW/JfV5/5hZJO72S+fD4BJmOUEjaCGbf0vZg8FVxL+CPxl8/vwoZumVxPREOB2bmHKV9wOScvuie8XKg1y11kcvPIGbQghlQiwrmVuRMJnJ39cGb6zepTHweaOHYtuXh1auWynLswE9+Vp4WzZQIIHOxicW3iUtfGkudxp2/kduc2Xs2vb4UPfjzgFIpWu7DzKeZ7EV14G5loZzaEoijfs9mspmkWsEzzxAUCJtQBSNQAcI7bbY9y/bBZ2C92TUgxNozm8IHZ8HvKZa1UKuXzeVVVf5cOBCUxykAfOhYe9Jxqtdts9Gr6UVmt1w+PG/W+Ue9BQKDpOhZCtocd6rmMOFTYYpf8BZROwBwnY9oPAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;rpc&quot;
+        title=&quot;&quot;
+        src=&quot;/static/500d4f1111e138f74287c9fc92dae2c0/b9e4f/rpc.png&quot;
+        srcset=&quot;/static/500d4f1111e138f74287c9fc92dae2c0/cf440/rpc.png 148w,
+/static/500d4f1111e138f74287c9fc92dae2c0/d2d38/rpc.png 295w,
+/static/500d4f1111e138f74287c9fc92dae2c0/b9e4f/rpc.png 590w,
+/static/500d4f1111e138f74287c9fc92dae2c0/bcf2d/rpc.png 740w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;p&gt;출처: &lt;a href=&quot;https://ko.wikipedia.org/wiki/%EC%9B%90%EA%B2%A9_%ED%94%84%EB%A1%9C%EC%8B%9C%EC%A0%80_%ED%98%B8%EC%B6%9C&quot;&gt;https://ko.wikipedia.org/wiki/%EC%9B%90%EA%B2%A9&lt;em&gt;%ED%94%84%EB%A1%9C%EC%8B%9C%EC%A0%80&lt;/em&gt;%ED%98%B8%EC%B6%9C&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;또한 구글은 사내에서 Stubby라는 RPC 프레임워크를 만들어서 사용하고 있었는데 하루에 초당 100억건의 RPC Call을 처리한다고 합니다. 구글은 Stubby 다음 버전을 계획하면서 오픈소스로 외부에 공개하기로 결정하였고 이에 따라 gRPC가 탄생하게 되었습니다. 참고로 gRPC는 성능을 중요시하기 때문에 HTTP2 기반으로 동작합니다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/07/06/20180706-about-grpc/google_rpcs_per_second.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/12f5d415116bc21aa4f053b9d51a10e3/8b984/google_rpcs_per_second.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 56.25%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsSAAALEgHS3X78AAADDElEQVQozz2T3U+adxTHn/9mF0u6i2Uz67qIIqIgAqK8PIC8+tAgAiL1FUVQoAVapZtNXePa2q2ba5a1ydqbZmmyXWxdpmnSNUvXVteo9QV1Umn3cvPZwy72S775npP88j3fc06OMJmfJTqS4lT6LBcuXsZq6MRqFomNTGJ3S/T2DzM6lSQzt8B0MkZsIEyL6KVOpaUrNMDbHxzDqFMR648jShGEm3e+pZBJMpQuUCyW0DVr8AX6sDp6iIxNM3txnrPzJU6ODlC6tEA8kaHVZsds1JDOzaLreBfJrcNh68bglBAWP7/BwidXyGZzJEYThKKDJHIFJmTx8TPnZBSRInHcPhExMIhF7EEj9qJs1OAND6HtqMPvaCboD2CTwgiDk6f5aOFTzs/NUyh9zMnYJBOy26D82e2LYLB46LS60JudqE3dGPUm3mtxoqhvxu7vo7XtLbotCrQqNQ26LoRIfIJs8QJ3v/uJW7fv4Q+P45diBHxhvL6g3HoAUXTTafNitEkYTG6aOgLUK/VY3THerGtE32nF7unDIOfC4pXr3L33A8/Xt6m9R7+tMXPpMq5gELvPg+jy4A2GcFjMaELXUKdWUY09pGloGU36KSfiD2g8tYI68QjV8I8IV699yf3lX9jbq1A9+pNq9W+Ojv7i+/vLRBMTqG0iFp8Xp0OkPXYD14fb9Myt4Sk9Q5rbwD3zBO/sU3TTa6hGVhCuL93i18drHBwcUam8Ym+/wm758D/RGn9x8w6+vihtJiPt8a/R58u0Z1fRpJ5gKa7TmnyMIfOMVtl5y/hDhKWvbrO+scvhYZWXL1/zh8z7snhZdlxD9dU/rD7f4upnS1j7szQ7k2iiMyjMcYKpRY5pQ+jEITT2ESyhfE3wG9bl+W1t77Gze8DWzj4bm7tsvijLhXZY/X2TF1tlDiuv+XnlAcVCEa1LpKG+jrGxYd5oqUepPC5vWYHL60UIRQaYmj5NWsZU5oyMWpwjNZX7n5OpDMl0hlz+HPniebqlXo4rmmgzdvFOgxKFfAzvn1Bgsjr5F/j9NJQWak8oAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;google rpcs per second&quot;
+        title=&quot;&quot;
+        src=&quot;/static/12f5d415116bc21aa4f053b9d51a10e3/b9e4f/google_rpcs_per_second.png&quot;
+        srcset=&quot;/static/12f5d415116bc21aa4f053b9d51a10e3/cf440/google_rpcs_per_second.png 148w,
+/static/12f5d415116bc21aa4f053b9d51a10e3/d2d38/google_rpcs_per_second.png 295w,
+/static/12f5d415116bc21aa4f053b9d51a10e3/b9e4f/google_rpcs_per_second.png 590w,
+/static/12f5d415116bc21aa4f053b9d51a10e3/f9b6a/google_rpcs_per_second.png 885w,
+/static/12f5d415116bc21aa4f053b9d51a10e3/2d849/google_rpcs_per_second.png 1180w,
+/static/12f5d415116bc21aa4f053b9d51a10e3/bbefa/google_rpcs_per_second.png 1770w,
+/static/12f5d415116bc21aa4f053b9d51a10e3/8b984/google_rpcs_per_second.png 2560w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;h3&gt;잠깐! 왜 이제와서 RPC를 거들먹거리는건가? (Why gRPC?)&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;RPC 기술들: CORBA, DCOM, RMI (Java RMI)&lt;/li&gt;
@@ -2199,7 +2268,42 @@ formatResult&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;sp
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/07/06/20180706-about-grpc/grpc_interoperability.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/a45d73850875ed95a8fefc5b950f3ae6/99d00/grpc_interoperability.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 42.01954397394137%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAAAsSAAALEgHS3X78AAABkElEQVQoz02STW7bMBCFdeieoTfopkDQRTc9gbsKkDTNJkDThb0wAjg/tiNZki1TskxKlMivQ1l2Q2DA4Wj03uMbRs451H4HviEs7/0Qkg0xpJxrH7+DtR0qX5InC2ydDvWo7xp+Pz5zdV3S96fGsELqwtH1/wnOYGGXSlMX1Crl5S3moDK8LQXQCuCfBd+uFa0wto0hV4b1RpGoln4kOCvz3g3nrndYXeC7WjgtrtP4VhFZa/l1e4PabYIcVKVZJQVJGhNPp+x+Ti4gH1fbCpmAYmJ8fg/H1aA8unT4Xho6mg5qc7p6PZ+z+foF24nyssRVJd1hi3PS17R48aQ6HtiUGYWphn8i0czD05HZmx4HAaX2zFY9q33QHNxvUfGaujYw/Uwf32Kl1RjNusx5Wix4Tdbsm5rIWc33O8Pkrxkm7Ue/emF3bpxmsWP5+kKSF0xmP3hePhLMVQIQoqk1rWnItHiYZRm7bUqeJlRVdRnAmAybE591/I4RCz7dXHGXzE+DkRewlasmZk/eVFSt5h+3yGYKewGxogAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;grpc interoperability&quot;
+        title=&quot;&quot;
+        src=&quot;/static/a45d73850875ed95a8fefc5b950f3ae6/b9e4f/grpc_interoperability.png&quot;
+        srcset=&quot;/static/a45d73850875ed95a8fefc5b950f3ae6/cf440/grpc_interoperability.png 148w,
+/static/a45d73850875ed95a8fefc5b950f3ae6/d2d38/grpc_interoperability.png 295w,
+/static/a45d73850875ed95a8fefc5b950f3ae6/b9e4f/grpc_interoperability.png 590w,
+/static/a45d73850875ed95a8fefc5b950f3ae6/f9b6a/grpc_interoperability.png 885w,
+/static/a45d73850875ed95a8fefc5b950f3ae6/2d849/grpc_interoperability.png 1180w,
+/static/a45d73850875ed95a8fefc5b950f3ae6/99d00/grpc_interoperability.png 1228w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;양방향 스트리밍과 통합 인증 (Bi-directional streaming and integrated auth)&lt;/strong&gt;&lt;/p&gt;
@@ -2223,8 +2327,80 @@ formatResult&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;sp
 &lt;li&gt;grpc (&lt;a href=&quot;https://github.com/grpc/grpc&quot;&gt;https://github.com/grpc/grpc&lt;/a&gt;)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;그 중에서 gRPC Java는 다음과 같은 아키텍처를 갖추고 있습니다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/07/06/20180706-about-grpc/grpc_architecture.png&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/07/06/20180706-about-grpc/grpc_java.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/333f3d5e15db2e7a042f34506b80d532/9a5b4/grpc_architecture.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 52.73401297497683%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsSAAALEgHS3X78AAABdElEQVQoz6WS72ubUBSG/f//kH0YFArbaGnGWBuSNnHGVaOJZg6jZtdl/o7Grgt5pkI/tE1Zww4cLudeeHjPe18pz3M2mw1FUZCmKVmWdd3eb7db2trv912/piRFUdB1HcdxME0TwzDQNK07fd9/BHzaD2+PgPxHHVItuaLki5WiWDFDbcWl/J0rxUWeRei24P7+N7vdjqqqOkserCnL8rBC1VpzNhIMZxUfhkvevJ9w8tGkb5T0J0uKPGu8rNk0gDiOO1gURR34kL+S7mT05JjrWc3FKOTt+ZTTTwsutQq1UX3s2tJiJbixnQZocTa84d1Vn95YZmDOUe0FdV3zp1m5Vea6LkIIwjDE87wuHU+hkvvzG+aPCVNPYTTrI1sDjEBlHn5l7k3Js4L67o4kSTpgEATd77epaFd/BnQswe3YQ7l2+NybNK0yHtjcyh62uTp+5SQqEH6KCBJ8d02w/NXMSTM35q/zFzP4Uhb/ncM9RwH/AjNHRluJF3DyAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;grpc architecture&quot;
+        title=&quot;&quot;
+        src=&quot;/static/333f3d5e15db2e7a042f34506b80d532/b9e4f/grpc_architecture.png&quot;
+        srcset=&quot;/static/333f3d5e15db2e7a042f34506b80d532/cf440/grpc_architecture.png 148w,
+/static/333f3d5e15db2e7a042f34506b80d532/d2d38/grpc_architecture.png 295w,
+/static/333f3d5e15db2e7a042f34506b80d532/b9e4f/grpc_architecture.png 590w,
+/static/333f3d5e15db2e7a042f34506b80d532/f9b6a/grpc_architecture.png 885w,
+/static/333f3d5e15db2e7a042f34506b80d532/2d849/grpc_architecture.png 1180w,
+/static/333f3d5e15db2e7a042f34506b80d532/bbefa/grpc_architecture.png 1770w,
+/static/333f3d5e15db2e7a042f34506b80d532/9a5b4/grpc_architecture.png 2158w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/8fbe18b85ee54698b74e69ea773eed68/e1cff/grpc_java.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 39.112227805695134%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAAAsSAAALEgHS3X78AAABiUlEQVQoz1VSTUvDQBTMv9WTIoiIFxUKSlPbHKz9iB4stFiRCo0fl1JFRfRQvFTwD3gppTVpdjfbbDLubpPQPnhsdt/svNl5MYQQCMMQURQhjmOocBwHlmXBtm1UqxVUKmeYTqe6pjAKq2IwGKBUslCv11Gr1XBaLsPwfV+DFWkajDEQQqBq6aoap4Rp43DOEVAfjBJQ4iNgBMZ4PMZkMtEXFsAY9hPHsRPAvKc4eWAyKUIRLylcfL/8hNhqMhzeUhx0KHbbAQylbjQawXVdUEo10O5LUIfAepzhqEtg3hHwMMoIRULYG3KsXXjYaXnYbrnYaHgwOOf6SZzPswuVHsV2c4a842KvPdPklAutPsoIY/SHAdYl4f7Nn87NxgyGUqcy9VAROl8cjTeGqw+G5rtaORKBK/H9G+H8meP6k6EtsZevHIZ6pud5mekqIjGHmAfSAiINl+ql2USang0pGRRNamogjFGIUHq43DGdXrfbRS6XQ6FQQD6fX0n1OxWLxWRvZuemaer8B5YMOnNdmr6KAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;grpc java&quot;
+        title=&quot;&quot;
+        src=&quot;/static/8fbe18b85ee54698b74e69ea773eed68/b9e4f/grpc_java.png&quot;
+        srcset=&quot;/static/8fbe18b85ee54698b74e69ea773eed68/cf440/grpc_java.png 148w,
+/static/8fbe18b85ee54698b74e69ea773eed68/d2d38/grpc_java.png 295w,
+/static/8fbe18b85ee54698b74e69ea773eed68/b9e4f/grpc_java.png 590w,
+/static/8fbe18b85ee54698b74e69ea773eed68/f9b6a/grpc_java.png 885w,
+/static/8fbe18b85ee54698b74e69ea773eed68/2d849/grpc_java.png 1180w,
+/static/8fbe18b85ee54698b74e69ea773eed68/bbefa/grpc_java.png 1770w,
+/static/8fbe18b85ee54698b74e69ea773eed68/e1cff/grpc_java.png 2388w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;p&gt;gRPC 동작과정을 살펴보기 전에 간단하게 gRPC를 사용하여 Hello world 메세지를 주고 받는 Server, Client Java Application을 개발해보도록 하겠습니다. 개발 과정은 다음과 같습니다.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Protocol Buffer 3 (IDL)을 이용하여 RPC 인터페이스 및 모델 정의&lt;/li&gt;
@@ -2376,11 +2552,79 @@ compile &lt;span class=&quot;token string&quot;&gt;&apos;io.grpc:grpc-stub:1.13.
 &lt;h5&gt;3.1. 서버측 동작 과정&lt;/h5&gt;
 &lt;p&gt;서버측 동작 과정은 크게 서버 생성, 서버 실행 및 대기, 서버 종료 과정으로 나뉩니다. gRPC 프레임워크에 따라 RPC를 처리할 서버를 생성한 뒤 Netty 서버를 실행하고 Netty 서버가 소켓 및 HTTP2 프로토콜을 사용하여 RPC Call 요청 처리 대기를 합니다. RPC Call 요청이 들어오면 HTTP2 프로토콜로 바이너리 데이터를 주고 받는 방식으로 진행 됩니다. 서버 생성 과정을 살펴보면 다음과 같습니다.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;[서버 생성]&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/07/06/20180706-about-grpc/grpc_server_sequence_diagram-build.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/9c480a74d66eaecf70390f4367b32ed4/aa4a2/grpc_server_sequence_diagram-build.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 72.16%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsSAAALEgHS3X78AAACMUlEQVQ4y5VTTYsaQRBtR8fMzGbHMa6bNUIUT/ESEJQc8gPMYWcDmiXJBnLL3/EiiCAofhPw4idKPIigICqKiBdRwaOof2FS1bRiNpGwDY+q7ul5Xf3qNSEnQ9M0GpfL5a/9fq8tFgtttVpp6/VagzUHfstms9xutzOwfT+32602Ho+1+XyuDYdDSqADGAHPLRaLDFEslUq3vV7vR6fT+Tabzb7A5s+bzUYkjwYQvGs2m98BXwEPlUrlHtf1SAawIkRRfMnmJB6Pe9iB9GD4JkFUALLH4zGQp47pdBrM5/OvITW43W68xQXgBcAM4P1+v8DzvLFer98WCgXTQbI/hk6nI4FAgFYF174rFovXmNdqNQzPGOElTlRV5TBOJpMPqVTq8lxVh59Ro7tyuUwJg8EgdzjzRAbObrcf5/+sEAlBYJqPRiMVunqDuaIoqB/qawFcYZUcx6H+vNfrNUUikbO6kUajcSRMJpOUEBwgYDNOIDqdTh6ra7VanzKZjHyWMJfLEabhR9Dm5kQvgVVoQiKHw0E73e123ycSCeksYbvdpjkYVgXBLY/7ds4VoPffi4IgkFAodLxyLBazofg2mw1tgxXZmH30kiRh1/loNPo2nU4b/+tD6LIK2tArW63Wg2UU9ggufD4fNoUMBoMHIFRO/zWw50dhNptRK9Lv9++hy68wd7lc2ACJVYeeM8qyjLpy0OHrcDisP5DxTGTUCj13BXagz69arb4BHYUnvCzyG8ix1TCVohgGAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;grpc server sequence diagram build&quot;
+        title=&quot;&quot;
+        src=&quot;/static/9c480a74d66eaecf70390f4367b32ed4/b9e4f/grpc_server_sequence_diagram-build.png&quot;
+        srcset=&quot;/static/9c480a74d66eaecf70390f4367b32ed4/cf440/grpc_server_sequence_diagram-build.png 148w,
+/static/9c480a74d66eaecf70390f4367b32ed4/d2d38/grpc_server_sequence_diagram-build.png 295w,
+/static/9c480a74d66eaecf70390f4367b32ed4/b9e4f/grpc_server_sequence_diagram-build.png 590w,
+/static/9c480a74d66eaecf70390f4367b32ed4/aa4a2/grpc_server_sequence_diagram-build.png 625w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;p&gt;요청을 받을 프로세스의 포트와 요청에 부름을 받을 메소드가 담긴 service 객체를 조합하여 최종적으로 NettyServer를 생성한다&lt;/p&gt;
 &lt;p&gt;이렇게 생성한 서버에 start 메소드를 실행하면 요청 처리 대기 상태가 됩니다.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;[서버 실행]&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/07/06/20180706-about-grpc/grpc_server_sequence_diagram-start.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/f0431b19e2f92b6b04530b5f362b9057/3c6bd/grpc_server_sequence_diagram-start.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 44.5945945945946%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAAsSAAALEgHS3X78AAABz0lEQVQoz5VSPUtCURg+93rrVvdmGBV92OSQoLREgn/AvXDURWgRXBpy8B9IYpuCLsEdChQkEVL8GhxUxC/8wq/FQXByEpzsOVcNa6oDL+d573nO8z7veS8hWOVy+aHT6SR6vd7jZDIx1Ov1d2DfYrHYHQwGT5VK5XM8Ht9Tbq1Wey4UCh/9fv9uOBy+tFqtt3w+LzWbTanRaLwSo9G4RYmRSOTcZDLtUGy32wVsDGKb/HfBBVlV1mWz2QOKi8XitdvtPgLkvF7vcTQa1QIreJ7fsVgsot/vV1Jeu91mcZ+x2WwcumDn8zlDUqkUdUKq1aoWtkWK0bIWre+tCgrxeFwPSM8OzGbzeTgcvtw0YzAYWIfDscwh9C2IKuIal0ol2jaZzWZiLBbTAR4iznD5MhgMntIzjUajsFqtZPU8y7UpuHZI20fIgtPpVAlx7ZqPZzkKhUK31LFKpbrArgwEAmpwFD8EIXCVTCb3KcbULkDgKR6NRnvI1WvBbrerwgBv6Ju6XC6WuvN4PNuSJC0JGIAsiHZ1TqfzBJD3+XzqXC63tTE75s9TzmQy8p5Op08SiYTsCk7P8F3+ZfR6PRFF8bcgw3EcYVlWTgRBYBEy/gKI/9x8fL82ywAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;grpc server sequence diagram start&quot;
+        title=&quot;&quot;
+        src=&quot;/static/f0431b19e2f92b6b04530b5f362b9057/b9e4f/grpc_server_sequence_diagram-start.png&quot;
+        srcset=&quot;/static/f0431b19e2f92b6b04530b5f362b9057/cf440/grpc_server_sequence_diagram-start.png 148w,
+/static/f0431b19e2f92b6b04530b5f362b9057/d2d38/grpc_server_sequence_diagram-start.png 295w,
+/static/f0431b19e2f92b6b04530b5f362b9057/b9e4f/grpc_server_sequence_diagram-start.png 590w,
+/static/f0431b19e2f92b6b04530b5f362b9057/f9b6a/grpc_server_sequence_diagram-start.png 885w,
+/static/f0431b19e2f92b6b04530b5f362b9057/2d849/grpc_server_sequence_diagram-start.png 1180w,
+/static/f0431b19e2f92b6b04530b5f362b9057/3c6bd/grpc_server_sequence_diagram-start.png 1258w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;p&gt;요청 처리 대기 상태라는 말은 NioEventLoop가 실행되어 의미 있는 커넥션이 맺어질 때 &lt;strong&gt;io.grpc.netty.NettyServerTransport&lt;/strong&gt; 와 &lt;strong&gt;io.grpc.netty.ProtocolNegotiators&lt;/strong&gt;를 통해 &lt;strong&gt;io.grpc.netty.GrpcHttp2ConnectionHandler&lt;/strong&gt; 타입의 응답 처리기(Handler)를 만들어서 클라이언트와의 연결 및 클라이언트와 주고 받는 데이터(byte array)를 처리하게 됩니다.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre style=&quot;counter-reset: linenumber NaN&quot; class=&quot;language-java line-numbers&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ProtocolNegotiator&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;serverPlaintext&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ProtocolNegotiator&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
@@ -2405,9 +2649,76 @@ compile &lt;span class=&quot;token string&quot;&gt;&apos;io.grpc:grpc-stub:1.13.
 
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;span aria-hidden=&quot;true&quot; class=&quot;line-numbers-rows&quot; style=&quot;white-space: normal; width: auto; left: 0;&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;GrpcHttp2ConnectionHandler는 &lt;strong&gt;io.netty.handler.codec.http2.Http2ConnectionHandler&lt;/strong&gt; 를 상속받은 구현체로 HTTP2 스펙을 따르며 그에 따른 커낵션 및 라이프사이클을 수행합니다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/07/06/20180706-about-grpc/grpc_server_sequence_diagram-connect.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/81e904b1818efb7ad5bf188484ee35d2/6e3c3/grpc_server_sequence_diagram-connect.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 35.91885441527447%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAAsSAAALEgHS3X78AAABfElEQVQoz2NgAIL///9z3L9//9S5c+e+nj9//uWZM2fe371798PTp09lXr9+PfP27dt/gWJvgPg1UOz/mzdv3N69e5cMlPt/4cKFN0B974H637948eIVyDxmERERLkNDQzlvb2/xzs5O7YaGBoHW1lY+kOSxY8fYS0pKBNLT0/mzsrIEqqqqBLdv385y9OhRNqAaweTkZIGKigphkPyaNWv4GbS1tUH6WIGYC8QA2uYUGRnJxAABnFA5hvDwcE4GcgDQWy5A2ziATHZGRkZBBQUFAZD4nj17HNatWycOYouJibHz8vKy6+joMDk7O3P09/fzYxjU1NTECKIvXrzoCAxTJnT5y5cvW61atQpsIBcQcHBwgH3U2NgofPz4cTuQAyQkJNjhGoCBC6NdT5w4wQxis7GxMSxdupQJKm5769YtYXSLHj9+zL1+/XpvIFMLqF4OLrF8+XIYLQzEjDAxJHHBRYsWgcNTX1+fQVVVFSw+adIklpUrVwrCzAEA5VikQKZ4nOcAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;grpc server sequence diagram connect&quot;
+        title=&quot;&quot;
+        src=&quot;/static/81e904b1818efb7ad5bf188484ee35d2/b9e4f/grpc_server_sequence_diagram-connect.png&quot;
+        srcset=&quot;/static/81e904b1818efb7ad5bf188484ee35d2/cf440/grpc_server_sequence_diagram-connect.png 148w,
+/static/81e904b1818efb7ad5bf188484ee35d2/d2d38/grpc_server_sequence_diagram-connect.png 295w,
+/static/81e904b1818efb7ad5bf188484ee35d2/b9e4f/grpc_server_sequence_diagram-connect.png 590w,
+/static/81e904b1818efb7ad5bf188484ee35d2/6e3c3/grpc_server_sequence_diagram-connect.png 838w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;p&gt;그런 다음 클라이언트와 커낵션을 맺은 뒤 해당 커넥션과 protobuf Stub을 사용해서 byte array 형태의 데이터를 주고 받습니다. 앞의 Hello world 예제를 기준으로 설명하면 클라이언트는 sayHello()라는 함수를 호출하면 HelloRequest의 멤버인 String name을 byte array로 변환하여 전송합니다. 그러면 서버에서는 byte array stream으로 받고 연결을 끊지 않은채 스트림에서 데이터를 읽어와 &lt;strong&gt;io.grpc.protobuf.ProtoLiteUtils&lt;/strong&gt; 클래스를 통해 모델 객체로 파싱합니다. (궁금해서 모델의 byte array를 열어보니 JSON 형태가 아닌 tag: value 형태의 문자열이었습니다.) 이렇게 파싱한 모델 객체와 byte array에 명시된 호출할 메소드를 호출하여 비로소 우리가 작성한 비지니스 로직을 실행하게 됩니다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/07/06/20180706-about-grpc/grpc_server_sequence_diagram-run.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/1b399b710bfccfcecf6c030160e8d501/e986a/grpc_server_sequence_diagram-run.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 28.339041095890412%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAAsSAAALEgHS3X78AAABY0lEQVQY02O4f/9+8JkzZw4D8YHnz59XMwDBt2/f5G7cuLHj4sWLx16+fOkFErt3757hpUuXDl24cOHwnTt3tN69e6d58+bNo0D2hmfPnlUA1e8FqtkBUsvs7OzM19/fLwfi6OnpsQEpVgZKwPv37wV37txpAmRySUlJCQBpnsLCQum2tjYlIJuPk5NTCEgLmpiYCKSlpXEA2Ux2dnYgS5lB+v///88gKCjIpKKiwgg28PTp00JXr17VhEmCwNOnTyWOHTsGFgsJCQG5muHAgQOK7e3tOiDDgVggIiJC+sSJExwYLgSGlRAwbLRB7LVr14JtPXv2rOSVK1dUoJaAbb527ZrC+vXrVUEu7OzsVNu1a1fs7t279UFyfX19PLNnz2YBG3jq1CkBIFYHsU+ePMkEoo8ePSoIxFIg9p49e8BiR44cEd+8ebM4iL1w4UL2np4evszMTC4Qf+bMmRJr1qzhAgCo6JrzYPkIHQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;grpc server sequence diagram run&quot;
+        title=&quot;&quot;
+        src=&quot;/static/1b399b710bfccfcecf6c030160e8d501/b9e4f/grpc_server_sequence_diagram-run.png&quot;
+        srcset=&quot;/static/1b399b710bfccfcecf6c030160e8d501/cf440/grpc_server_sequence_diagram-run.png 148w,
+/static/1b399b710bfccfcecf6c030160e8d501/d2d38/grpc_server_sequence_diagram-run.png 295w,
+/static/1b399b710bfccfcecf6c030160e8d501/b9e4f/grpc_server_sequence_diagram-run.png 590w,
+/static/1b399b710bfccfcecf6c030160e8d501/f9b6a/grpc_server_sequence_diagram-run.png 885w,
+/static/1b399b710bfccfcecf6c030160e8d501/e986a/grpc_server_sequence_diagram-run.png 1168w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;h5&gt;4. 클라이언트 개발&lt;/h5&gt;
 &lt;p&gt;클라이언트는 일반 Java command line application으로 가정하고 진행하도록 하겠습니다. 먼저 아래와 같이 디펜던시를 추가합니다.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;groovy&quot;&gt;&lt;pre style=&quot;counter-reset: linenumber NaN&quot; class=&quot;language-groovy line-numbers&quot;&gt;&lt;code class=&quot;language-groovy&quot;&gt;compile &lt;span class=&quot;token string&quot;&gt;&apos;io.grpc:grpc-netty:1.13.1&apos;&lt;/span&gt;
@@ -2895,7 +3206,43 @@ service RouteGuide &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt
 &lt;p&gt;Armeria&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/07/06/20180706-about-grpc/http2.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/ab5264789703546f189602a05d9469ba/a7ebf/http2.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 53.82574082264485%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsSAAALEgHS3X78AAAB0UlEQVQoz4VTXUsbQRTNrysFoS+loKilfe2Db776JIhWS2s//ECQCDGgtlW0TYU+FApS9EEfU+MalyjLJjHZj5nZze5OjnPHXRtE7YHD3QzMmXPuvckJIdBsNtFut8EYg+/7urZaLXieB0K3271h9lv2nPUyR0L1eh2NRgO2bcOyLNRqNZimiWq1euelh5C7y8H/0PAkapcSLOjCFdf0g9RhHMdwHEfHo6hUXdcFnYfCR8AcBNxTdNEJGBIJzHwLMfiR49k7jifTDI8mGIbnOKIkFaS+kRDV7JsemV3exvjsGqbmNjD2poil4q66BLzeCTH8iePFPMeQEu6bYuh/nwomSQLOuSYNiDGOMAwRBAFWN39hsfAD+fWfWCjs4ktpD7G6RA5fLnCM5AWeK2dP33L9gOikDskRCWbuSFBKia3NzygWVrD1dUPVPErfd9R0AastYdgJzOZ1L88VL1oSnTh1SD0jwSiKbvpHODEMHFcqOFMTL5f/4rRqasE/lRilowiHZwn2jRi/yzEOjARRJkjO/kVmOu59oP0bXRV6EK+WhY7+eJJh4AMHC1PB3sjZYuvlVbFvk3Dpq5gqouVIHZ/i2q7Uj+Ue2rfef8bts/twBS4yMs/W4oEtAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;http2&quot;
+        title=&quot;&quot;
+        src=&quot;/static/ab5264789703546f189602a05d9469ba/b9e4f/http2.png&quot;
+        srcset=&quot;/static/ab5264789703546f189602a05d9469ba/cf440/http2.png 148w,
+/static/ab5264789703546f189602a05d9469ba/d2d38/http2.png 295w,
+/static/ab5264789703546f189602a05d9469ba/b9e4f/http2.png 590w,
+/static/ab5264789703546f189602a05d9469ba/f9b6a/http2.png 885w,
+/static/ab5264789703546f189602a05d9469ba/2d849/http2.png 1180w,
+/static/ab5264789703546f189602a05d9469ba/bbefa/http2.png 1770w,
+/static/ab5264789703546f189602a05d9469ba/a7ebf/http2.png 2261w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;div class=&quot;footnotes&quot;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
@@ -3034,9 +3381,81 @@ service RouteGuide &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt
 &lt;li&gt;SQLServer (Table: 675개)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;아키텍처는 심플했지만 시대에 맞는 기민한 대응이 힘들었고 한다. (중복되는 구조의 Stored Procedure가 많았고, 비슷한 이름의 테이블이 많은데다가 특정 테이블의 구조를 변경할 경우 시스템에 미치는 영향을 예측할 수 없었다고 함. 이런 상황에서 요구사항 대응은 힘들었으리라..)&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/04/06/20180406-chinese-commerce-development-experience-seminar/screenshot_01.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/83022381bdcd44d25e1218cdb21b73ea/87846/screenshot_01.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 50.60926076360682%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAACqUlEQVQoz32Qf0zMcRzGPzEzKxubWZtaWpQZxoWtVvnRlu7Kj4aFLBML+UMrZVIroqOM6n6koZGa+kalU9FNml/lKnQoN2XuukQTzY9mXPfy1X/+4Nmevfe8/3ie5/0WDoeDcY45GZPpcDj59XOMP+jqMlMpSWg0GiR5Wm39OOW90+n8JwV/wfmXej9kx/y0E1NbK/aBd3z7MsKvH6P8DyIzSU/i9nqSEm2kZn0lYf8nDsa+JWPrHYrUd6nr+0L54z5On7/EmQYzpa3W8eDhkWGs9n7eWG302QewDg6Oa+E9bR4uwpdQVT7KPUbWxLWxzK8EV6FEpVCTeLWZwIhI/Bb44B6oJKHsIaOj37FYXmIytXH/4QPM8mue9fTwwtKN8J2VgBD+sukk/N18CJ+3HHevuUwQU1i/NhpNdT2eHjNYON+bJX5eHLlYhaX7FSVaHfduN+KQ2/Y/N9Pd+QSpqhYREZ7IxigVa0JDCfMOwX9iCItcg/CSQ1YHx6C5fEE28yA2cglRAXOIjo/nda8FQ201t6RKhvoH+DD4kV5TJ9fKKxA716eQtGMdu7fEsU2ZTHpcKfUHyigIP85iv+tsigyj/FQ8Vwp2EhWxiNBVgXS1m2ioquGqrphuUwd2mw1Li5H2OgmRrTCyziOGhe4BKJfGIuXXU3VSImXlGbKDO9CrUzl5NJnc3Bwu6E5QoT1MRWUpWv0xcvMy0BflUS1Vo83XYzTcRCg8LjFDnGOyiEHhraIu4xxDhQZaEprQ7S2mp9MN3ekpGB+00NBYQ9rWFRhKS1Cn7iXn0H40Z0+RmV3I2s37UBfJJ/t6puEmCpntAjNFIxumymmeVsJdNxG0OJj2nOk05Qlutdzn9eBnDsSouKE9QXHSLiqTYzEUpNPR/IislCwUIRv4Db4lLBI6PqqHAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;screenshot 01&quot;
+        title=&quot;&quot;
+        src=&quot;/static/83022381bdcd44d25e1218cdb21b73ea/b9e4f/screenshot_01.png&quot;
+        srcset=&quot;/static/83022381bdcd44d25e1218cdb21b73ea/cf440/screenshot_01.png 148w,
+/static/83022381bdcd44d25e1218cdb21b73ea/d2d38/screenshot_01.png 295w,
+/static/83022381bdcd44d25e1218cdb21b73ea/b9e4f/screenshot_01.png 590w,
+/static/83022381bdcd44d25e1218cdb21b73ea/f9b6a/screenshot_01.png 885w,
+/static/83022381bdcd44d25e1218cdb21b73ea/2d849/screenshot_01.png 1180w,
+/static/83022381bdcd44d25e1218cdb21b73ea/bbefa/screenshot_01.png 1770w,
+/static/83022381bdcd44d25e1218cdb21b73ea/87846/screenshot_01.png 2462w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;p&gt;이런 상황에서 기존 서비스를 경쟁력 있는 서비스가 될 수 있도록 개선해야 되는 미션이 있었다고 한다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/04/06/20180406-chinese-commerce-development-experience-seminar/mission.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/0b2aafbf8517132d2bb692438853fb9a/c3e5e/mission.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 54.59632294164668%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAABYlAAAWJQFJUiTwAAABM0lEQVQoz5VS24qDQAz1/z9B6Ha/RVCQIrVV17vW2yo+6D7p0qrZSWAWtVOWDYSETObknMxIILBlWSj2fQ9BEIDrupCmKRRFAeM4/vbwvrVJ+0OM0zRR7rof8H48gizLoKoqHA5vYJomnWHP+g7PJRGz/9gaVMiw6zq43W5QliXlbduS3CRJKM+yjKSjD8PwBPoE2DQNk+qB7/sEhOCn04lJvVCO7tg2nM8m2/GXWPJ6wv1+30zFXWFtnueN1MfjAd/sgTCu5W8A8ZLneWAzBo7jkLwwDFnNJ5ZVVUEcx2BZNui6znpsWg0HfZLMgblMdMMwSL6mafR9FEWB6/XChloExolsAPd7yPOcsbAIOM8zqOsaoiiCTxaRNX8YrL985b++zn6HIiIvGa5XsK8jsKjO8x+vPkxqhDUsHAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;mission&quot;
+        title=&quot;&quot;
+        src=&quot;/static/0b2aafbf8517132d2bb692438853fb9a/b9e4f/mission.png&quot;
+        srcset=&quot;/static/0b2aafbf8517132d2bb692438853fb9a/cf440/mission.png 148w,
+/static/0b2aafbf8517132d2bb692438853fb9a/d2d38/mission.png 295w,
+/static/0b2aafbf8517132d2bb692438853fb9a/b9e4f/mission.png 590w,
+/static/0b2aafbf8517132d2bb692438853fb9a/f9b6a/mission.png 885w,
+/static/0b2aafbf8517132d2bb692438853fb9a/2d849/mission.png 1180w,
+/static/0b2aafbf8517132d2bb692438853fb9a/bbefa/mission.png 1770w,
+/static/0b2aafbf8517132d2bb692438853fb9a/c3e5e/mission.png 2502w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;h2&gt;그래도 시작은 해야…&lt;/h2&gt;
 &lt;p&gt;기존 시스템을 개선하기 전에 어떤식으로 개선할 것인지 기준을 정했는데 아래와 같은 기준을 정했다고 한다.&lt;/p&gt;
 &lt;ul&gt;
@@ -3056,9 +3475,79 @@ service RouteGuide &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt
 &lt;/ul&gt;
 &lt;p&gt;위와 같이 당부하면서 사용하는 기술도 개발자들이 직접 선택하게 하였는데 이는 변화에 자발적인 참여를 유도하고 내 선택이 서비스에 미치는 영향도 느껴보게 하기 위함이었다고 한다. 다수의 개발자들이 멘붕에 빠지고 다소 혼란스러워 보였으나 중국 개발자들은 시키면 어떻게서든 꾸역꾸역하는 끈기가 있었다고 한다. (퀄리티는 만족스럽진 않았지만..)&lt;/p&gt;
 &lt;p&gt;시행착오 끝에 결국 사용기술은 아래와 같이 결정이 되었다고 한다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/04/06/20180406-chinese-commerce-development-experience-seminar/tech_stack.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/425b71680f0e30922c365650fb4a96ec/efcce/tech_stack.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 46.51353568498769%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAACFklEQVQoz62P7U9SYRjGz1/Wx95czfWlFzO3vrjaWi9m2maJWpu1OWsJoxebUyo1kbfE5oEUD0KGChhkCBpKyoFCxmZmTvh1ztP8D7q3a8/97L7v365LqlQq6NJLVVVCoRCyLBOLxUin0wSDQTweGZfLRSqVIplMMuP3E41GxWxzc1PcHjAkvSmXy+KTyWTwa8tWq1UDzxHRjjweD4qiMDDQT/xLnPXMOkZTDza7Tczy+ZyOY7+8T7lSRuI/l1Tc/kN2a4dcUddvsoVtIVXrS7/2xNLu3i6rP+Kk8oukcoskc1Gh5VyYhBrW3ghf1Xm+F1eQnDNJHg8HMdvn6R2P8cwZ5qX7M698WvylggBu7eQxjNXSOlbDnXdnhFpcp7lmPcJ16zEaRqu4NHSIHt8tJJuyTNebACZ7GJMjgtG2wGtlA4uSZSr+k7XVNIm1OPcnLgpgq7sGg/u8kA6+O3aONnctDbYqXgQMSMOTS3QO+OkenuXR2xAmZ4w+b5qn71eYiKhMT/oILQZ54K3XDi/QMV4nYDr8xuhxGu0nabJXc3XkMKbp20j98hLNZi/t/QE6LLMY+vzcs3ykzTKHNbAmIudLG8LJgat/zs5y03aCJkc1zY5TWvyjGPXIHyIZLN4Eg5MJhnxJLHKMEf83HAsFPq2UBLC0U+D5jEFz0MyTqUbMSgtGre/yXqFzop6H8mXa3XUMznXzF4bcTRjVT0yWAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;tech stack&quot;
+        title=&quot;&quot;
+        src=&quot;/static/425b71680f0e30922c365650fb4a96ec/b9e4f/tech_stack.png&quot;
+        srcset=&quot;/static/425b71680f0e30922c365650fb4a96ec/cf440/tech_stack.png 148w,
+/static/425b71680f0e30922c365650fb4a96ec/d2d38/tech_stack.png 295w,
+/static/425b71680f0e30922c365650fb4a96ec/b9e4f/tech_stack.png 590w,
+/static/425b71680f0e30922c365650fb4a96ec/f9b6a/tech_stack.png 885w,
+/static/425b71680f0e30922c365650fb4a96ec/2d849/tech_stack.png 1180w,
+/static/425b71680f0e30922c365650fb4a96ec/bbefa/tech_stack.png 1770w,
+/static/425b71680f0e30922c365650fb4a96ec/efcce/tech_stack.png 2438w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;p&gt;서비스를 개발하기 위해 처음 써본 언어를 공부해 가면서 개발한다는 것은 경영진 입장에선 썩 달가운 모습은 아니었을 것이다. 그렇다고 손 놓고 있으면 미션을 달성할 수 없지 않은가? 이들이 중요하게 생각하는 것은 지금 이게 뭔지 이해는 할 수 없어도 돌아가는 어떤 것을 빨리 만드는 것. 그리고 개발이 끝나면 회고는 하지 않지만 만들었던 것을 잊고 다시 한 번 또 만들면서 개선해보는 것, 이 두 가지를 중요하게 생각하고 실천 했다고 한다. 그러면서 개발자 전체가 조금씩 성장할 수는 있었지만 여전히 한계는 존재했고 사건 사고도 있었다고 한다. (자세한 사고는 생략)&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/04/06/20180406-chinese-commerce-development-experience-seminar/just_go.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/9a69b2ff91a980481773aaf61ed64982/5c7ff/just_go.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 51.393728222996515%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB2klEQVQoz6WS3W4SURDHeQpfw4s+g4+jb+FtTUxtjDVNmmjSpCGmH+kmUkrCGik0ll2ByrK7Z5f94KsLaLsLAYS/cwYRvPLCSSZnzuSc3/zPzElhwxaLBfkyrlWryGazKBaLSKfTOD9XUK/XUS6XcXxyislksnFn7al1co75/OfvdQ4hbKhqHpqmQ9d15HI5ijU4QqBQKGA6nf4FXMWp5WaB/7UVNLVKeJ4N7eYClepnxHHMubtejxW1Wm34vg/XdRGGLXQ6HbTbbQRBwO41m5TrchsYqOsqrssH2C08h2YeQf30Dg/3Pwh4x30TjgPTNKmoB8Mw0GiY8CkWwuF9k4BJkiwVRoMIX7UjlKJjPNrZwourbcTfVZRuMogfxrBtCw4BpTrbFqjVagwSpNxjqGCVw+FwCWw0KrBuP+B95Q0e7z3Bs8OnCISCi8w+RnHCh6U66VJJFEXo9/u83tMrBoMBkjhZD+VWzyGf2cGlsovM6St8yR+glN/DN/0EwjJIhc/QLvVITv+fQ+n3Alx+PISivETxap++xFucnb1GJwwxHo8xGo242bPZjIHyu8i9XDf/3x+FqwpdAhvWNSxR4cvShvSckMBdmrbsl+8HPGH5dNdtcsFNddJ+ARMM4L3uzxjYAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;just go&quot;
+        title=&quot;&quot;
+        src=&quot;/static/9a69b2ff91a980481773aaf61ed64982/b9e4f/just_go.png&quot;
+        srcset=&quot;/static/9a69b2ff91a980481773aaf61ed64982/cf440/just_go.png 148w,
+/static/9a69b2ff91a980481773aaf61ed64982/d2d38/just_go.png 295w,
+/static/9a69b2ff91a980481773aaf61ed64982/b9e4f/just_go.png 590w,
+/static/9a69b2ff91a980481773aaf61ed64982/f9b6a/just_go.png 885w,
+/static/9a69b2ff91a980481773aaf61ed64982/5c7ff/just_go.png 1148w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;h2&gt;그들이 했던 MSA&lt;/h2&gt;
 &lt;p&gt;Micro Service Architecture는 쉬운 아키텍처가 아니고 개발 성숙도가 높은 조직에서나 적용해야 성공적으로 운영할까 말까 한다고 한다. 그런데 그들은 기능을 잘게 나누고 기능만 나눈 것 뿐만 아니라 물리적으로도 서비스를 잘게 나누었다. 결국 기능 하나하나가 Microservice 였던 것이다. 왜 그렇게 했을까?&lt;/p&gt;
 &lt;ul&gt;
@@ -3080,13 +3569,157 @@ service RouteGuide &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt
 &lt;/ul&gt;
 &lt;p&gt;JOIN이 없이 개발한다는 것은 서비스 간에 서로의 데이터가 필요한 순간이 있을텐데 이런 상황이 발생할 경우 두 서비스에 같은 테이블을 두고 같은 데이터를 쌓도록 했다고 한다. 중복처럼 보일 수 있지만 한 서비스에서는 해당 테이블에 데이터를 쌓은 뒤 이벤트를 발생시키고 다른 서비스에서는 그 이벤트를 구독해서 데이터를 복사해오는 방식으로 개발했다고 한다. 이렇게 각 서비스별로 중복되는 데이터를 갖고 있게 되거나 서비스 간에 데이터 정합성이 안맞는 문제가 발생할 수도 있지만 서비스간에 조인을 해야되는 골치아픈 상황은 피할 수 있게 되었다고 한다.&lt;/p&gt;
 &lt;p&gt;또 트렌젝션 처리는 안하는 것으로 하였는데 이는 비용에 따른 선택 이었다고 한다. 트렌젝션을 엄격하게 지키면서 광군제와 같은 대용량 트래픽이 몰리는 이벤트를 처리할 수 있을까?&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/04/06/20180406-chinese-commerce-development-experience-seminar/no_transaction.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/cc038aade682cdfa13c34e76ba411a16/12669/no_transaction.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 53.24675324675325%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAABYlAAAWJQFJUiTwAAABrElEQVQoz31S2XLCMAzM//8E/QCeeGRanjmTCRBCuAkQwn0m5d56VcxA26lmNJZtebVa2YCy2+0mTjufz1gsFlgulwjDEOv1Go1GA/P5HMPhELVaDZfLBT/f6b3xfKCtWCzi/f0Db4kEUqkUMpkMkskk2u020uk0prPZS74A32NDH5xOJ8RxLH44HMTJdrvdyj3j4/Eo7JjDmCvfPbMVQLZYKBSQy+VRKpVgWZZqzYXjOKjX63BVmyXF2jIt2LaNarX6WHmvu3wA7nY70Yi+2Wzg+74CNWHeATyvLisL2XZZ9J2rtplLMtfr9ZWhtplKovCNZhOu66JcLqOpYrKgVyoVjMdjyWHxOP78pb+xWq3U5eLBcDKZCANWp4565bTJhjksPJ1Oxb+BY3W/EZ0Nfg1W7Pf7CIJAAHnG1kzTlInn8wVpOZvNodVqCTBz+GYwGMieGByUgT+MWkRRJAyiKJYH+/1eJk69/jNDi0l06kPh+ZGdqiMaUjfP80RTfmoOzFHT5cqizwN5+djUwvcHAhoEIwHodDrivV4P3W4XXRWH4QSj0UjOCKoZa5wvqCw5PUOZ5+EAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;no transaction&quot;
+        title=&quot;&quot;
+        src=&quot;/static/cc038aade682cdfa13c34e76ba411a16/b9e4f/no_transaction.png&quot;
+        srcset=&quot;/static/cc038aade682cdfa13c34e76ba411a16/cf440/no_transaction.png 148w,
+/static/cc038aade682cdfa13c34e76ba411a16/d2d38/no_transaction.png 295w,
+/static/cc038aade682cdfa13c34e76ba411a16/b9e4f/no_transaction.png 590w,
+/static/cc038aade682cdfa13c34e76ba411a16/f9b6a/no_transaction.png 885w,
+/static/cc038aade682cdfa13c34e76ba411a16/2d849/no_transaction.png 1180w,
+/static/cc038aade682cdfa13c34e76ba411a16/bbefa/no_transaction.png 1770w,
+/static/cc038aade682cdfa13c34e76ba411a16/12669/no_transaction.png 2618w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;p&gt;MSA를 하게 되면 빠지지 않고 따라오는 개념이 바로 Event Driven이다. 서비스 간에 통신은 이벤트 드리븐으로 하게 되면 서비스 고유의 역할에만 집중할 수 있게 되고 서비스 플로우에 대한 오류는 관련 있는 서비스만 처리하게 되는 구조가 되게 된다. 거기다가 이벤트 드리븐 특성 상 이러한 일들은 비동기(Async)로 동작하게 된다. (ex: A 서비스에서 처리가 끝나면 Event Queue에 이벤트 전송 -&gt; B 서비스에서 받아가서 처리)&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/04/06/20180406-chinese-commerce-development-experience-seminar/event_driven.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/5bbaf98cb6adcfd10e7dc8bcf0e677b8/710c4/event_driven.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 68.03044719314939%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAABYlAAAWJQFJUiTwAAACpElEQVQ4y6WT2U8TURTG5w/xVd981hcTExOf9Y/wxRgTE2Oij5KwhCgx+iAYZYmRSAmRNUAxdmOxqCwRTAt0o4W2M3Sh087en7dTwCD45M2c+W7mzP3mnO98IyFWvV5vAKZpMjg4yMLCoogFfD6fi5OTkwwNeVheXiYUChEIBAiHw25+fn7ePXfMIzVuR3zouu4S+P1+PB4PMzMzBAVBMBhkdHSU1dVVhoeHmRgfx+v1umSNXLVa/UPoVmbo7KaSOI7F/y5JN2wOSjqZvEqpYqAbDdJG1Q6OZWLoNQythmUa4rEtLpEXObciHFS9TM2qoBplqkYFaW4pS3vPMp098zzrXSe0oqCbNpWqRUE1SewXie8VUFSLmuARwKEm9lqdyP4W/YtdvJ5t482XDiY3PyD9ipWZXcgw5Y/hmdpgcSVFrakxVi6BGV/FjP3A2PqGJsJMbVLI7rG+sc1adIPvaR+BiJfplRE+r000h7KXrxJNFEhlRCVyjp1Ehlg0wmHvPbS+u9T6BQ7cR3v/AP3tHZTFMTJFXUhiu63Gc0ni2W3KlRJS8dCk++NP2rtDDIxtk8sfkNpNsxONUn56lcrjS6gd16m9vI3acgX14QXkuXcklRqJZAZfZEq03EpfqItkcatZoWk5QjfHxYbUTcVtSi9uoTy5zEHbDZT2m8gt15AfXaT49RMZuUhaOEM3NCzHwLQNHDEs6czcXV82vdmYqF2IY2dWUDb85ESkYxFkWSGfz6Np+lnb1E8I/oojY5AY4CDcQm6pFXuzE6o7bs4RHzvvnHS2wHqzSncvfCcHxWTHKUVHULeGKGUjaIZ18u7xb3uM0nlud1NCDxcNBXM/gBydppJeolAsi1a1UyTH+E/Cpo5HhNUYxbVXZMPPIec93ck56zftxQSTK8XhLAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;event driven&quot;
+        title=&quot;&quot;
+        src=&quot;/static/5bbaf98cb6adcfd10e7dc8bcf0e677b8/b9e4f/event_driven.png&quot;
+        srcset=&quot;/static/5bbaf98cb6adcfd10e7dc8bcf0e677b8/cf440/event_driven.png 148w,
+/static/5bbaf98cb6adcfd10e7dc8bcf0e677b8/d2d38/event_driven.png 295w,
+/static/5bbaf98cb6adcfd10e7dc8bcf0e677b8/b9e4f/event_driven.png 590w,
+/static/5bbaf98cb6adcfd10e7dc8bcf0e677b8/f9b6a/event_driven.png 885w,
+/static/5bbaf98cb6adcfd10e7dc8bcf0e677b8/2d849/event_driven.png 1180w,
+/static/5bbaf98cb6adcfd10e7dc8bcf0e677b8/bbefa/event_driven.png 1770w,
+/static/5bbaf98cb6adcfd10e7dc8bcf0e677b8/710c4/event_driven.png 2102w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;p&gt;특히 이 부분에서 좀 감명 깊었는데 실제로 MSA를 하다보니 아래와 같이 MSA가 쉽지 않은 것이라는 것을 몸소 체득하게 되었다고 한다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/04/06/20180406-chinese-commerce-development-experience-seminar/msa_is_difficult.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/25b1606654c35702ef869e5c7b1711fb/eb7e8/msa_is_difficult.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 51.955719557195565%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAACTElEQVQoz02QiVNSURjF31/cjOPkUhOONorkki02lmtWKpIigygiGCKxykNMATd8oqaYJKGhgvDrvufQeGbOfMu937nnu1KlUkFFuVzWYjKZxGQy4fV6NSqKwtLSEvNzc8RiMRwOBzbbLOFwmGKxJCYqqBpVSqpItVCRSqUwm6dxuVy43W6Oj4/x+XwEg0HtzOPx4Pf72d7eoorqrAqpWhQKBU5OTri8vKJUKmmOb25utN7FxQWZTIZ8Pk8ulyObzWq5+piaPzQlVZXL5TuissxaNKo5i8XW2BLrqz31G0KhELIc0dYOiXWj4l4gEGB3b/f/l1UqZaTCdZGDw58oB0ek9tOcZs65LZa5vhUuxcXb4h1np2dsJ7dR9g/Y3dlDzN3zrqLFh5D+nqwiL7xGdvYRWexDiUyQ318gk7BynrBwk0tgX7Uy4Rhh3K5yGM+GA2/cqXFlcxFXxIac/s7W2TpS6WCaXXs9m7YnrM08JmyqEbGWH9Y64pYa/qQtjIUH6JrU0WnU0b/YyZC7m6Fv9xxZecVn/1uM8nvm40YhqJjZsNSy52wiG9Rz6G7mPKAXeTv5UCtXR7NCoBf9aCNvZlrpGNdpfGlqFg800TPVwqCzm7HAOxzJr0jF1Dgp+yMUZ71wWksuqIMdAyTaIf6cnDJJ/0oPBmMD+gmV9RgmG7W8y/yM1i91tI3X0+dqw7L+EekubeK3v4Fffh2n3qdcyc1CrI1yQi8EW8ilpxhd7WVwxUD/soFhX6cWB70dDAkOeF6Isw4+LLdj3fzEP8Zups0t8S3wAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;msa is difficult&quot;
+        title=&quot;&quot;
+        src=&quot;/static/25b1606654c35702ef869e5c7b1711fb/b9e4f/msa_is_difficult.png&quot;
+        srcset=&quot;/static/25b1606654c35702ef869e5c7b1711fb/cf440/msa_is_difficult.png 148w,
+/static/25b1606654c35702ef869e5c7b1711fb/d2d38/msa_is_difficult.png 295w,
+/static/25b1606654c35702ef869e5c7b1711fb/b9e4f/msa_is_difficult.png 590w,
+/static/25b1606654c35702ef869e5c7b1711fb/f9b6a/msa_is_difficult.png 885w,
+/static/25b1606654c35702ef869e5c7b1711fb/2d849/msa_is_difficult.png 1180w,
+/static/25b1606654c35702ef869e5c7b1711fb/bbefa/msa_is_difficult.png 1770w,
+/static/25b1606654c35702ef869e5c7b1711fb/eb7e8/msa_is_difficult.png 2710w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;p&gt;그리고 MSA를 하면서 모든 서비스에 대해 모니터링이 필요한데 모니터링을 하기 위해서는 로그가 중요하다. 모든 서비스에서 발생하는 로그, 이벤트를 기록했는데 눈에 띄는 것은 모든 로그를 HDFS에 저장하고 Presto로 이벤트 및 로그를 제플린에서 질의하고 있었다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/04/06/20180406-chinese-commerce-development-experience-seminar/data_federation.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/8894aff9eef0d31c6fc34372254945ed/68349/data_federation.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 62.014134275618375%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAABYlAAAWJQFJUiTwAAACOElEQVQoz6VTW09aQRDmv/PGA5XIg+GBGEkshIQmhgduFhDKpYhQihywNlHkVEG5Hw57rl9nlhZJXzvJZHcnu9/MfN+sp9FoIJlMotvtotH4ilqthmaziXa7jZubFnq9HrLZLNLpNBRFQalUQr1eRz6fB78tl8soFApoXl/j4eERnp/390ilUqhUKgiHw0gkPslLFxcX8uLtbRe5XI7iCVSqVTrfSlB+UywWJTAnvKL93d0PeHBgtm3jf83jui4Mw8TT6BcehyNoGx1bYcIicNMwIISAZZkwLQvCsGA7LsaTN7qr4vnlleK2jG+FBcdxdhXqW4Hzj1F8ODrCZ2qB7Ul9gd/vh9frRat1QwkcmWg6nWKj6zCpGcN0CNCRqyDn4vaA0WgUx8fHqBJPbJqmo9P5hkwmA1VVZUxVn6H0FfSIx+l8hRGdlysN88UKM3LZ8l/AeDyOk5MTXJNabKb5zie3LISB6WyOfr9PrmCx2hDYGmtKPHmb4ZV8D7jRtzg9PcURtcwK70AcyQkLxS6IT10wVwa1aNPehmG5IEop0QKT1+k7oCBRrkpfkEpn0PneRTAYpHEoQFuvqXVtX6lp7sT617jlyWGFXMmh8UwOh0OMx2MEAgHJbyQSwdnZGWKxGEKhkIzl/wi40QVNx/YdkDPz8PIwDwaDPfBK28jhZV55ePkOD/Xl5aX8SUp/AJffs9LU/l5lBoxQdp/PJ7+VRWeNwKyDwhfLtaxkSWLwmOwFs5lrV65svwFhaWx+CEz1ywAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;data federation&quot;
+        title=&quot;&quot;
+        src=&quot;/static/8894aff9eef0d31c6fc34372254945ed/b9e4f/data_federation.png&quot;
+        srcset=&quot;/static/8894aff9eef0d31c6fc34372254945ed/cf440/data_federation.png 148w,
+/static/8894aff9eef0d31c6fc34372254945ed/d2d38/data_federation.png 295w,
+/static/8894aff9eef0d31c6fc34372254945ed/b9e4f/data_federation.png 590w,
+/static/8894aff9eef0d31c6fc34372254945ed/f9b6a/data_federation.png 885w,
+/static/8894aff9eef0d31c6fc34372254945ed/2d849/data_federation.png 1180w,
+/static/8894aff9eef0d31c6fc34372254945ed/bbefa/data_federation.png 1770w,
+/static/8894aff9eef0d31c6fc34372254945ed/68349/data_federation.png 2264w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;p&gt;또 감명깊었던 부분은 모든 서비스 플로우에 대해 Requst ID를 부여하여 request를 추적할 수 있도록 로그를 남겼다는 점이다. 예를들어 서비스 플로우 A가 있으면 A에 해당하는 서비스가 ㄱ 서비스, ㄴ 서비스, ㄷ 서비스가 있으면 request가 서비스를 거칠 때 마다 requestID를 부여하고 덧붙이는 방식이었다. 이렇기 떄문에 서비스 플로우 A에 대한 콜 스택이 어떻게 되는지 추적도 할 수 있고 어느 서비스에서 오류가 발생해서 그 다음 서비스로 못넘어 갔는지도 모니터링이 가능했다고 한다. 더 나아가 이러한 데이터를 바탕으로 실시간 모니터링 툴까지 개발한 모습도 보여주었다.&lt;/p&gt;
 &lt;h2&gt;마치며..&lt;/h2&gt;
 &lt;p&gt;MSA를 하면서 오류가 발생하는 것은 어쩔 수 없다. 그런데 이들은 어쩔 수 없음을 윗선(경영진)에서 부터 공감하고 허용하고 있었다. 오류는 즉 매출에 영향이 있음에도 불구하고 이런 인식을 갖고 있던 것은 무엇일까? 중국의 많은 인구로 인한 대규모 트래픽과 기민한 서비스 대응만이 살아남는 구조이기 때문에 오류가 발생해도 매출 발생 대응이 중요했기 때문이라고 본다. 이러한 상황이 애자일을 할 수 밖에 없는 상황이 된 것으로 본다. 우리나라 정서에는 안맞는 부분이 있을 수도 있겠지만 배울건 있다고 본다. MSA를 하기 위해 공부를 멈추지 말아야 겠다.&lt;/p&gt;
@@ -3404,7 +4037,40 @@ todo&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class
 &lt;h2&gt;To-Do Domain&lt;/h2&gt;
 &lt;p&gt;우선 To-Do App이 뭔지 알아보자. (이것을 To-Do App의 Domain을 알아보자 라고 한다.)&lt;/p&gt;
 &lt;p&gt;TODO 앱은 일단 다음과 같다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/03/27/20180327-understanding-composite-pattern/todo.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/e8b12d46c389bc869f9e6d7cd032aaf0/acf33/todo.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 117.47899159663866%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAXCAYAAAALHW+jAAAACXBIWXMAAAsSAAALEgHS3X78AAACPElEQVQ4y+2Ub2vTQBzH8+70kT7yqaKoVLd2W2e3OqF1ooIIguAQHSijKswn+ioEwRegnboJgyW5XJO7JJc/d8nXS7LVMltbGfjICx8u5MInv+/9jhifPn6AZVoIRQKlcmQZkOWAEBEedQlWr1pYq9tY1bQ0ywsES4sEi0sEjWUH9RsO5loU11YoaqsDGExIuB6DO6DIlEQ18pInDyjadQudFYLumoP1DkVH075FcbM7QPv2AC09N7sumndcNNZdGH2SYsfyse8KkBiwRQ4S5TB9hYf3HLSbNu7fpZift3H+ooVLNRtXGgQX5gjOXbZxpmbi7IKJ09dNnKpZMKjLYVIGW8+RAkKZQ2jCJMP7dwyvei623zK83PLw/AXD5hbHZo/jmeZpz8fGa46NbY7Hb5iGwxC+DxH4SOJoJG5W3jH5DTT6jEymCAJHPznaksnDYKGEiBXyvFDpKy+ohMTfxYG7A59HSGX1jlJZ2bxJGJFIdYd1VFE1YlRIwz2YXh/cC3SFAdI0rTIU5sP5OIaU6TDqr4VK6IS7MFkfTAupPgWc83JdKTXkN+HoV48LB+EPWOwrAj8CY6wUFnOB53nDD8wspFp44H4pIxcVEkIgpRwbdSahE34vI4e6wjiOx0acUZgfRt4H4Xs6skCSxBMbMaMwh0wziDAu96ugiDtN+scKY33YgzAYNmFadVMrTKWuUMTw/QBRFJ9MWFD8ytJU6f1L9H12cuFR9FmaMbPwb/kv/AfC4riMMu7Z6NpPMcbfJdiKNTAAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;todo&quot;
+        title=&quot;&quot;
+        src=&quot;/static/e8b12d46c389bc869f9e6d7cd032aaf0/b9e4f/todo.png&quot;
+        srcset=&quot;/static/e8b12d46c389bc869f9e6d7cd032aaf0/cf440/todo.png 148w,
+/static/e8b12d46c389bc869f9e6d7cd032aaf0/d2d38/todo.png 295w,
+/static/e8b12d46c389bc869f9e6d7cd032aaf0/b9e4f/todo.png 590w,
+/static/e8b12d46c389bc869f9e6d7cd032aaf0/acf33/todo.png 595w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;p&gt;그림을 보면 왼쪽에 뭔가 분류 항목(리스트)가 있고, 오른쪽에는 할 일 항목이 있는 것을 볼 수 있다. 이렇게 화면을 보고 데이터가 어떻게 되어 있을지를 상상해봐야 하는데 이걸 도메인 훈련이라고 부르며 상당한 노력과 경험이 필요하다. (도메인을 보고 완벽하게 데이터로 환원시킬 수 있어야 한다.)&lt;/p&gt;
 &lt;p&gt;도메인 파악에는 여러 방법론이 있지만 데이터베이스를 바탕으로 도메인을 파악할 경우 그 도메인에서 행위를 명사로 표현할 수 있는 것과 동사로 표현할 수 있는 것으로 나뉜다. 여기서 명사는 엔티티(Entity)라고 부르고 동사는 행동(Behavior)라고 부른다.&lt;/p&gt;
 &lt;p&gt;엔티티라고 부르는 것은 데이터와 연관이 있다. 위 그림 To-Do App 도메인에서 엔티티는 무엇일까? 일단 왼쪽이나 오른쪽 둘다 공통적으로 보여지는 리스트 엔티티가 있을 것이고, 할 일 항목 하나하나가 엔티티가 보인다. 결국 TaskList와 TaskItem으로 엔티티를 표현할 수 있다. (데이터베이스에서는 이 엔티티가 테이블이 되겠지만 객체지향 세계에서는 클래스가 되고 인스턴스가 된다.)&lt;/p&gt;
@@ -3579,7 +4245,39 @@ console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span cl
     &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;span aria-hidden=&quot;true&quot; class=&quot;line-numbers-rows&quot; style=&quot;white-space: normal; width: auto; left: 0;&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h3&gt;Step 2. Class Diagram&lt;/h3&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/images/20180327-understanding-composite-pattern/step_2_class_diagram.png&quot;/&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/6425c5c7db79d1c19afa24905a5e0469/d502a/step_2_class_diagram.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 511px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 43.05283757338552%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAAsSAAALEgHS3X78AAABnUlEQVQoz3VSyU4CQRBtRz1M9H84EX7Lix68cpVw8OCXcCDhgmwhhBD2Pez7anqgfK9kNCZaSadrprtevfeqzeFwkMFgIIVCQZbLpRVEq9WKGATOnEAgwNTUarXry/7IO7vdzhaLRUmn0zIajcRaK4lEQkyv1yOATCYTOR6PCogLLyxGemUu4ef9fv9xs9lIp9OxWLJYLGS73bJMUqmUmHa7Ld1uV87ns5xOJwUEizfUOqFQ6M5xHBe5GwwG7wlYr9ef9/u9VKtVb71eK5Dnebpns1kxZEbJs9lM5vO5AqJJlMXRaPTGdV2H4OFw+PYC+HSxyU6nU63jYiSTyS+GzWZThsOh+sIDyIj8IdnxJVMmbLKs5aJtjHw+L4bUIdlDFw9SPngApr6HZKaA8FWHAt/UQ5CwjUZDweglWedyOTGYrLJbrVbqJQP/Xn1ATFEBIU8BwUgByZDDpF3j8fiHYalUyuDJZCqVSqZcLr+jcxnAD77keDyugGh47UvmVAFsyY5PhoS+h/Jf4PzXN1h8M+Qg8RLUQzLkTtBYLCafORvphb0GB9IAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;step 2 class diagram&quot;
+        title=&quot;&quot;
+        src=&quot;/static/6425c5c7db79d1c19afa24905a5e0469/d502a/step_2_class_diagram.png&quot;
+        srcset=&quot;/static/6425c5c7db79d1c19afa24905a5e0469/cf440/step_2_class_diagram.png 148w,
+/static/6425c5c7db79d1c19afa24905a5e0469/d2d38/step_2_class_diagram.png 295w,
+/static/6425c5c7db79d1c19afa24905a5e0469/d502a/step_2_class_diagram.png 511w&quot;
+        sizes=&quot;(max-width: 511px) 100vw, 511px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;h3&gt;Step 2. 결과물&lt;/h3&gt;
 &lt;h5&gt;javascript&lt;/h5&gt;
 &lt;ul&gt;
@@ -3590,7 +4288,40 @@ console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span cl
 &lt;li&gt;&lt;a href=&quot;https://github.com/icednut/design-pattern-study/tree/master/composite_pattern/java/step2&quot;&gt;https://github.com/icednut/design-pattern-study/tree/master/composite_pattern/java/step2&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2&gt;Step 3. 태스크 하위로 태스크 달기 구현&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/03/27/20180327-understanding-composite-pattern/todo2.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/719e47f5a4896eddb3c910fdf826f9ce/e4e31/todo2.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 92.58343634116191%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAATCAYAAACQjC21AAAACXBIWXMAAAsSAAALEgHS3X78AAACVUlEQVQ4y6WUSVMTQRiG5yeyXCw9ePTGIgFCAEkARSCUSFlquRQUqFXcvFr+B6oU717EQDJr9yxJZnnsnhAMiwT1q3rr657uefpbesYY3zpm9rVJ8aXFyFOzo60Gd0rHDI7VGL5fYyiXmmtNdDRwqsHCMcPTJwwpDUydYDTqdcKoRZKkZFlGmkJGi/03DpXRBiszJstFk0rRojxjsTBrMT9nMzdvU1qwKZYdpisOk4sOhSUXQwiJ5zoKGKMtS7Pcf/wgWJw0Wa3YrC3ZVB87rK+5PFpxWFZ6WHVZWncpr3ksrHs82BBMK298b0iOnAC7BVYzw4wyRJLxbttjsWSyWXVYLNuMjJqMFSwKJZvxWZt7BZu7Exa3S7o8JsOTDW5N2Rh1R9LwfMIEgjjDb+uEMz5/Ctjb8dnfl+y+kzx/JXjxVmlbjXckz5TfVP6JymTjvWB1V1DdkxihL4mikI5lp4IoqVOTB8TtGCFskri753ozolb8G6WaoqXNbzb46R0SBi2azSb6cZpmfWUE6uAg7EDOAVsa+BVfhGo9UE1Lztavk9FNtcO5ABSH+DLEUbfA87yztb7Aixu1BS2TmvimUm4ipcD3/VxCCDWX+QFxHF864Bywd6wjPHK/IEWgXnaxLIswDPPUu+obYe+4N8JQ1bAL67W/AsrmCT+8g9MuR31r1xcYx4mKKjqrm746N4FeA4wJgiBvgOu6tNvt/wPqekVRlNdOR3hVR28E7J2n6l+mgTpKPf7nCHvT1jXUKZumeSntK7/lPwE7P9s0h2qvS6B9vwh/AQ51i8+2g5ozAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;todo2&quot;
+        title=&quot;&quot;
+        src=&quot;/static/719e47f5a4896eddb3c910fdf826f9ce/b9e4f/todo2.png&quot;
+        srcset=&quot;/static/719e47f5a4896eddb3c910fdf826f9ce/cf440/todo2.png 148w,
+/static/719e47f5a4896eddb3c910fdf826f9ce/d2d38/todo2.png 295w,
+/static/719e47f5a4896eddb3c910fdf826f9ce/b9e4f/todo2.png 590w,
+/static/719e47f5a4896eddb3c910fdf826f9ce/e4e31/todo2.png 809w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;p&gt;요구사항이 추가되어서 태스크 하위로 태스크 목록을 볼 수 있어야 한다고 하자. 뭐 일단 하위로 얼만큼 달리는지는 생각하지 말고 1단만 달린다고 해보자. 실행코드는 아마 다음과 같을 것이다.&lt;/p&gt;
 &lt;h5&gt;app.js&lt;/h5&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre style=&quot;counter-reset: linenumber NaN&quot; class=&quot;language-javascript line-numbers&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; list1 &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;TaskList&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;비사이드&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
@@ -3814,7 +4545,39 @@ console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span cl
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;span aria-hidden=&quot;true&quot; class=&quot;line-numbers-rows&quot; style=&quot;white-space: normal; width: auto; left: 0;&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;TaskList를 보면 .map(v=&gt;v._getResult()); 라는 코드가 추가된 것을 볼 수가 있는데 이는 _getResult() 함수를 Task 클래스의 것을 호출하겠다는 의미이다. 이렇게 하위 목록을 가져오는 코드가 Task에게 위임된 것을 볼 수 있다.&lt;/p&gt;
 &lt;h3&gt;Step 3. Class Diagram&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/03/27/20180327-understanding-composite-pattern/step_3_class_diagram.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/eab59ffcb184a9422efcec8480eefccd/3bb78/step_3_class_diagram.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 491px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 12.423625254582486%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAAAsSAAALEgHS3X78AAAAfElEQVQI1y2NQQpDIRBDFSv8D9IruNVTePIPpQcRRBFFwZW4EaYz0kCYt0gyrNYKay3IOUNrbQMqpfQwlDHmllJeiMec88s5R/zy3n/+2R1jhDkn0GUEJByDMcYZxCdfLN1aayWEUMjHOKistW9k0Xt/KFtK2SGEs4F9+AFSKlzLTDXbgAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;step 3 class diagram&quot;
+        title=&quot;&quot;
+        src=&quot;/static/eab59ffcb184a9422efcec8480eefccd/3bb78/step_3_class_diagram.png&quot;
+        srcset=&quot;/static/eab59ffcb184a9422efcec8480eefccd/cf440/step_3_class_diagram.png 148w,
+/static/eab59ffcb184a9422efcec8480eefccd/d2d38/step_3_class_diagram.png 295w,
+/static/eab59ffcb184a9422efcec8480eefccd/3bb78/step_3_class_diagram.png 491w&quot;
+        sizes=&quot;(max-width: 491px) 100vw, 491px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;h3&gt;Step 3. 결과물&lt;/h3&gt;
 &lt;h5&gt;javascript&lt;/h5&gt;
 &lt;ul&gt;
@@ -4098,7 +4861,39 @@ list1&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span clas
 &lt;p&gt;Task, TaskItem, TaskList 클래스를 잘 보면 Composite Pattern 이라고 했는데 또 한가지 패턴이 보인다. 바로 Template Method Pattern도 쓰여있는 것을 볼 수 있다. 이렇게 실무에서는 디자인 패턴이 여러개가 결합된 형태로 적용된다.&lt;/p&gt;
 &lt;p&gt;여기서는 Todo App 이라는 반복되는 행위(Loop)를 Composite Pattern으로 풀었는데 HTML Parser, Markdown Parser도 컴포짓 패턴으로 구현할 수 있으며 심지어 네비게이션의 길찾기도 컴포짓 패턴으로 구현할 수 있다고 한다. (우와 그럼 컴포짓 패턴이 만능 아닌가? 사실 네비게이션 길찾기는 도무지 상상이 안간다..)&lt;/p&gt;
 &lt;h3&gt;Step 4. Class Diagram&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/03/27/20180327-understanding-composite-pattern/step_4_class_diagram.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/078abe77307d2d904d97c42aa25d19ac/d6fa2/step_4_class_diagram.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 311px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 81.67202572347266%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAACXBIWXMAAAsSAAALEgHS3X78AAACk0lEQVQ4y61UTWsaURQdJ7RTm6YxoXRrurAUWhdtEwqlkK66cFVxlT+QVffZCF0INWlAu4mQhaCbggRcuAi2GLXGzyR+IBGzSIwmJCbWCJoPdabx9bypDtIMdtMLl7lz57zDffeeOwzTNYfD0QuZaDTK5vN5dmtri726umJXV1eHNBrNqFqtHpuYmBCd4zgVoMNKpZIZaIQQuTQnm+S4ETzuyhItLy9L8dra2pNUKvUqkUhMotIXZrNZ7/F43uzs7DzPZDIvNzc3p+Lx+D1Ab6PCYVlCr9crxYeHh3FUSprNJmm32+Ty8pK0Wi0xps7zPEmn0+8oVqvVjsgSBoNBKa7VaiHyx9oCzO/3C7u7uwLeqfOdToegr3pAb01PT8tfORAISHG1Wk2Tf9j6+vp7ij0+PmZlCd1utxSjV19OTk7C+/v7wdPT0+/UK5XKN7TCXyqVfhwdHQVQ9RTF4skOnPLMzEwvvAMfl4E87AVGo3GwZKxWqxTr9XrV7Owsh9sp4GzXFTqdbnRubm6UxgaD4abU7HY7s7KyQqUilu7z+V5D2N5IJOJDn57SXCgUYpPJpPgd+Q+QTDIWi31FTlR1LpdjXC6X6JR9qM8Z9GscH95iSya3t7fv0xwmyoTDYYpV7O3tPQDZY4vF8qx7hu3nYP67QfnzBwcH85je/NnZ2SdM1loulxcx0YVisbgA/ZlNJpMKFSlxtY/ALlIsbvK5UChYMX0zfQdWdAa6lbR1fn4uOt2QfrPZbI+cTudYo9G47uUuLi4IfhziBvUbFbG4AVgnAdUK2F8BzRZAzCP/C3l+aWlJDUJVvV7/SQ9hU/hsNitsbGwI9AlSkQN5gRKSLujvZRAT4Ov0CFFhrYu9vgHunv8N0uBhRJG4g9gAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;step 4 class diagram&quot;
+        title=&quot;&quot;
+        src=&quot;/static/078abe77307d2d904d97c42aa25d19ac/d6fa2/step_4_class_diagram.png&quot;
+        srcset=&quot;/static/078abe77307d2d904d97c42aa25d19ac/cf440/step_4_class_diagram.png 148w,
+/static/078abe77307d2d904d97c42aa25d19ac/d2d38/step_4_class_diagram.png 295w,
+/static/078abe77307d2d904d97c42aa25d19ac/d6fa2/step_4_class_diagram.png 311w&quot;
+        sizes=&quot;(max-width: 311px) 100vw, 311px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;h3&gt;Step 4. 결과물&lt;/h3&gt;
 &lt;h5&gt;javascript&lt;/h5&gt;
 &lt;ul&gt;
@@ -4125,7 +4920,43 @@ list1&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span clas
     &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; el&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;span aria-hidden=&quot;true&quot; class=&quot;line-numbers-rows&quot; style=&quot;white-space: normal; width: auto; left: 0;&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;위 코드는 DOM을 생성하는 함수 el을 선언한 것이다. 첫 번째 파라미터로는 만드려고 하는데 element의 Tag명을 받고, 그 이후 파라미터는 부터는 함수, style, attribute를 받는다. 자세한 사용 방법은 DomRenderer 클래스를 작성하면서 알아보자.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/03/27/20180327-understanding-composite-pattern/sequence_diagram.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/5bacbc018f90a77674a713b4aaee9ead/bfb07/sequence_diagram.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 56.02129075182967%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAABYlAAAWJQFJUiTwAAABa0lEQVQoz42S54oCQRCE92F0BTFgzjmuWUExgoi+/yP08dUxMnDecT+K6e1QUzW9Qbfbtf1+b4fDwUajkfV6Pet0Otbv922xWNh8Pld+Op3qezweC8RRFNlgMFANMBsMh0M7Ho92Op3URLLdbmvo8XgIq9VKPa/Xy7bbrb6fz6edz2ddxiwxIgIS1+tVoBF1qG40GtZsNnXW63UrlUpWq9WsWCyqzsWAWqVSsWq1qliEt9vNLpeLzWazdzOD3EhjoVCwVCol0jAMZZXLd7ud6rlczpLJpGUymW9C5EKITacQoJCz1WpZLBaTEojX67Utl8u3fTh4OlmeTCZ2v98FHpb3g8QthkZyqHSWUeKeIZvNSmE+n1ctYBAlwFdHjHW2SMwJOTlIyuXymxjl6XRapIEj8Ik+EZJDMTG2WRbKsL7ZbPRcsvxfQj/2Fbr/1jn9QfibZT9OJBKyF4/HtV3A9lH+J6Fv048/wc18AQmKgpJzAPAnAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;sequence diagram&quot;
+        title=&quot;&quot;
+        src=&quot;/static/5bacbc018f90a77674a713b4aaee9ead/b9e4f/sequence_diagram.png&quot;
+        srcset=&quot;/static/5bacbc018f90a77674a713b4aaee9ead/cf440/sequence_diagram.png 148w,
+/static/5bacbc018f90a77674a713b4aaee9ead/d2d38/sequence_diagram.png 295w,
+/static/5bacbc018f90a77674a713b4aaee9ead/b9e4f/sequence_diagram.png 590w,
+/static/5bacbc018f90a77674a713b4aaee9ead/f9b6a/sequence_diagram.png 885w,
+/static/5bacbc018f90a77674a713b4aaee9ead/2d849/sequence_diagram.png 1180w,
+/static/5bacbc018f90a77674a713b4aaee9ead/bbefa/sequence_diagram.png 1770w,
+/static/5bacbc018f90a77674a713b4aaee9ead/bfb07/sequence_diagram.png 3006w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;p&gt;그럼 마찬가지로 실행코드 작성 후 의존성이 없는 Task 부터 시작해서 TaskList, TaskItem 그 다음 DomRenderer 클래스 순으로 작성해보자. 위 시퀀스 다이어그램을 보면 자식 Renderer에서 TaskList의 getResult() 함수를 호출하면 부모인 Task의 getResult() 함수를 호출하게 되는 꼴이고 Task.getResult()는 자식(TaskList)의 Hook인 _getResult() 함수를 호출하여 처리한다. 그렇게 반환된 결과에서 TaskItem 각각은 또 getResult() 함수를 호출하게 되고 이렇게 점점 getResult() 함수 호출이 확산되어 가는 모습을 볼 수 있다.&lt;/p&gt;
 &lt;h5&gt;app.js&lt;/h5&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre style=&quot;counter-reset: linenumber NaN&quot; class=&quot;language-javascript line-numbers&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; list1 &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;TaskList&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;s75&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
@@ -4610,7 +5441,40 @@ todo&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class
 &lt;p&gt;이 부분은 추후 업데이트 예정&lt;/p&gt;
 &lt;h2&gt;Hotspot JVM의 Garbage Collection&lt;/h2&gt;
 &lt;p&gt;오라클에서 유지보수하고 있는 공식 Hotspot JVM은 Generational Collection 방식을 택하고 있다. 최근 Garbage First Garbage Collection을 기본으로 택하면서 그 방식이 약간 변경되긴 했지만 공통적으로 Heap을 Generation이라는 영역별로 나누어 사용하는 것이 Hotspot JVM의 가장 큰 특징이다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/03/25/20180325-about-java-garbage-collection/hotspot_jvm_heap.png&quot; alt=&quot;otspot_jvm_hea&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/7e510fd277f6007ef35e99916da1b71a/1478c/hotspot_jvm_heap.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 37.687687687687685%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAABcSAAAXEgFnn9JSAAACA0lEQVQoz2NYfz386dprIXfXXA26D2TfX3056H7KnD33Xbqf3W+euur+//kG9/8tNL//b4Hp/f/zDIF8IAay/y20ePh/oe61JQXdM9qS99/vTt3+riVhQyXDwtNe/5edivm/9nz6//nHvf/PPOT2P2Xqhv8urTf+d/Qv+P+/X/3//0k6//9PNf7/f7Hf//8Lvf//n2YKFNP9/79P+fecjLrNbdnb/k8u2vG/JnZBH0Pnaod/XWtcvnavcfveudrxe8sym+8RzbO+25ft+15V3/vtabXityd16t8fA/GTRl0IrtP4/qRW/efzOvm3nRF5K7IDZnwvCZ32P9Onp40hLEfLMSxX3TYsT9UmMl/bNjxX09YsKNlWzbPc3tk9yLnTS9SpP0DafnKgpO0UP2EgFrGdHCBp2+8vbd/rK2oXYOyo62yQZO1qEOPooBumxAAEPECsAsQaQKwOxFpArAbEHEAsAsS8QCwIxJpQDJJXBWJuIBYAYn2oXoh+Hn5WcU5uFnkOThZVDi4WBSCWZ2Fj12Rm5dBjZWXT4WZj0gZhPg4mRSBW4GOH0CLczOJAWo6Hg0tAQ86CVUVKj12AR5SdAeoKYSAWgtIg10hDXaPNyMCgC3WRKFQtTB2ILQZlC0BpfgYoIYCG+YCYE2iYAiMjox4QGwKxAyMkSHiglgqg6QVZJAAAI7C7go4PljMAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;otspot_jvm_hea&quot;
+        title=&quot;&quot;
+        src=&quot;/static/7e510fd277f6007ef35e99916da1b71a/b9e4f/hotspot_jvm_heap.png&quot;
+        srcset=&quot;/static/7e510fd277f6007ef35e99916da1b71a/cf440/hotspot_jvm_heap.png 148w,
+/static/7e510fd277f6007ef35e99916da1b71a/d2d38/hotspot_jvm_heap.png 295w,
+/static/7e510fd277f6007ef35e99916da1b71a/b9e4f/hotspot_jvm_heap.png 590w,
+/static/7e510fd277f6007ef35e99916da1b71a/1478c/hotspot_jvm_heap.png 666w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;p&gt;이미지 출처: &lt;a href=&quot;http://performeister.tistory.com/60&quot;&gt;http://performeister.tistory.com/60&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Hotspot JVM의 Heap 메모리 구조는 다음과 같이 되어 있다.&lt;/p&gt;
 &lt;ul&gt;
@@ -4706,7 +5570,7 @@ todo&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class
 &lt;li&gt;OLAP는 관계형 데이터베이스, 리포트 작성 및 데이터 마이닝을 포함하는 비지니스 인텔리전스의 광범위한 카테고리 중 한 부분이다. 일반적인 OLAP 어플리케이션으로는 영업, 마케팅, 리포팅 관리, 비지니스 프로세스 관리, 예산 및 예측, 예산 보고 등과 같은 영역이 포함되며 농업과 같은 분야에서도 쓰일 수 있다.&lt;/li&gt;
 &lt;li&gt;OLAP 시스템의 핵심은 OLAP 큐브(다른 말로 다차원 큐브 혹은 하이퍼큐브)이다.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/03/05/20180305-start-druid/OLAP_Cube.svg&quot; alt=&quot;OLAP 큐브의 예시&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;/OLAP_Cube-e0a1a126d4fbca33aa1b6d4b0d7ffca1.svg&quot; alt=&quot;OLAP 큐브의 예시&quot;&gt;
 &lt;br/&gt;
 출처: &lt;a href=&quot;https://en.wikipedia.org/wiki/Online_analytical_processing#cite_note-22&quot;&gt;https://en.wikipedia.org/wiki/Online&lt;em&gt;analytical&lt;/em&gt;processing#cite_note-22&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -4718,10 +5582,76 @@ todo&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class
 &lt;p&gt;BI 분야에서는 단순히 ‘이번 달 매출액이 얼마인가?’ 이렇게 물어보지 않고 여러 각도로 정보를 구성하여 원하는 정보를 추출하기를 원한다. OLAP는 결과 산출을 빠르게 하기 위해 다양한 차원들에 대해 선계산 값을 미리 산출하여 OLAP 큐브라는 데이터 구조로 측정값을 저장한다. 즉, 큐브는 시간, 지역, 제품군 등 여러 차원(Dimension)을 판매량, 재고량과 같은 측정값(Measure)으로 요약한 데이터이다.
 &lt;br/&gt;&lt;/p&gt;
 &lt;p&gt;[OLAP Cube example 1]
-&lt;img src=&quot;./2018/03/05/20180305-start-druid/olap_cube.png&quot; alt=&quot;OLAP 큐브의 예시&quot;&gt;
+
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/8676b95071696c07d64d9bb6ece254d1/2d85a/olap_cube.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 423px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 102.83687943262412%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAVCAIAAADJt1n/AAAACXBIWXMAAA7DAAAOwwHHb6hkAAADqklEQVQ4y31U63MSVxTn7+pUZ5qguxAeeZg40VSnnY6pU8XAEoikCRBwOlPHfmg/tWoTHiEkkEaGGpRXrBJTO0AhZhfZEFkWdnkIhGCIedcDae0Yac+HO/ecvb89v/s751zOX/9t0WjU7/OQ8RjsDw8PPzzA+TCUy+UoioLNC2IlgpOB5UwgklxcpgNRKkikH0dTIYL+g8hA5Dh4fX0dx/E3b7bTdCqyjMt+8PGVv/Axc/vXDlRq7lDNtinsQrmpY8QpHLS8B65WqwRBlMvlNE3FV1+Ojj8VDTvah6y9OpdIYe1WO7pG7gnkk+dvPEAwi1hu+BcMt0qn0/lCgU5R5FpS8eMTvsLWhpl6dffRa+MA6xy2I9cmzunnUanpRP9PF8dm3wPXaZdLKwR5/fZTgdIObM/pXajUeGbU0QHIAeN5vev0gLFVYoBPfKmBc4TJ5/MkScZJEn8eDQQJgcaPKh3IoF2kXWiVGMW637hSK7hCrb/lq7tCxdTJy3f71NPHM5dLxShOXvrOL1bN8bDJs7oHQLJz9Nf263ZEOtkz5uJhZkjOlUx0Dlk4tVqtWCyCSJVKpVp9nWOZYPTFxW8fCVUOntzarffB0a4xt2DIhmJT3Xov9+o4MmCCoEhu4gCGYRiQCsrLMCzovBSOdekXEMXcafmMUOMF2iKN75TMCq5A7TklmQDaH/ffvqCdaSZYbPXq9wsgUhtm/vQbNx8z9Wic3aNzwP9C3TV/cuVnWHlSI+fg4CCVSiWTScicTFLUy8RiiOjQ1TMjcptI422RGMRaP1c2hQARtQcEEymnP+q/89lYI/P+/v7u7u7e3h4speKrP1fiX9xaEA87eJjlrN6Dykyd6nmxahaVTfXo3AK55eTl8T7NdL5UrZdqc3MTZNve3oYf5HNs+Hn885s+8fAcXw7gh8iA4Yx2XqicQWTm3hvuE1/e6dPYCuVqfTAAnM1moc7Q1Ww2y2Zopycg1D5qHbzXitnQEV+LxISO+LnYDDQ5V+XtU9s2NncaGjWmCm7r9/tDoVAikXC7H8I8uJ8lXIuEK4DfD8S8S7jzCeH7PfY4uGp0LuEkXcixdDpdKpU4R/MAsGRdLiocDm/VagydpNbIQo6BtVzMr5ExhqZe5dnlSBC66FnDIpHI8ZH8u2DrlcrGBkgAhQC3WCrt7OyAoimabvIYHP5jULl6k5bLcBcAZDKZd3+EioA6sDloGASbZ640DMBHp5u+Qc2foXe2tbXFsuz/gN8CVgPE4mjcaUsAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;OLAP 큐브의 예시&quot;
+        title=&quot;&quot;
+        src=&quot;/static/8676b95071696c07d64d9bb6ece254d1/2d85a/olap_cube.png&quot;
+        srcset=&quot;/static/8676b95071696c07d64d9bb6ece254d1/cf440/olap_cube.png 148w,
+/static/8676b95071696c07d64d9bb6ece254d1/d2d38/olap_cube.png 295w,
+/static/8676b95071696c07d64d9bb6ece254d1/2d85a/olap_cube.png 423w&quot;
+        sizes=&quot;(max-width: 423px) 100vw, 423px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    
 &lt;br/&gt;&lt;/p&gt;
 &lt;p&gt;[OLAP Cube example 2]
-&lt;img src=&quot;./2018/03/05/20180305-start-druid/olap_cube_2.jpg&quot; alt=&quot;OLAP 큐브의 예시&quot;&gt;&lt;/p&gt;
+
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/c7cae9b1deecb933faa67f025dfdc2ee/88cb2/olap_cube_2.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 50.271444082519004%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAKABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAQBAwX/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEAMQAAABdtT1EgBf/8QAHBAAAQMFAAAAAAAAAAAAAAAAAgABAwQQERIh/9oACAEBAAEFApdnMU2VF2oK3//EABURAQEAAAAAAAAAAAAAAAAAAAEQ/9oACAEDAQE/ASf/xAAYEQACAwAAAAAAAAAAAAAAAAABAhASIf/aAAgBAgEBPwGpU7H/xAAcEAABAwUAAAAAAAAAAAAAAAABABEhAhASMlH/2gAIAQEABj8CIyjgTsAtlS83/8QAGBABAQEBAQAAAAAAAAAAAAAAASEAEZH/2gAIAQEAAT8hXQDACBtnDQq8MltuNcaY3//aAAwDAQACAAMAAAAQ8A//xAAWEQADAAAAAAAAAAAAAAAAAAABEBH/2gAIAQMBAT8QKr//xAAXEQEBAQEAAAAAAAAAAAAAAAARAAGh/9oACAECAQE/EN2EvJv/xAAaEAEBAAMBAQAAAAAAAAAAAAABEQAhYTHw/9oACAEBAAE/EJ0TQjs73EPNEdhq1MS9C/GsZZBRamu4HiasxoMc/9k=&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;OLAP 큐브의 예시&quot;
+        title=&quot;&quot;
+        src=&quot;/static/c7cae9b1deecb933faa67f025dfdc2ee/c739e/olap_cube_2.jpg&quot;
+        srcset=&quot;/static/c7cae9b1deecb933faa67f025dfdc2ee/8ee9c/olap_cube_2.jpg 148w,
+/static/c7cae9b1deecb933faa67f025dfdc2ee/ebbe7/olap_cube_2.jpg 295w,
+/static/c7cae9b1deecb933faa67f025dfdc2ee/c739e/olap_cube_2.jpg 590w,
+/static/c7cae9b1deecb933faa67f025dfdc2ee/5413e/olap_cube_2.jpg 885w,
+/static/c7cae9b1deecb933faa67f025dfdc2ee/88cb2/olap_cube_2.jpg 921w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;p&gt;위와 같은 OLAP 큐브가 구축되어 있다면 다음과 같은 쿼리를 처리할 수 있게 된다.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;올해 가장 매출이 저조한 대리점과 저조한 상품 품목은?&lt;/li&gt;
@@ -4730,8 +5660,74 @@ todo&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class
 &lt;br/&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;OLAP을 하기 위해서는 OLTP(On-Line Transaction Processing)이 선행되어야 한다.
-&lt;img src=&quot;./2018/03/05/20180305-start-druid/oltp-olap.png&quot; alt=&quot;OLTP와 OLAP의 차이&quot;&gt;
-&lt;img src=&quot;./2018/03/05/20180305-start-druid/dt_wh.png&quot; alt=&quot;OLTP와 OLAP의 차이&quot;&gt;
+
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/8385b6ddfecf1a002fe8883bbf957f07/e7d1d/oltp-olap.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 69.43620178041543%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAIAAACgpqunAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACaElEQVQoz1VSS08TURSeVRf+E3+IaxMX6s6EjUExxoVtQnBhIiBNjNFiNQSVQFsKAjIWS9MWa5tofSQKtaUtLQOUlgx06Gumndd9eO60vG7O5Jxv7vnuOfe7h7v8/Ds3GLUNrXEPw2fmiHD2SC+GwGHZ+d1ucHVm/V4gPxQuPooU7/K5O3wWoCNUtIcKA59y/XzWHioOhpnB//7l7P2VPMQPPm8NBPLcxO8KpXSpIId22hBgQujJgpBchOd3YXGuZAncFe/e9WWRlrYajZZJKUIYYaIjrBgmEHREEDmD8AEE49w/y1AvkCpHhTrKbiiBRYJ7x8MRqqazmj2IVN24UNn9Yx+couqQB0la6u/xXiEli5l6RUYm5EIL7//VdxqMpkLnmCQrnY6BGXk8ycjX+IO+aJWqdbovvt0IcdO3bP7+RGyJhoM18fDSC8GbbtA/33AkEM6Itpfb87kWI7+yKt8OluyJKq0IZvxrPBW/mXzXl5zKH2xTSWrWas7E7npJos2aeSQKh83Hsd3ckcLIr9mdiSo3TKUJUrXzm0Y2bYmLEaEatjzIgBE4FXUVQF0depU9m82POzqtHsgfPFjTLIUI3FYzWDqyMEDVZBCfSAh3tp5qWrjBizTzq1Upk+6bdrOBDGWJ1QCIb5iMS3rGua0hCQrKWqnD9DTQ6WD0yKdPZal9cUgWv9CFUX31jbniUuedmiJ3e6asHO0IaX12WJsb0/wjGu9SVye1uacM+p7oMR83tZJQ58cO+QlpwXXsfybV6opJ2obZ1k0Z06N8SvKMSD6n5B2VFsergUnJNybNOqWZ4VrE9x9nKsUHPdtzRQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;OLTP와 OLAP의 차이&quot;
+        title=&quot;&quot;
+        src=&quot;/static/8385b6ddfecf1a002fe8883bbf957f07/b9e4f/oltp-olap.png&quot;
+        srcset=&quot;/static/8385b6ddfecf1a002fe8883bbf957f07/cf440/oltp-olap.png 148w,
+/static/8385b6ddfecf1a002fe8883bbf957f07/d2d38/oltp-olap.png 295w,
+/static/8385b6ddfecf1a002fe8883bbf957f07/b9e4f/oltp-olap.png 590w,
+/static/8385b6ddfecf1a002fe8883bbf957f07/f9b6a/oltp-olap.png 885w,
+/static/8385b6ddfecf1a002fe8883bbf957f07/e7d1d/oltp-olap.png 1011w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    
+
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/099064a8a930233a8027756a5dc738c9/1411f/dt_wh.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 556px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 62.76978417266187%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAIAAAAmMtkJAAAACXBIWXMAAAsTAAALEwEAmpwYAAACZUlEQVQoz01S2W6bUBDlH/JY9Qv7F31vn6K8tFKkKpX6RNQ2ahLVSezEYMcbuF5CWA22AduXfb8Y6OCoakZHI907zNzDmUNUZQUo9kWxLyGXJZyr8hDV6yhf4V8Q0AAXGytbrl1ZFGVJ5p64hbKADFBkRRJl/pnXtGU9oahb4yTxXSdNUuLwQmmibGtnRZ7jDCdxgnEOGZClGSBNEigcGFVVkZ6SysfPI32pEqqq2ghtLIxc/J/jgfN0Mu3QnYWs5GW18fZptodLjtdPTpsnn8iVphH9Xn8hS8YuMVEKHfuyyg8/FoUxTdFXl9djhv2tqORkZXspFOju5OzLGdW6AUbEoD9kRsyIlWRFh8EFziG7PpYUg6aoXxeX3U7nm9BoyGqaFp7rjVmWJMnVcl0LJokiy86ub8fD6fY4xu8w/oCzP9KKPL+8+PGTGTK6Xg8NfT9LUsMwQL/A91/0J1iGeeyxguxdPbpvFg6hqUeOcyssjRUqisKx3cALsiSzbS+KEtMwYRGQNVUDOQlJEOdzQVDC70357XBGTKZHvHjH8Sov6brheT5OEt2O2rK/RLFrW43GTeuu1Wq2YC/EmGGaDyzDJYKEyDh+X5ZfU6ybG321htA0Da23N/LomOlJehB4Lk11z8nz9v1D3Szwgqat10bkRwUYrfTD177CeR770TZFir+D4267hXGmaRq6EQZhvecuTfe6Pc8NxpMZ9di7p+h+fxCHkYXs4WDE83yn3QlsdzqpY9AfBH7w4gXCQohlxuDEZ+4ZzGghazadcXPuaf4E2ji2g3YI2EEVPON5HnwJhMGngL8MDbZvuHt1+wAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;OLTP와 OLAP의 차이&quot;
+        title=&quot;&quot;
+        src=&quot;/static/099064a8a930233a8027756a5dc738c9/1411f/dt_wh.png&quot;
+        srcset=&quot;/static/099064a8a930233a8027756a5dc738c9/cf440/dt_wh.png 148w,
+/static/099064a8a930233a8027756a5dc738c9/d2d38/dt_wh.png 295w,
+/static/099064a8a930233a8027756a5dc738c9/1411f/dt_wh.png 556w&quot;
+        sizes=&quot;(max-width: 556px) 100vw, 556px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    
 OLAP 큐브를 만들기 위해서는 여러 관계형 데이터들을 집약한 Data Warehouse가 필요하다. 관계형 데이터는 OLTP라는 영역에서 데이터를 수집한다.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -4790,7 +5786,40 @@ OLTP에서 발생한 데이터를 모아서 주제별로 합쳐 분석하기 편
 &lt;/ol&gt;
 &lt;h3&gt;Druid Architecture&lt;/h3&gt;
 &lt;p&gt;드루이드는 각기 다른 역할을 가진 서비스로 구성되어 있다. 각 서비스는 작은 일을 잘 처리하도록 설계되어 있다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/03/05/20180305-start-druid/druid-dataflow-3.png&quot; alt=&quot;Druid Architecture&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/7d6a824ad12b3ea89a84f679ce7f04bb/4f1c7/druid-dataflow-3.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 66.45807259073842%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAAsTAAALEwEAmpwYAAADWklEQVQ4y31Ta0ySURg+fBSEGpK31cq1CrtYa92c/qm/2dycW2m1cis3pzPTNpakGeVsbqKlkU5EURRBLrkIgg/NC8JsTKAUIRmhiDpFsk1yrTZzX+f7vGT96N3O3vc87znPeW8HACgulyt+wutNzOfxQvUGA6lz8DEOg9b3D3dIB6tvscpyEk4ePkfr6VFRStt0ZG1na+pbacttg9EU6XQ69wwMDDBMJlOe0Wh8BGYVCvrExIRk9rOnyE7axhjt7UXqP4sJwormEuor6wu3fKi2qvKumCEU83fVveTR9d09XC2q7xgZGbk4Nzf3zO1237fZbGar1ToJsJ8/Q+bn5y8EZmb24iQ+FCXIAIYRynQn92CNWMQAW0SP6pioTnfK6fyEbGBsNpvO4XDCt54DwnWS1fi4TcLBvIL99a2i3bgtaBSQRCLRX3dSUlJAcnLyH8Dr9ap9Pp9ufHw8Dt9bLBZEwq8Dx6eWCL+hpOhAg6iVIGxqEpD4fD5QqVSIWq1G2uSjiFzlQJa+2IC4QwJkMhkJ+P3+XxiUb8Hg5bVMMdLWCASJ6ZFcflMU+J9QU8Ht9Jg1G9ZvcWVlBfMHAtfwvbj3Hb1BKdkJZD/IY+rnJxxaIUun15zK4gupvC5lWJVCEVb7ShGW1y6lCTvt5dKu0SvrgYCKygYAYJcWl5eXsYDPd+MWABT7g+JoC6swygTfHVdWXXW9E3z9oJOnv9kRG2IrLIgyZ+dEWnPzIwJ0sFPU8VFW12yqh3whlN0FBCke4VrKi4vpxEus+xQII3CR08Kjacxjh2KET7kMvEU4jp+ZTr5E0XI4+9oLE2j4nkwiU1mseySHYww6p6drgsGgEaachDvN/9Swu9sUq+hSncDtUpcLednezqgVSzbHaHUF2/5v3TcFm/cDC9Tc/CfEgevX7oaUV7R5lF19M5Puj5HVlVXhgjY5BS3NpKnLsmN5GUnkjbtMJnN7RkYGFc8bwXPH1ucO1w2NcoLwtQqNEjRrvsuVA1hLS2MSm10cwS7hULQa9U30rUbT39eXBkcuD/6UbPhL+oaHhx3AbDYDj8cD4DciCO12O9Ch/YTtm3KG9vYPOzqk+tmsrMzjR46e2YbjqF5/Hq4nBsPgadjQhIWFhbNDQ0MlcHF/A51msoJ0f9McAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;Druid Architecture&quot;
+        title=&quot;&quot;
+        src=&quot;/static/7d6a824ad12b3ea89a84f679ce7f04bb/b9e4f/druid-dataflow-3.png&quot;
+        srcset=&quot;/static/7d6a824ad12b3ea89a84f679ce7f04bb/cf440/druid-dataflow-3.png 148w,
+/static/7d6a824ad12b3ea89a84f679ce7f04bb/d2d38/druid-dataflow-3.png 295w,
+/static/7d6a824ad12b3ea89a84f679ce7f04bb/b9e4f/druid-dataflow-3.png 590w,
+/static/7d6a824ad12b3ea89a84f679ce7f04bb/4f1c7/druid-dataflow-3.png 799w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;h5&gt;Historical Nodes&lt;/h5&gt;
 &lt;p&gt;히스토리컬 노드는 드루이드 클러스터의 핵심이다. 히스토리컬 노드는 딥 스토리지에서 세그먼트를 다운로드하고 이러한 세그먼트에 대한 브로커 노드의 쿼리 실행을 하여 결과를 브로커 노드에 반환한다. 히스토리컬 노드는 데이터를 공유하지 않으며 Zookeeper를 통하여 세그먼트 로드, 세그먼트 삭제를 모니터링한다.&lt;/p&gt;
 &lt;h5&gt;Broker Nodes&lt;/h5&gt;
@@ -4805,7 +5834,40 @@ OLTP에서 발생한 데이터를 모아서 주제별로 합쳐 분석하기 편
 &lt;li&gt;Metadata storage instance: 세그먼트에 대한 메타데이터를 관리하기 위한 메타 데이터 저장소&lt;/li&gt;
 &lt;li&gt;Deep Storage LOB store/file system: 세그먼트를 저장하기 위한 딥 스토리지 LOB 저장소/파일 시스템&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img src=&quot;./2018/03/05/20180305-start-druid/druid-manage-1.png&quot; alt=&quot;Druid Architecture&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/fbb5a188997a1ab241a1bf44f704a8dc/5200b/druid-manage-1.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 69.61130742049471%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsTAAALEwEAmpwYAAACs0lEQVQ4y11TaXPaMBDl7/dT/0Bm2k4D5gwQAukk5GiTdHJADhradAIJ5jAQfMSHbMm2rO46NpPphzeSVtqnt1cmiqI8gnNeAhRxL4SQELinzCtTSouJLRdxLlHiNALGqnD+CvgC7yR400T/jIiiHGPsCAxPzHVbaEwJQx4WO08H6lDp9x2LbMMbJKk6lD2aptkDvzOw3TuO07MsSxBCfmTQ0WfsFC47wvMqgvN89KYuJtV15WK2mByahlnRDKPyeNNtX1ZLqjpXfiI5KG4y32/Ztn0VBEENCbOADcCnmAjVYRqEyIuIS5FLd1YrdRtDA3weXp239z9+GMyfh3VCqeQHgZSGjinJAOu+67qPvu8fxjlKchoTQr5sQ9/VVK15e3x5t5os2omATUiNNJDl5sbJsXU1HFyiLwe/DIR6AwcBxOPkp6QoccjZl/lydzweN7uts1H3+PxOWShlQ9PLxLELlDrZG/n5++3Dnz1D14soIgPKOkgYhuEIkIdfilgYDpe+a9bng153sVzuITkLg7xpWpXXV6M8m6vN/sPLLfd5BRUHYVhAIWtCWGVm242AkIZPyE7oenWiKqfT+xPP1l4uAtetB2j3PHhj1/WFdnDdU/SZop5xHmI0caqQ8DoJeQLF2MSCxIBqc/iVMr8GyrewvQRWHgD2ks9o4y09UQ4iKqS5x6J8A9IpOHXBkMM8pMAwsWGhvw5wH0LzQ4vUwKfyvoBJ32bjkHEDxk0kS2Wnj/Dnh7+yOZ4sPQirBh9v4V3AaJ26pJUSoQ2K24gnJXHOJ2TrXCQKSrK8oM8jRdiW1QanKqqDiv5erVYjUI8D0YdJ+bWelHXfvUF6pzLea9rreDJdLj3PrSa5Knie13YccoK5hfMWKG/ApHTiSfmPcB3uuzUdw2w642lzYxQJsumk/AMakPEf1Ns/qwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;Druid Architecture&quot;
+        title=&quot;&quot;
+        src=&quot;/static/fbb5a188997a1ab241a1bf44f704a8dc/b9e4f/druid-manage-1.png&quot;
+        srcset=&quot;/static/fbb5a188997a1ab241a1bf44f704a8dc/cf440/druid-manage-1.png 148w,
+/static/fbb5a188997a1ab241a1bf44f704a8dc/d2d38/druid-manage-1.png 295w,
+/static/fbb5a188997a1ab241a1bf44f704a8dc/b9e4f/druid-manage-1.png 590w,
+/static/fbb5a188997a1ab241a1bf44f704a8dc/5200b/druid-manage-1.png 849w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;h4&gt;여기서 잠깐! 세그먼트가 뭐지? (세그먼트와 딥 스토리지)&lt;/h4&gt;
 &lt;p&gt;드루이드로 데이터가 입수(Batch Ingestion or Streaming Ingestion)되면 인덱싱 처리가 진행된다. 여기서 인덱싱 작업이란 다음과 같다.&lt;/p&gt;
 &lt;ul&gt;
@@ -4951,7 +6013,41 @@ OLTP에서 발생한 데이터를 모아서 주제별로 합쳐 분석하기 편
 &lt;li&gt;&lt;a href=&quot;http://www.popit.kr/time-series-olap-druid-%EC%9E%85%EB%AC%B8/&quot;&gt;http://www.popit.kr/time-series-olap-druid-%EC%9E%85%EB%AC%B8/&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content:encoded></item><item><title><![CDATA[Java Web 개발 살펴보기 (Model 1 부터 Spring Web 까지)]]></title><description><![CDATA[Java Web 개발 살펴보기 (Model 1 부터 Spring Web 까지)스프링 스터디를 하면서 정리한 Java 웹 개발 변천사를 포스팅 한다. Java Web 개발 과정은 다음과 같으며, 여유가 된다면 곁가지로 파생되는 기술들인 Servlet…]]></description><link>https://icednut.github.io/2017/09/04/20170904-java-web-develop-with-spring/</link><guid isPermaLink="false">https://icednut.github.io/2017/09/04/20170904-java-web-develop-with-spring/</guid><pubDate>Mon, 04 Sep 2017 09:38:14 GMT</pubDate><content:encoded>&lt;h1&gt;Java Web 개발 살펴보기 (Model 1 부터 Spring Web 까지)&lt;/h1&gt;
 &lt;p&gt;스프링 스터디를 하면서 정리한 Java 웹 개발 변천사를 포스팅 한다. Java Web 개발 과정은 다음과 같으며, 여유가 된다면 곁가지로 파생되는 기술들인 Servlet 3.x, WebSocket, Async I/O, Spring 5 (WebFlux)까지 해보려 한다. 일단 아래 내용들을 따라가기 전에 실습 환경 셋팅을 해야 한다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;./20170904-java-web-develop-with-spring/java_web_develop.jpg&quot; alt=&quot;Java Web 개발 변천사&quot;&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/b60691106f6a7a767eef3caeb850f387/05291/java_web_develop.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 44.94623655913978%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAJABQDASIAAhEBAxEB/8QAFwABAAMAAAAAAAAAAAAAAAAAAAECBf/EABQBAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhADEAAAAdxaAD//xAAUEAEAAAAAAAAAAAAAAAAAAAAg/9oACAEBAAEFAl//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAUEAEAAAAAAAAAAAAAAAAAAAAg/9oACAEBAAY/Al//xAAbEAACAgMBAAAAAAAAAAAAAAABEQAhEEFRYf/aAAgBAQABPyEm6Tj4vYEqM3gT/9oADAMBAAIAAwAAABCTz//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8QP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8QP//EABwQAQACAgMBAAAAAAAAAAAAAAEAETFBIVFhcf/aAAgBAQABPxAMvdbKUjf0xjgV4zeG5hP/2Q==&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;Java Web 개발 변천사&quot;
+        title=&quot;&quot;
+        src=&quot;/static/b60691106f6a7a767eef3caeb850f387/c739e/java_web_develop.jpg&quot;
+        srcset=&quot;/static/b60691106f6a7a767eef3caeb850f387/8ee9c/java_web_develop.jpg 148w,
+/static/b60691106f6a7a767eef3caeb850f387/ebbe7/java_web_develop.jpg 295w,
+/static/b60691106f6a7a767eef3caeb850f387/c739e/java_web_develop.jpg 590w,
+/static/b60691106f6a7a767eef3caeb850f387/5413e/java_web_develop.jpg 885w,
+/static/b60691106f6a7a767eef3caeb850f387/05291/java_web_develop.jpg 930w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    
 &lt;br/&gt;&lt;/p&gt;
 &lt;h3&gt;Java Servlet 개발 실습 환경 셋팅&lt;/h3&gt;
 &lt;p&gt;실습에 사용할 IDE와 라이브러리, 빌드툴은 다음과 같다.&lt;/p&gt;
@@ -4966,19 +6062,155 @@ OLTP에서 발생한 데이터를 모아서 주제별로 합쳐 분석하기 편
 &lt;li&gt;IntelliJ IDEA &gt; 메뉴 표시줄 &gt; File &gt; New &gt; Project를 클릭&lt;/li&gt;
 &lt;li&gt;왼쪽에서 Gradle 이라는 항목을 클릭 후 Java, Web 체크 박스에 체크 후 Next&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img src=&quot;./20170904-java-web-develop-with-spring/exercise_01.png&quot; alt=&quot;실습 환경 셋팅&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/9517e5423862c533901264e516ecf449/823b0/exercise_01.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 73.16561844863732%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAABYlAAAWJQFJUiTwAAACdElEQVQ4y6WSS08TURTHGzca4weQuDAxJkgpAlGMKKS287h35s6rzHSwHekDWoqAigviylUNoHFlolF2wMoQhWn9Ftq48sNIZ3o8M1MCBkSJN/nlntx78st9/GPPY+djjc311MbuZt51m1m32bAbX5r2juuGuI2GvbG1Zb//sG5/2tmx3WbzCJ93d7OI83F7+1IMx7lCefr7w6UlmK7WoFSZhdJMFWrzi1BbQBafwMxsLVyrzs1jPQdl7ClXDwj6ni4/A9WYmAqEFziJfcvezwNVtPY9XvSTnOAb1qSvZExf1jM+0wxfVnU/xRN/fz/J7c+CnxbpnigrMHxzpBwKRd1s5YvTIFDZ46ncwblj5p2ObmY7HKEdUWIhPJU6wf4RiNQmTIVbo3cioaCzVq5UAlFSvJRIgScyqLkpyDoFUDMm8JICHK7xlAF3PG2q6DByuyskitByCg/Asm1PNXQQqQTy7ApoC++AVN5AqvAaxvJrMJ5/iawdxXnVTk+two1xJRKmNauVqzwG1S57gu5AWu6eStYhRTRISwbWJ9ImmoUnvBsJk1atNfHoLSRzL7zgJElrGTiR4DWD60dwhOB8PLjXpkxB4WgkVII3dBx8Q9kLRJFAOg34KdqBUDVYyykWQZuwPEnVwyY+gMr/Cn7KIaGkmSgsA8o8gbIgBhiXKCJct/4T3ej8LuQV/auVc4AwZQ9D6qHQ407HTyKHb1iKYiOxH1kUmpO5MHeCxCAIapD+E8EephtA1QwodglGRseqgfBsX2Kgkrg+uJoYHKpjXe/ti9d74/04/wXs6etP1K/FkYHhlctXrg7FLvb0xLrjzH8Sjl+SwOgMCPVxZAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;실습 환경 셋팅&quot;
+        title=&quot;&quot;
+        src=&quot;/static/9517e5423862c533901264e516ecf449/b9e4f/exercise_01.png&quot;
+        srcset=&quot;/static/9517e5423862c533901264e516ecf449/cf440/exercise_01.png 148w,
+/static/9517e5423862c533901264e516ecf449/d2d38/exercise_01.png 295w,
+/static/9517e5423862c533901264e516ecf449/b9e4f/exercise_01.png 590w,
+/static/9517e5423862c533901264e516ecf449/f9b6a/exercise_01.png 885w,
+/static/9517e5423862c533901264e516ecf449/823b0/exercise_01.png 954w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;ol start=&quot;3&quot;&gt;
 &lt;li&gt;적당한 GroupId와 ArtifactID 입력 후 Next&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img src=&quot;./20170904-java-web-develop-with-spring/exercise_02.png&quot; alt=&quot;실습 환경 셋팅&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/02569559f4319661d58fe1992638b91b/823b0/exercise_02.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 73.16561844863732%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAABYlAAAWJQFJUiTwAAABwElEQVQ4y+2UzWrbQBCARS/JoQ/QNJdQCk1s13ZpDcWQNrVkWbJXUiRZwj9y/P/TkrcwJM+QBnKxWwg+tLblvkRreurDNLY0nV0bWkyDE3LNwsdoRzMfK3a1XJPjuPGni3c993PBdb9ZX0cjm/JlOGRxPJnYvX7fPvt4znIj17WH4/EqFuaLl4PBNuq4zaLj/Ky/70C53oRasw21Vgfq7Q7GNlQbLTiq1cEpV6HSaLJ5ZQXa1/pwDJpulqjwoZhWfiiHJrzhkzMz73i5o6qXLZQ8YlheStU9WTMQ05MwSuoqOs1fCTKB6MtXVSaUiTrVTAsEKT238kU/Xyr7OPfJoeErhukr+hoMc5bRdIi9ji+EB4I4TWUU4FPyHKWQlNNUzsAcCGvAmplE1L/Ct3xyip/NhPyi4Lb8R/jPCm/LvXAhpLtMjw3iY8GNofXIijAhfE/KGUiI0tVylfPljq8Fe+a8KP1OZQgVVpZ/CvllFRzI5gqABxXPIQG6YvEa2Ls0jSrY2Kdlc0DsCsTi+/Rq4Db2gs8bwXDkNBSOdPG5+2wvgATXgDWBYJf1hMLd3dCLk50nT6Pco63H3HI8uCNs/AG8SeDGfTNDIwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;실습 환경 셋팅&quot;
+        title=&quot;&quot;
+        src=&quot;/static/02569559f4319661d58fe1992638b91b/b9e4f/exercise_02.png&quot;
+        srcset=&quot;/static/02569559f4319661d58fe1992638b91b/cf440/exercise_02.png 148w,
+/static/02569559f4319661d58fe1992638b91b/d2d38/exercise_02.png 295w,
+/static/02569559f4319661d58fe1992638b91b/b9e4f/exercise_02.png 590w,
+/static/02569559f4319661d58fe1992638b91b/f9b6a/exercise_02.png 885w,
+/static/02569559f4319661d58fe1992638b91b/823b0/exercise_02.png 954w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;ol start=&quot;4&quot;&gt;
 &lt;li&gt;Create seperate module per source set 체크 박스 해제 후 Next&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img src=&quot;./20170904-java-web-develop-with-spring/exercise_03.png&quot; alt=&quot;실습 환경 셋팅&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/0c87495f70541e6cebf8b25d0076e063/823b0/exercise_03.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 73.16561844863732%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB9ElEQVQ4y82Sy27TQBRALTaw4AN4bBBCgjYhpRKtoKgFbGf8thPXdpwHiUPTVi20gg9gFQn+AbpAFBaoi+A06k+AxYqPoX5c7kzSB7Sordhg6Whed87c8VzuFcdx/c2Nx++/fKj1eqHb64deuL29z2Bnx9v8+Ml7+27D64Wh1x8MjsNF6p+3tq6ijrvQbAXfn718Aatr69BZXoGgswRtJFhYZP1mewHqrTa02PgoracdWFp9DpY9/4QKLxZV45vfaEKl3ogdv5ranp+6fi2VNCOd5cX0oVBMH4mEtccxJxR3eaLA5N3pNhMKRIpQAk6lmqAow35m2U5mlO1MlNXTEMuGBdP3HwyFsmZEVczQtJ1EL9mg4iIGQVHRgKg6SIc4OtZobKyapQMhUbSo7FYAT0k0JjRBQekeqjlib8zmSmxO1k16cKxZ5QPhHC9GNBtBUhJBkml7JmiGEoqn7s0MhfhjI3wAupDQq54VlMbyn0KCQprh/ys8dOUMA07Nftn8JuTFr/RReCLvjrJMhg90MrgnEYj8U9J0KgyGZaPqP9xaAxy/BkZ5HssAawwzJn+Bram0NcHDfZbjg+4FMDUzu0iF58dytzu5wsSbfGGii/3uzbFxJHcCGDOe67I9+UL3Vn7y9bXrN+5wly5f4UbfuX+Efb8AgGLg9YWrFOEAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;실습 환경 셋팅&quot;
+        title=&quot;&quot;
+        src=&quot;/static/0c87495f70541e6cebf8b25d0076e063/b9e4f/exercise_03.png&quot;
+        srcset=&quot;/static/0c87495f70541e6cebf8b25d0076e063/cf440/exercise_03.png 148w,
+/static/0c87495f70541e6cebf8b25d0076e063/d2d38/exercise_03.png 295w,
+/static/0c87495f70541e6cebf8b25d0076e063/b9e4f/exercise_03.png 590w,
+/static/0c87495f70541e6cebf8b25d0076e063/f9b6a/exercise_03.png 885w,
+/static/0c87495f70541e6cebf8b25d0076e063/823b0/exercise_03.png 954w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;ol start=&quot;5&quot;&gt;
 &lt;li&gt;Project Name 확인 후 Finish 버튼 클릭하면 프로젝트가 생성되며 Gradle wrapper가 다운로드 되며 프로젝트가 로딩 된다.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img src=&quot;./20170904-java-web-develop-with-spring/exercise_04.png&quot; alt=&quot;실습 환경 셋팅&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/8f37bbc2f69289e951e85cef745810dd/823b0/exercise_04.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 73.16561844863732%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAABYlAAAWJQFJUiTwAAABpklEQVQ4y2NYy8DAsH7hLMd56xZGbdiwKXTV2rVhq9asCVu3YUPYuvUbwjZs2hS2aPHisBkzZ4H5GzdvBouh4VCgePTKVaukgcYxcCQlJ5/PKyn+n5GT97+ovOp/cUX1/+zC4v+Z+UX/swqK/6dm5f5Pysj+n5aT/z89twADpwH15RSV/g8MjYgFGcjj5OZxxi8w5L+Hj99v/+DQv4Gh4X/9gkL++oJwYPBfN2+fv25ePn9dwdgbC/b55e7t99/I1DwRbKC9k8tZV0/v/87unn8cXd3/gTDQEjgGihPCv4GO+W9maQU10Nn1rLu3738XD68/QPyfDAw20NQCyUA3oIEgF5JjIMyFI91Ad6iBQEwlF3r5wFxITDKBY7B69FgGSpwGJuj/7t4+v6CGEo2B6RTkq59AvSADE8AGAl13NTwm7n9oZPR/YM74D0z5/0FBgA+DfOTp6/8/Iib2v09Q+H+f8MT/ppY2qSAD2TW1dVK0dfXatfX0mzV1dJvVNbWAWBtKY8MQOQ0t7WZdfYNmDR29Zg1dwzYFJWUDBglJSQYoYKIQgwEAc4TgcSKUmGkAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;실습 환경 셋팅&quot;
+        title=&quot;&quot;
+        src=&quot;/static/8f37bbc2f69289e951e85cef745810dd/b9e4f/exercise_04.png&quot;
+        srcset=&quot;/static/8f37bbc2f69289e951e85cef745810dd/cf440/exercise_04.png 148w,
+/static/8f37bbc2f69289e951e85cef745810dd/d2d38/exercise_04.png 295w,
+/static/8f37bbc2f69289e951e85cef745810dd/b9e4f/exercise_04.png 590w,
+/static/8f37bbc2f69289e951e85cef745810dd/f9b6a/exercise_04.png 885w,
+/static/8f37bbc2f69289e951e85cef745810dd/823b0/exercise_04.png 954w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;ol start=&quot;6&quot;&gt;
 &lt;li&gt;프로젝트 루트에 있는 build.gradle 파일을 열어서 dependencies 부분에 아래 내용을 붙여넣는다.&lt;/li&gt;
 &lt;/ol&gt;
@@ -4989,47 +6221,377 @@ OLTP에서 발생한 데이터를 모아서 주제별로 합쳐 분석하기 편
 &lt;ol start=&quot;7&quot;&gt;
 &lt;li&gt;메뉴 표시줄 &gt; View &gt; Tool Windows &gt; Web을 클릭하면 왼쪽 하단에 Web 설정 관련 패널이 표시된다.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img src=&quot;./20170904-java-web-develop-with-spring/exercise_05.png&quot; alt=&quot;실습 환경 셋팅&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/0f2f7d964832c4002c466f3b88d9bd7b/b70fd/exercise_05.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 471px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 40.552016985138%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAAAsSAAALEgHS3X78AAAA0UlEQVQoz9WOzQ7BQBSF+2hop9Npi5ZWG9WNjQQRJH5CeR2xsGLE2x230xILNqwsvpw5Z+49uVrUn8NLp+DhEKIzgkWq6BTKS29HoycOwVU2RiOZwKd9L51BhANo5viA+vqEdC8RbyW6mYS3OKO3k4g2EglpsLqgTfT2V0Wwvqg/f3lW8yllcXZDvDpCY04LhuOD19swCaVuoTlWo8jzuTxnhEHv1znTLTyzm3ShENBN/pHau5y/yyxUDJYXOmRsGNb36KVWGX8Uit8Ky/3/KLwD+fk3rNZxm70AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;실습 환경 셋팅&quot;
+        title=&quot;&quot;
+        src=&quot;/static/0f2f7d964832c4002c466f3b88d9bd7b/b70fd/exercise_05.png&quot;
+        srcset=&quot;/static/0f2f7d964832c4002c466f3b88d9bd7b/cf440/exercise_05.png 148w,
+/static/0f2f7d964832c4002c466f3b88d9bd7b/d2d38/exercise_05.png 295w,
+/static/0f2f7d964832c4002c466f3b88d9bd7b/b70fd/exercise_05.png 471w&quot;
+        sizes=&quot;(max-width: 471px) 100vw, 471px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;ol start=&quot;8&quot;&gt;
 &lt;li&gt;오른쪽 클릭 후 Module Settings 클릭하면 모듈 설정 창이 뜬다. 여기서 아래 스크린샷과 같이 war파일 항목을 클릭하여 포커싱 한다.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img src=&quot;./20170904-java-web-develop-with-spring/exercise_06.png&quot; alt=&quot;실습 환경 셋팅&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/754b4a3f74852c430a854bf3eb337c06/c0260/exercise_06.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 83.71478873239437%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAARCAYAAADdRIy+AAAACXBIWXMAABYlAAAWJQFJUiTwAAACwElEQVQ4y6WTW08TURDHa2JiTNQXY9TqeiGYQGI0Cr1SQLr37m73RtulN1oKSKKrJsY3n/gQplKQSyCVCu/axCc/EElfNG7pOGfbKi0BHtzklzk7u+ef/8yc41mdfXVhc72yWKluvd7Z3rG3Nj7an9bK9sZ62d7aXLOruzV7pVKxP5TL9udaza7t7dlf9vcxv2tvV6v2TpuXyLuV1dUHnkePA7dMqwDpwnNI5l9A1l6G0ptlSC+9h/T8W8gV56Awv4ixBLOleWTBfc8WimBl8zCTy0Mqk4M85jlRWvBcvU5RkmodIK0pIfGb1gqOYBYdVi86nJpxBFlxRFl1eElxopzgTLG8C1nTvOiwouTQnPiTi8ngD42VPDe896i4kWmo0zngYvohw7GtKMu2aALHtXCTCyPEXFCgheJu7OYQR1BUCIQjJc/tu4OUpFkN1cwBL0+3aCEGzAmgMKAQiEociCPy3gEr6Qh6qQEqplquQ14yiZv2ZiLS2dAvSvflaeKwKzgwOEyxotng5RRwktFiuoJHNxwROQEUjKMg9vD+4BDFxsyGoFgoeMRhpzwjmQIjNQPadBL0RMqNJH9cEB2ORc4QlBTQkxYk0xkki2IJUDQDBMyTHkqq3iauOSSGIuMnC7r9EyTMKTgE1d0Yi2tASiMOyXci2uGMkvneoeCZ68Ets7e3/4ZyWsnMKUeoj47DHsH2lPsFSXlRdIy34xhRju+bsis4TDGiedA+Nia5Ts0uKNY0k1ZTMxNNRTebcQPB6K4RWdWbTPvfX7wkkx7O4TkcuoPODmV9BpueAAFvAblGpCdkGCgGJh6bfgx3+llQ8TuP7hTTgmBkcslz0+u9Fhyf3POHwt99wfA3Xyhcx1jvxtFAsD7i7xL4u37q89fHn0Xrk1G6Hhib+Do6Ifx4+MTHe/A5h1xEriCX/4NLyPk/y0M5hh33YU0AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;실습 환경 셋팅&quot;
+        title=&quot;&quot;
+        src=&quot;/static/754b4a3f74852c430a854bf3eb337c06/b9e4f/exercise_06.png&quot;
+        srcset=&quot;/static/754b4a3f74852c430a854bf3eb337c06/cf440/exercise_06.png 148w,
+/static/754b4a3f74852c430a854bf3eb337c06/d2d38/exercise_06.png 295w,
+/static/754b4a3f74852c430a854bf3eb337c06/b9e4f/exercise_06.png 590w,
+/static/754b4a3f74852c430a854bf3eb337c06/f9b6a/exercise_06.png 885w,
+/static/754b4a3f74852c430a854bf3eb337c06/c0260/exercise_06.png 1136w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;ol start=&quot;9&quot;&gt;
 &lt;li&gt;중간에 위치한 Add Application Server specific descriptor… 버튼 바로 위에 있는 &lt;code class=&quot;language-text&quot;&gt;+&lt;/code&gt; 버튼을 클릭하면 &lt;code class=&quot;language-text&quot;&gt;web.xml&lt;/code&gt;이라는 항목이 표시되는데 이걸 클릭하자.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img src=&quot;./20170904-java-web-develop-with-spring/exercise_07.png&quot; alt=&quot;실습 환경 셋팅&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/811bcb6b422d233f8bc008ed8c6c7e5f/998c2/exercise_07.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 361px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 32.40997229916897%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAAsSAAALEgHS3X78AAABEklEQVQY052Ry1LCMBiFeTQbcuktlqIFC5S26lA1RaiMGxduWLpww9qNL+A4w/Mdk7SFvYtvcv4/yUlyMqCuDyo8UNezIzO1Zqj1fxgYE19GYF4Ah1LbvKBMawbCBRwmQAydPtW95q7lZOhwD0G5R7L7ht/8IH//xeTtCPfxC66MIUdjBFFsCbVuiTvaORHIsyHhPuR0hXKzx5X6RPl6QLY7IF1/4O5BQW0aVGqNqn5G3bxgpWrd2+JJo7YNivsKo2RqzUxUA5MZYfqpnIIxB0NGQDkBF9QuMHA/hBteQoQSPGh1X5vbmbjOGeoNk1mGRV5int/iZrFEks6RZgVm2VL3C0Tja5tTf4D9xP4jux7r+AN7PuizbOkWIwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;실습 환경 셋팅&quot;
+        title=&quot;&quot;
+        src=&quot;/static/811bcb6b422d233f8bc008ed8c6c7e5f/998c2/exercise_07.png&quot;
+        srcset=&quot;/static/811bcb6b422d233f8bc008ed8c6c7e5f/cf440/exercise_07.png 148w,
+/static/811bcb6b422d233f8bc008ed8c6c7e5f/d2d38/exercise_07.png 295w,
+/static/811bcb6b422d233f8bc008ed8c6c7e5f/998c2/exercise_07.png 361w&quot;
+        sizes=&quot;(max-width: 361px) 100vw, 361px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;ol start=&quot;10&quot;&gt;
 &lt;li&gt;서블릿 버전과 서블릿 설정 파일인 web.xml의 위치를 어디로 할 것인가를 묻는 다이얼로그가 뜨는데 web.xml 파일의 위치는 다음과 같이 입력한다.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre style=&quot;counter-reset: linenumber NaN&quot; class=&quot;language-text line-numbers&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;${PROJECT_ROOT}/web/WEB-INF/web.xml&lt;/code&gt;&lt;span aria-hidden=&quot;true&quot; class=&quot;line-numbers-rows&quot; style=&quot;white-space: normal; width: auto; left: 0;&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;img src=&quot;./20170904-java-web-develop-with-spring/exercise_08.png&quot; alt=&quot;실습 환경 셋팅&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/683cc60ff57bfcc90c2668d764dac088/8ab6a/exercise_08.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 452px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 61.504424778761056%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAABYlAAAWJQFJUiTwAAACmElEQVQoz6WTTU8TURSGh3aGoTER3JLQnf4AiUhLO22RTkun00+YdlqoKF8lQSRG2pkSSIAoJLoioyYKRFQ+WsAgxERFWRjEhUsjiUTSpTH+AMI0crx3iovuNJ7kzXvuyTlPbs7MJQgUP5eflRH/GV/394uMg63XOuy7i0/5z5svZxc/bU4vvFpWsksrymI2p+RW15Tl3CpSTsmurCnP118oC0tZ5c3WW+X9zs70h4+7c++2twOY8WVvT0dMyBKJD4PJ3of3piZBmhwGeUwCKZ2CtJyGzLAMKZxLKZAzMkiolkoPwdjEOIzfug1Td+5C//XBx5gxOjZOEmxA0IC1ZuuDlq4bIHbJh7EeSY10p9R4X0YVe4u52JNWY0lZFTpvqq1daTXcMaB6w9FDptEJ5y9cnEWIMrvTRRKh9j49OujNtsaZ2NActI+uF8RM7jgirUA8U1RiZE3zqLwK8WGkkQ0QBu8f+yKJgi8cAQtjf4IZQSFKEnwwjG+ob2DsM4krV0GMxwqCKB4LYhRibW0QQR5qaUH1OHh9PgiGw+DyNEOTyw0uji+EhCiYrAwGks28nySczZwGrLdYH3H+IG46Yj3eX0XxmqMeLcf+R6zmniM8Y7Iw8xiIeknCGwhhoM5ktc1zgRCgZmA5vlQeHty8HxKdPZDsH4Bo22VgfB3Axa8B29oNZsa+hC+Fdoo+CsfjHVJosRNWx6XvDTb7QYPNkS+VPW9B3uT25N0cn3c4Xfk6hs2bG7lvJof7R21d/RRmsJxfr/2LFFV+CtlZJAeSF4n/S3lPZs5R5RqDICqrzmDTo0JlOU1XI3gNyo0loopeUVFhNBgMRpqmjSRFo5qhhqIN1XgWM05XVpW8Hvx08KvR/6N0J7Na/AYyWCdc9VJinAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;실습 환경 셋팅&quot;
+        title=&quot;&quot;
+        src=&quot;/static/683cc60ff57bfcc90c2668d764dac088/8ab6a/exercise_08.png&quot;
+        srcset=&quot;/static/683cc60ff57bfcc90c2668d764dac088/cf440/exercise_08.png 148w,
+/static/683cc60ff57bfcc90c2668d764dac088/d2d38/exercise_08.png 295w,
+/static/683cc60ff57bfcc90c2668d764dac088/8ab6a/exercise_08.png 452w&quot;
+        sizes=&quot;(max-width: 452px) 100vw, 452px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;ol start=&quot;11&quot;&gt;
 &lt;li&gt;아래 Web Resource Directories에 Web Resource Directory 항목을 더블클릭 한다.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img src=&quot;./20170904-java-web-develop-with-spring/exercise_09.png&quot; alt=&quot;실습 환경 셋팅&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/0c35a1ea2abc513e35bf5ea2e19dc03a/c0260/exercise_09.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 83.71478873239437%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAARCAYAAADdRIy+AAAACXBIWXMAABYlAAAWJQFJUiTwAAADCklEQVQ4y6WU2WsTURSHRxBEUF9E1GpcSgVFUEHbJG1q28y+ZZKZ6WSWTjNtUPvgVKlVcfs7ROuC1cQ2rfqqAZ/8gwp9UbwxxzOTRMetLwY+vrn3Dr+c3HMI9aQyv+PF86XLS/Xla/X6SlivLYfLyy/CV69ehrV6LXzdWA8fP3kWPny0FK6uvQkbb96Fa2/fhStr62FtpRHWVhuRr9ZXGzcfP31+gjpzNn3IsAPwgjkw3SoYwRVwZq9A0QlAd6bBr/hQmQlgCj0dVCCYQWbxfX8Kyq4NtuuA5ZTBxzOW5y9Re/enUpJmbyhFpz3Gal9znELGBZXkGJFMSAYpzd4jevUBKc7cJZJ3i4zqC2RicoEo/i3kNtEqdyJ/1mbuQ070q9SBvmOpgu5taqYPnKR/YwWxzfBim0UYQWnTSrlNq3abLTgxecXGvc6a6e6hiWhMQ2aMr1KHjw6k5KK9qRk+8IrZpnkRGEECGmGiZ56PoTkOmIh4zcXrBESQZUhns1WqL9Uf/eS4Ql42fg2MjOs8hyTcO0tABFWD9HCuSvUPnEqxorHJK2XgZL3N9AK7lgpFEPFlQSn8cO88AYn248DjAydTrGRsCqqNgYkK0Zwog1l2YNJxQbfKUDQmQTNMYMXudQg/IKJagMzIloECsEoJSsECOJdugzd3B6zqIo7VdZDdeaDNEET3BkgImvDOIgzR1t8Dew2JLRaARiKzkhYT7wk91AjCqwakR8a2qLAXipVGMIk7Y/6ke4cjW99hZE5SsCLl9yYkkP7VlE6Xk4EsNkUp6jhOaqIJ0k9HgZzwe+CpFCMaG52xMQgetiJw3lqcJLVMy2pZrteyHK9Vdqdi98AJaAmy2sIv+NLt8izO4ckjWNk3peTgzE2CoHbmjZM10I0CBJUyWN40OFMdbM8H16/gKHlg2i7+MXhQsmwwvQqMjtNz1MG+vn2Z0bH1oezwx8HM8IfB7HAT3ez5QibbvJDO/nT3+fxQpjk6nm/mWa55Mc++P5/jPp0+N8hT+NmG7ET2ILv/g13I9u9W50Cj2fJLIgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;실습 환경 셋팅&quot;
+        title=&quot;&quot;
+        src=&quot;/static/0c35a1ea2abc513e35bf5ea2e19dc03a/b9e4f/exercise_09.png&quot;
+        srcset=&quot;/static/0c35a1ea2abc513e35bf5ea2e19dc03a/cf440/exercise_09.png 148w,
+/static/0c35a1ea2abc513e35bf5ea2e19dc03a/d2d38/exercise_09.png 295w,
+/static/0c35a1ea2abc513e35bf5ea2e19dc03a/b9e4f/exercise_09.png 590w,
+/static/0c35a1ea2abc513e35bf5ea2e19dc03a/f9b6a/exercise_09.png 885w,
+/static/0c35a1ea2abc513e35bf5ea2e19dc03a/c0260/exercise_09.png 1136w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;ol start=&quot;12&quot;&gt;
 &lt;li&gt;JSP가 위치할 폴더를 물어보는 다이얼로그가 뜨는데 이 때 아래 경로를 입력한다.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre style=&quot;counter-reset: linenumber NaN&quot; class=&quot;language-text line-numbers&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;${PROJECT_ROOT}/web&lt;/code&gt;&lt;span aria-hidden=&quot;true&quot; class=&quot;line-numbers-rows&quot; style=&quot;white-space: normal; width: auto; left: 0;&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;img src=&quot;./20170904-java-web-develop-with-spring/exercise_10.png&quot; alt=&quot;실습 환경 셋팅&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/1946b6da84248216319dcfa390590105/a2eea/exercise_10.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 529px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 51.79584120982986%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAACK0lEQVQoz5WRS28SYRSGZwRGSUAMi2qTNiml3P0LTWotl+EuU5gZYICZAlJbTIwb/Ru2mjK4atWw0QKyc2OdTf0JRolsUBtXbsl0jt83rbUL08STPHnPOfOed/ENsQFA4HqIFABImAA5hhGp9xdw+OE9Ofr8ifz18wjPesbo23ddCc+D++Z3O63dzpuXh1u99sHb7kDZfbGnPNnaVrafPlNacltHbj9Xdlqy8qrTUfqDgdLt9Q66/f7H1/v7ezmWtRB/6pLZPF3MF8eNZhMqjTrU1zegtn4PylIVxNpdYAtFSDFZSK+yiBwwLA9ZvgCrXB54oYx22fHM7OzMWaCBIOZuR5NfilIdCuXqpCBW1XxlTcUqrNXVfFlSuZKIkNBeUllB1HfIM0kwHCwuLQ+v2e0LxLlyxNLM13K1AXxZOmaFisaXRK0o1jROEDV0iPqqxnAFjeELWjrHaxkujznOsBwE6ejIetXmOku7YjY7lkORIZ1I4Y8ThBqkY2ooGldP+pN5JRJV6XhSRT41HEuowVhqEkkxcCtED222c4GU0eAIRhM/7vAChOgYhONJCMcwiVNN6rsQmtliCRqbTcgg71Jaggi/CYsr8aMpu+VvoNFovOH1Bx55/AHZ7fW33D6//E+8ftmD1Be4qavb62uhOxnxmKKoaT3MYrViMSOmEPhh3f8JvrmOM06z0F82GEiny03NL7guz807LwR7kFdXhxP3HjxTJpOJxFm/AUqJG1xeTIClAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;실습 환경 셋팅&quot;
+        title=&quot;&quot;
+        src=&quot;/static/1946b6da84248216319dcfa390590105/a2eea/exercise_10.png&quot;
+        srcset=&quot;/static/1946b6da84248216319dcfa390590105/cf440/exercise_10.png 148w,
+/static/1946b6da84248216319dcfa390590105/d2d38/exercise_10.png 295w,
+/static/1946b6da84248216319dcfa390590105/a2eea/exercise_10.png 529w&quot;
+        sizes=&quot;(max-width: 529px) 100vw, 529px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;ol start=&quot;13&quot;&gt;
 &lt;li&gt;마지막으로 src/main/webapp 폴더는 삭제한다. (해당 폴더는 더이상 사용하지 않기 때문)&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img src=&quot;./20170904-java-web-develop-with-spring/exercise_11.png&quot; alt=&quot;실습 환경 셋팅&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/39f84ce7257b8f4f791155608a3749c8/cbf7c/exercise_11.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 484px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 126.23966942148759%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAZCAYAAAAxFw7TAAAACXBIWXMAAAsSAAALEgHS3X78AAAEH0lEQVQ4y5VVyY7kRBCt75gDcAUJDiP1dKu7a/WaTperbJf33bV194hFjEaCEQc+BTgg9WEOfOEjIl29IPUgOITCmc58Ge9FROYoiCOU/RZdU6LuOlR1hSRL4a48BJvwBQuU90PyYQghHZjChu0ITBY6Rq4n0eQb3HYZtvstgsCDlBbcpYDr2oN//k1e8rca24/jpScwnU0xWq5cVKmPm75A09UDmHsCOC1+BPiEPQHOMHJciaJIcdx3qNuGTnVhOQOF/2NMfTwlQMOW8OMc9eEOYZzCEBILS0CzHfL/1Xi9xNWEAYUDgzavwwhRf0Rc1DAsG5ppq3nDFif/byYoMRLXHOGcTpiZFO5ch5PVKHdHhGkB6W8wM8TwT7dxrVmY0PglG7OndRfXlJTPzgVenVn4/MLBuZthEW9hpAd8uQjx6o2NL96YeD1zcKZ7+GZsfdK+JrtcWBixBnOTQnZXcNYh6iREWpQqSmu5xkQz4K19pDmNSR7LkS+a7bhYrgOMmLsfJaiJatVtYZIeU01XGmqkpSWWiNMaSz/AQs0J6KQbm3byc8OiICrIlY8RTziej6zuUTYd4qyAv0mGDQSoOx6iskVRtyoCrgIGeA7O46rr4fnhUDa6sKBLid2uwfHuFgUB266nNkyJsiDqOQHWbY+srCmANVwCHw4VKrL9zS21K0Vo0IRJdILdHg1tKNtO0eOFGunLEqRZoqLfpDnCJEVA9co1+wAo6PCW9vO+kWZasDzS8PgjdoeD0kIVt6I01BlfBps0o0hXp4OE+s/rOAcszSrYQFLklBQXzsZDdqjRbQ/o9gf0ZKwXd8BMNxXllKgWTYum3ymgp+QMPslLok6ALgkZVpVKRkQWU4RpWcGWS7VpToCsEVcAgzL1FXUVgz5QNqlkdqShKpuHyZeM/81OgO12rxKy5ABIPwZ5WMfgLIkCHMJ3XrZTSTjeSlF6SMRz/YyT8dyQZdbAsk+XwJPp1uAXhqmSwYDcAHyZPLGyH4tc1TOtGxlyRReAxOXcwNXCxBX7uakuA/ZXdGnwyazxJsmQkMZMTyWJi51KhenztwL8SgtxnRww8TKM/QaXXoHXVoQr8mdOiks7oAh9qr+ckhET7RweeYsC4XmTOoktykpVDSPWap2m6N7eIa8aSkCg9NOVNi5lWceS3pKWnoeiTFGVCZomhxDU79oUujGDaS5QVZlaR3XowA5iRNsblHWnLlrOlsqeZWDsdtDf3qP/9S+s333E5HgP/duPGO//xHn7Oy66P3BW/wb3+3s4390PZaOr21mi7yscbo4UaavC5y6aEWU7f4/0+AvC/gOc8ieY2Xs41c/qW5KX1QeI/B2M+IfhCdBOpcDi6v/oAkdRltLGJqL2iwLESQCfntooDtSTG0WUMPoWwiT6C/wN4m28ULXbVcYAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;실습 환경 셋팅&quot;
+        title=&quot;&quot;
+        src=&quot;/static/39f84ce7257b8f4f791155608a3749c8/cbf7c/exercise_11.png&quot;
+        srcset=&quot;/static/39f84ce7257b8f4f791155608a3749c8/cf440/exercise_11.png 148w,
+/static/39f84ce7257b8f4f791155608a3749c8/d2d38/exercise_11.png 295w,
+/static/39f84ce7257b8f4f791155608a3749c8/cbf7c/exercise_11.png 484w&quot;
+        sizes=&quot;(max-width: 484px) 100vw, 484px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;p&gt;실습 프로젝트 실행을 위한 준비 과정은 다음과 같다.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;IntelliJ IDEA &gt; 메뉴 표시줄 &gt; Run &gt; Edit Configurations… 클릭&lt;/li&gt;
 &lt;li&gt;왼쪽 상단에 &lt;code class=&quot;language-text&quot;&gt;+&lt;/code&gt; 버튼 클릭 &gt; Tomcat Server &gt; Local 클릭&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img src=&quot;./20170904-java-web-develop-with-spring/exercise_12.png&quot; alt=&quot;실습 환경 셋팅&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/da491e25aaad8e8a813dca074fedaa48/34106/exercise_12.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 70.36346691519105%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsSAAALEgHS3X78AAABiklEQVQ4y5WTOU/DMBiG/WcYmRiKRM/EiWOnSY8crXqIduHYEBILAgYmpEJPyt99sd0GhTS0ZXjk2P7yfPZnm0w+plisPrFaf0nWmMwWePtYYLZc6fHpfIH36UwznS/12Fwh59VcFmIwAa/ZgskcGJaF00IJJ2dFXNRMVAyKsqRiWqhSha2/E86LZRQykCjuIOr2pJDD4i6YcMHdOmz5bR3AFvUdSDuOMbgcawGVUsPmWk4dcRTZWOIHGyFzfT2ZQDOBxyYhcRigPxzIjgNq23KFTP9spOSJ7BgpCfojdEc34K0ejHoMyj25fa5r6QhV03+uMOzdonv9Atq5R6l1h/b4AdHVK9jgCXz4DGfwCFM09S04SshkoOv5EJ4nT3d7gvUAVeb/YDIVzLftAeGmVnJLzhbVl3WkakUJSuYk0v1bJ+mCp4N/JxE7h5MnNrPC9BUxc045HZcrZH+sULWNdogg7qKt6aARRLq++xKru0ss4eVOqmfEXE+yeVJ5MjWmEjWCEMyPUBMBvgFBnBaDAgxkNgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;실습 환경 셋팅&quot;
+        title=&quot;&quot;
+        src=&quot;/static/da491e25aaad8e8a813dca074fedaa48/b9e4f/exercise_12.png&quot;
+        srcset=&quot;/static/da491e25aaad8e8a813dca074fedaa48/cf440/exercise_12.png 148w,
+/static/da491e25aaad8e8a813dca074fedaa48/d2d38/exercise_12.png 295w,
+/static/da491e25aaad8e8a813dca074fedaa48/b9e4f/exercise_12.png 590w,
+/static/da491e25aaad8e8a813dca074fedaa48/f9b6a/exercise_12.png 885w,
+/static/da491e25aaad8e8a813dca074fedaa48/34106/exercise_12.png 1073w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;ol start=&quot;3&quot;&gt;
 &lt;li&gt;아래와 같은 다이얼로그가 뜨면 다이얼로그 상단에 위치한 Name 항목에 적당한 이름을 입력 후 오른쪽 하단에 Fix 버튼을 클릭한다.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img src=&quot;./20170904-java-web-develop-with-spring/exercise_13.png&quot; alt=&quot;실습 환경 셋팅&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/0c97ced421d2ee774d165270cf4becc0/ad7af/exercise_13.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 73.28825021132714%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAABYlAAAWJQFJUiTwAAACoUlEQVQ4y6WT22oTURSGB8ELBb3WC7EnFcELUbA258lkzueZzHTSNEmbnlBbkPHKN5CCtFqxVG0mzVt4qcVbn6ZQccdZrr2TeEQrGPhYOzN7/vn/tddwL1prZ/b2nm/sdl49SjqduNc7iLvdJE6QLq6Tg4P46dZ2/GRzM362sxN38P+bJGE1GbLf7T7s9nqPX+/vZ7nr125c9qIatO+tQ9BogxHWQfUicKMGLK5twOr9B9BsL8H8wiI0FtvQWlpGVmCu2YJovgm1RhPC+jwsLK+C6XgvuQuXxsbzonqke8GXgmx+vl2QyK2CSDKCQgwnILJuEkkziW65pKLoRJA1RCWliszgRZkohnVs+yHM5Itb3MTU1JggKceCrEBFVlNJ1RiioqZuEKZ+GKV+4Kea5aSybqSqaaWm66e2H6SG46aiqqeSZhDddiFX4re58cmp8TIK4g0QFC1FB4AOgFZ/toZEDNuvgun5WANAQcQDw/GACumOS+xqCEVB/C6IcahQWlEGgrTSB+jDFgo51QAMfJgKK6YFkm4AtmOAYQ4dlv8uSN2Ec3UmhpFBtWxQTRvXNr7MHbhjOITuLfDC74IjMbzGBL1gFjyMbLG4VbBodIzr4nUXYzq4x6mGJKjVTxbU0RV1hj1idcTo/g/QaYBssfTnyKKmM0ejWLR/kmowMXqAv0Doi/In9VAxTFb/AaJgbweHMjE5Vpbko2FcOrR9Cm7qY+Q+OvtWcQb7OLP90R6c3T6aoXxSMHK+xG9xk1euTlDb9PRw4hkyYmHEEOeQNZ8eTBixyvYNoTHpaGmWC7XWCrbJ3uXwy7uYKfJvp7O5D9OZ3HvkcMSdmezPZLKDe9kcW+eK/KGoaofo9t1dXvt4c7qwzuHvFHIWOY+c+09OfwVF5fhKyXiqMgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;실습 환경 셋팅&quot;
+        title=&quot;&quot;
+        src=&quot;/static/0c97ced421d2ee774d165270cf4becc0/b9e4f/exercise_13.png&quot;
+        srcset=&quot;/static/0c97ced421d2ee774d165270cf4becc0/cf440/exercise_13.png 148w,
+/static/0c97ced421d2ee774d165270cf4becc0/d2d38/exercise_13.png 295w,
+/static/0c97ced421d2ee774d165270cf4becc0/b9e4f/exercise_13.png 590w,
+/static/0c97ced421d2ee774d165270cf4becc0/f9b6a/exercise_13.png 885w,
+/static/0c97ced421d2ee774d165270cf4becc0/2d849/exercise_13.png 1180w,
+/static/0c97ced421d2ee774d165270cf4becc0/ad7af/exercise_13.png 1183w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;ol start=&quot;4&quot;&gt;
 &lt;li&gt;아래와 같이 ooo.war (exploded) 항목을 클릭한다. (디버깅을 위해 war 파일을 푼 형태로 실행) 그 다음 OK 버튼을 클릭하여 설정을 완료한다.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img src=&quot;./20170904-java-web-develop-with-spring/exercise_14.png&quot; alt=&quot;실습 환경 셋팅&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/34f2b0325bc47523d2a9e4a21a657bf8/030a8/exercise_14.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 15.347334410339256%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAAAsSAAALEgHS3X78AAAAvklEQVQI1zWK/06CUABGeSiFe9HcbDMsfsiUnCJMCBXBcnOzF8kk9WWPt7v64+xs33cM58UlmU3xwxApLITZQlhtrD93O7ZCajq24KFrY0tL//+NFKbezHYL48kfE0wW5HnJPNvyuiiIlZO3Srv8OLJc77VX1UH5k7TYkar/t5mla7xxTBAl9B4djP7Qo+dlRPUXfn3FWZ0J6gvR/opf/SgaBsU3gbK3bXDLM8+bhnB3YaQ6t1Tb5sTo/YZ0K+66KXizbUp//gAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;실습 환경 셋팅&quot;
+        title=&quot;&quot;
+        src=&quot;/static/34f2b0325bc47523d2a9e4a21a657bf8/b9e4f/exercise_14.png&quot;
+        srcset=&quot;/static/34f2b0325bc47523d2a9e4a21a657bf8/cf440/exercise_14.png 148w,
+/static/34f2b0325bc47523d2a9e4a21a657bf8/d2d38/exercise_14.png 295w,
+/static/34f2b0325bc47523d2a9e4a21a657bf8/b9e4f/exercise_14.png 590w,
+/static/34f2b0325bc47523d2a9e4a21a657bf8/030a8/exercise_14.png 619w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;ol start=&quot;5&quot;&gt;
 &lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;${PROJECT_ROOT}/web&lt;/code&gt; 폴더 아래에 index.jsp 파일을 생성하고 아래 내용을 입력한다.&lt;/li&gt;
 &lt;/ol&gt;
@@ -5047,7 +6609,7 @@ Hello, world!
 &lt;br/&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3&gt;Model 1&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&quot;./20170904-java-web-develop-with-spring/java_web_develop_model_1.png&quot; alt=&quot;Model 1 Java Web 개발&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;java_web_develop_model_1.png&quot; alt=&quot;Model 1 Java Web 개발&quot;&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Only view code (JSP)&lt;/li&gt;
 &lt;li&gt;옛 PHP 개발 방식과 유사하다.&lt;/li&gt;
@@ -5069,7 +6631,40 @@ Hello, world!
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3&gt;Model 2&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&quot;./20170904-java-web-develop-with-spring/java_web_develop_model_2.jpg&quot; alt=&quot;Model 2 Java Web 개발&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/88599bc577570e12245bae3c1e6f614e/96159/java_web_develop_model_2.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 40.481651376146786%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAIABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAQF/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEAMQAAAB3pwA/8QAFxAAAwEAAAAAAAAAAAAAAAAAAAECEf/aAAgBAQABBQI1k08//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwE//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPwE//8QAGBABAAMBAAAAAAAAAAAAAAAAAAESITL/2gAIAQEABj8CT02z/8QAGhAAAgIDAAAAAAAAAAAAAAAAAAERMVFhcf/aAAgBAQABPyGNmCKQ3Uf/2gAMAwEAAgADAAAAEIPP/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPxA//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPxA//8QAGhABAQADAQEAAAAAAAAAAAAAAREAIaExkf/aAAgBAQABPxARd28yTDaYw5gIUH3Y/M//2Q==&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;Model 2 Java Web 개발&quot;
+        title=&quot;&quot;
+        src=&quot;/static/88599bc577570e12245bae3c1e6f614e/c739e/java_web_develop_model_2.jpg&quot;
+        srcset=&quot;/static/88599bc577570e12245bae3c1e6f614e/8ee9c/java_web_develop_model_2.jpg 148w,
+/static/88599bc577570e12245bae3c1e6f614e/ebbe7/java_web_develop_model_2.jpg 295w,
+/static/88599bc577570e12245bae3c1e6f614e/c739e/java_web_develop_model_2.jpg 590w,
+/static/88599bc577570e12245bae3c1e6f614e/96159/java_web_develop_model_2.jpg 872w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Model 1의 view 코드에서 진짜 view를 담당하는 코드(html, jsp)과 view에 바인딩할 데이터를 로딩하는 로직(controller)으로 나눠진 형태&lt;/li&gt;
 &lt;li&gt;이제 view에서는 비지니스 로직과 DB 액세스 로직이 없어지게 된다.&lt;/li&gt;
@@ -5090,7 +6685,41 @@ Hello, world!
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3&gt;Advanced Model 2&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&quot;./20170904-java-web-develop-with-spring/java_web_develop_model_2_2.jpg&quot; alt=&quot;Advanced Model 2 Java Web 개발&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/5f5feebb4a7bf192d8d163f58d794a01/e66b8/java_web_develop_model_2_2.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 37.244348762109794%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAHABQDASIAAhEBAxEB/8QAFwABAAMAAAAAAAAAAAAAAAAAAAIDBf/EABQBAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhADEAAAAd2kJA//xAAYEAACAwAAAAAAAAAAAAAAAAABEQAhMf/aAAgBAQABBQI4Grn/xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAUEAEAAAAAAAAAAAAAAAAAAAAQ/9oACAEBAAY/An//xAAZEAACAwEAAAAAAAAAAAAAAAAAASExYYH/2gAIAQEAAT8hSVm9C2un/9oADAMBAAIAAwAAABDwD//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8QP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8QP//EABsQAQACAgMAAAAAAAAAAAAAAAEAESFxMYGh/9oACAEBAAE/EKci2zhNguFtTcpPCy95n//Z&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;Advanced Model 2 Java Web 개발&quot;
+        title=&quot;&quot;
+        src=&quot;/static/5f5feebb4a7bf192d8d163f58d794a01/c739e/java_web_develop_model_2_2.jpg&quot;
+        srcset=&quot;/static/5f5feebb4a7bf192d8d163f58d794a01/8ee9c/java_web_develop_model_2_2.jpg 148w,
+/static/5f5feebb4a7bf192d8d163f58d794a01/ebbe7/java_web_develop_model_2_2.jpg 295w,
+/static/5f5feebb4a7bf192d8d163f58d794a01/c739e/java_web_develop_model_2_2.jpg 590w,
+/static/5f5feebb4a7bf192d8d163f58d794a01/5413e/java_web_develop_model_2_2.jpg 885w,
+/static/5f5feebb4a7bf192d8d163f58d794a01/e66b8/java_web_develop_model_2_2.jpg 929w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;앞에서 소개한 Model 2의 방식으로 코딩하다보면 중복되는 코드가 생겨남&lt;/li&gt;
 &lt;li&gt;이런 중복되는 로직을 좀 더 객체지향적으로 리팩토링한 방식&lt;/li&gt;
@@ -8050,10 +9679,74 @@ decorate&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span c
 &lt;ul&gt;
 &lt;li&gt;case class는 패턴매칭에 유용하게 쓰임&lt;/li&gt;
 &lt;li&gt;case class는 자동으로 companion object가 만들어지며, 멤버 변수들은 자동으로 val로 선언됨&lt;/li&gt;
-&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[Spring Transaction의 이해 Part1 - Trasaction AOP 설정과 Java Configuration]]></title><description><![CDATA[얼마전에 스프링 관련 커뮤니티에서 Spring에서 XML로 설정된 Transaction Advice에 대해서 Java Configuration 방식으로 어떻게 바꾸는지 질문이 올라왔었다.Spring Transaction…]]></description><link>https://icednut.github.io/2017/02/20/20170220-spring-transaction-part1-overview/</link><guid isPermaLink="false">https://icednut.github.io/2017/02/20/20170220-spring-transaction-part1-overview/</guid><pubDate>Mon, 20 Feb 2017 01:54:01 GMT</pubDate><content:encoded>&lt;p&gt;얼마전에 스프링 관련 커뮤니티에서 Spring에서 XML로 설정된 Transaction Advice에 대해서 Java Configuration 방식으로 어떻게 바꾸는지 질문이 올라왔었다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;./2017/02/20/20170220-spring-transaction-part1-overview/question.png&quot; alt=&quot;Spring Transaction 질문&quot;&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[Spring Transaction의 이해 Part1 - Trasaction AOP 설정과 Java Configuration]]></title><description><![CDATA[얼마전에 스프링 관련 커뮤니티에서 Spring에서 XML로 설정된 Transaction Advice에 대해서 Java Configuration…]]></description><link>https://icednut.github.io/2017/02/20/20170220-spring-transaction-part1-overview/</link><guid isPermaLink="false">https://icednut.github.io/2017/02/20/20170220-spring-transaction-part1-overview/</guid><pubDate>Mon, 20 Feb 2017 01:54:01 GMT</pubDate><content:encoded>&lt;p&gt;얼마전에 스프링 관련 커뮤니티에서 Spring에서 XML로 설정된 Transaction Advice에 대해서 Java Configuration 방식으로 어떻게 바꾸는지 질문이 올라왔었다.&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/0b9598e00ac34851c742aa5677489423/53fd2/question.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 502px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 147.60956175298804%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAACXBIWXMAAAsSAAALEgHS3X78AAAErUlEQVRIx51WaZPTRhDV30/lW35IqoCqhCwBkiWEENj1JcmSLOv0JR+yZFvWvS/dbZtlqSXXVHX1jGam73ktRVMH+OHZE3j+DME0Rprusd7sEMcJVusNttsEeV6Ax93d3VeJR9M0UF6/fIHvvv0GNx+7CGcbzBdLTOdrpLs98qLEkYQ1bYt/Giy0pXPKarnEJAgRb2LMp1Ns4y1itiyOEa9WSIhvz7Ra0jrNsDuUSHZH4gXxnJRWnwQrabrDQLVPpNnwgwU0zcVw6NG3MYaGC93w4Lkh1G4fva4GtW9A1UbQdRudmwFGlgNraGC/O0DJsiM8x8fYdilW5SkWLZvPsbm4c+9WU9eoyvLsYoOqKtFS7PLjETXtKWmSYGzZcO0xfMfDYr7ANJxgTe5FiwgTPyC+FHe9sYNltMRsMsV4NEbgBSSwfhBHJaGYmbqBoarD0IZycZemSEhRst1iQ/FMtokQx7euGwk+W8NZ/TLbCl+yTQu6poulhmYID/1QBK5XaxHExELbi/9fZPjeQrpkkmUsyCBL2cL/O0RgdjhITDgeHLemaSnwDeqqouBX4pYcPtciJ+XirrhMyeNzFZ0XgRElYdDpioW2ORJ3mTvWCIHrQx9o4oGpD+FQIizDwmI2w5ISNp/NhXzXk3VJ2SeBEWw6pPU12RjR3DJMEnRKktZXMRqaGHR7krzA40ewlUpYzBZSLg9cZgvZCr5k0QVDHVKRmiLMIWt1EmifrdboHCsKKGG9my4p6VNZhbJ2RjayQ0YCFycLZ6SR4zgNJrQewR279CQnZLUvNTqbzEiRRfszsaZt7iiWFT2GI1GOgkgKuygKZMdMaksO3lVEJQU5p5jkqOqCOF0qMnpB9CpQom5ymT82FNd1cXV1BX7TJA7LVMMs/ojf3j/D6zdP8er6CV788j1+ffsUHfUl3OhnTOK32B4mRB508x362h/oab/DtHtQ/nux3U/zMiEMpcpwDVi2Dj90oJRVhmMZo6hS5BXxMkWWLR/Q4RAJz4sNijoVyqstynon4WnbnDJMYahzKLvjAoukQ66qmMbvEcUDhMFr2PZzjEbP4ThXZ/4TotU7OttHlA4QJT06/yfmy49w3R9hWc/g+2+gPA7G97D+qK9fDIYxJmkBnHrGtHteyzPizeMxB+MlV0JB7YBfQlHk5DpXQCHr07fidJaKXFkTPN3e3uL6+hphGJKADPv9XoSqqirfu92uzD98+ICbmxtCc3qKpolOpyPE9y3Lwng8ZoFrcOlomiYfmabUW1hzEAQiyDAM2e/1eiKMLzJnRSzM930x4MgWXpDj8zZZkfvtv+h0D+PYXmJYi/+C0gSg3BLSJBW+o2K/oHd9Vvp3QwSya67jwmRAOLcCUye0UcnFTg+D3kAQZz5dgLGTlRx2O1HK80t74D3u3wr7zo8/8HxMCWg9BgVCj5CAIqRvDA4895wTtHFz4mbFuLmKVqc+Tj39sD8IOIvL/LuxoY9RxK8iOyE2I3NVfSqhpqklUbyuz6j9qMsVbTD8XA6XZyE1CWjO3e0ilAP/OX1S/BlRo88xIVc58GxyRG4E9GvCtchrtpzrk5WeKqH96g8T/xz8BX973AxB8ToMAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;Spring Transaction 질문&quot;
+        title=&quot;&quot;
+        src=&quot;/static/0b9598e00ac34851c742aa5677489423/53fd2/question.png&quot;
+        srcset=&quot;/static/0b9598e00ac34851c742aa5677489423/cf440/question.png 148w,
+/static/0b9598e00ac34851c742aa5677489423/d2d38/question.png 295w,
+/static/0b9598e00ac34851c742aa5677489423/53fd2/question.png 502w&quot;
+        sizes=&quot;(max-width: 502px) 100vw, 502px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    
 &lt;br/&gt;
-&lt;img src=&quot;./2017/02/20/20170220-spring-transaction-part1-overview/answer.png&quot; alt=&quot;댓글들&quot;&gt;&lt;/p&gt;
+
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/d6020682c826c66a6740b3da96df1c85/347e3/answer.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 499px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 124.24849699398798%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAZCAYAAAAxFw7TAAAACXBIWXMAAAsSAAALEgHS3X78AAAEgElEQVQ4y2VVaW/bVhDU3+9faFGgyNf2Y1ukAQLkqC3roA6K4iXelyTLuizbUg5kOvNkuw5iYM3HR3Lf7uzMqBUN+rD/eY1J0CBOayRxhrJaom5uEM8SFHmJLKswC2MUWcGokWclqqrBfn+H4+kzHo6fTNwe7tFKrCv8+/sfsP05oriG56cI0zXi6oC6qlGUDap6wQOW2G5vz7E7hxIc7h7OwfXd/REt5/07fHj1CmO3hB8k8ByflaWIWJHrBqymYFRwnQDe1Ifvzbj24Uw8hP6MESJlV/puf3uHVhP6GL/7CKs3Qr9jYWCNMeh00W8zrvqYjBwM+cyxXdgDG4PugPsWrK6F8cAx3/Q7ffT47m53QOsbzn+eO0M0y+H7rMzLEEQNX9hjS5y2fFGnC6+Xcfr0BZ8+f33G8f7hhFaWZnCcKfx4iSRdIE4qxMUaQbJCXc+RFw3yvMJieYP1ZofVaoP1emuuNzdbXF/fMNbYrHcmaev133/ht19+hmW5GFsTjPpDuLaD9vsLjIeOadnqcs/xMOixXbYsvGzuOxMXI2tk8F0xqalwt9fkDmhYTUE6xLMMaVIgJtA5KVNwIA2nnKclyrw2k9SH97xq/dS64kEJj1zohThKEXBiuiZRxiknXGfkYWWmHngRI8QsiMhLJi9qw1OxIRZH+Z5pWcl0kqoL+XKeFhxOwipzQ+Ao0jozB82CGBn3hae4p0EdDg+45VU5TEL9041aypLSVBOzurqam6QVia3DVIFCe1KNDvPJy4Ds0EEanMFQCXXKsD8iwGNYnQEBn6Db7nEIIzME8fHqooPOZdfs9656GIqvfDbgULrtPgcV/F+hylcrIU/yidVyuTI6VeW7/ZmD+9t7s7ej5M735309F50kyRctn5ClZ8GXRcU250a/WZqjoYaFa8mW5vOlgaJizLVPo9BzHXx6HG7rySUcJ0IYVcYcvOgazmwFkT4WZpo8k4rET4Rek8gitO7vmEj0MQlPlM5qeY0/f/0JblBgMo0NJQKPE2WSlCHQAzc0NBFF0vQ8rCROzaBEarnPdxhu12sqw8bFh0uawRC9S4LPAXQfB2LxKnNof7zCBVUkc/j47gKdiz4V42PNqo+nF7R5YMmigksqTGlNchdJSxSRbU1GLrlIOrGyhhiK3MZo2U1Gi/uBh5JSSK+bMtFoQPqwSovaFY20Hg8mRsOG3IShoAwX82tjICUlKix/SBiFkl9s5KQqJTVvGjCpZSp3jRmMjSyVTNpecMrCUziqy+eEmlJIx5azKHpXA7TbQ4T8+JpSq0mjOZOIo6KNrsvFithtzPPNZvf9UORxSU4PnG+Q5uRgtUPaHLHiBw0/lH7nixvc8/0vX78Z3j0Z6/HRbQxttCmmv33zBiM7YmsRPLY7tT3Yw7HxQ5u+qKnbZIFaHxNj+eGY7Y+4p7U4qaTPFUpCwkumOh5OMWHCoqxREp8lq5OKRGy1ujCtr6mSMwxSjX5Pji8x1DUtVmjYcpwt2OaG7W6xWK2xlO1Tq6fPbI1CMPH4e/IUT0r5D3XrIZ3uEomwAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;댓글들&quot;
+        title=&quot;&quot;
+        src=&quot;/static/d6020682c826c66a6740b3da96df1c85/347e3/answer.png&quot;
+        srcset=&quot;/static/d6020682c826c66a6740b3da96df1c85/cf440/answer.png 148w,
+/static/d6020682c826c66a6740b3da96df1c85/d2d38/answer.png 295w,
+/static/d6020682c826c66a6740b3da96df1c85/347e3/answer.png 499w&quot;
+        sizes=&quot;(max-width: 499px) 100vw, 499px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;p&gt;댓글을 보고 좀 더 구체적으로 알아보고 싶다는 욕심이 생겨서 해결방법을 찾아보기 시작했다. 구글이나 스택오버플로우에서 찾아보니 딱히 만족스러운 방법이 없었으나 스프링 레퍼런스에서 힌트를 찾을 수 있었다.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;em&gt;17.5.9 Using @Transactional with AspectJ&lt;/em&gt;&lt;/p&gt;
