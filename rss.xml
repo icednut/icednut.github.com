@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Icednut's Notes]]></title><description><![CDATA[A starter blog demonstrating what Gatsby can do.]]></description><link>https://icednut.github.io</link><generator>RSS for Node</generator><lastBuildDate>Fri, 16 Aug 2019 12:44:41 GMT</lastBuildDate><item><title><![CDATA[React Input에서 자동완성(Auto Complete)가 활성화 안되는 이슈 해결하기]]></title><description><![CDATA[이슈: React 환경의 에 자동 완성 기능이 활성화 되지 않음보통 Text Input…]]></description><link>https://icednut.github.io/2019/08/16/20190816-react-input-autocomplete-issue/</link><guid isPermaLink="false">https://icednut.github.io/2019/08/16/20190816-react-input-autocomplete-issue/</guid><pubDate>Fri, 16 Aug 2019 17:43:11 GMT</pubDate><content:encoded>&lt;h3&gt;이슈: React 환경의 &lt;code class=&quot;language-text&quot;&gt;&amp;lt;input type=&amp;quot;text&amp;quot;&amp;gt;&lt;/code&gt;에 자동 완성 기능이 활성화 되지 않음&lt;/h3&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Icednut's Notes]]></title><description><![CDATA[A starter blog demonstrating what Gatsby can do.]]></description><link>https://icednut.github.io</link><generator>RSS for Node</generator><lastBuildDate>Fri, 16 Aug 2019 12:47:33 GMT</lastBuildDate><item><title><![CDATA[React Input에서 자동완성(Auto Complete)가 활성화 안되는 이슈 해결하기]]></title><description><![CDATA[이슈: React 환경의 에 자동 완성 기능이 활성화 되지 않음보통 Text Input…]]></description><link>https://icednut.github.io/2019/08/16/20190816-react-input-autocomplete-issue/</link><guid isPermaLink="false">https://icednut.github.io/2019/08/16/20190816-react-input-autocomplete-issue/</guid><pubDate>Fri, 16 Aug 2019 17:43:11 GMT</pubDate><content:encoded>&lt;h3&gt;이슈: React 환경의 &lt;code class=&quot;language-text&quot;&gt;&amp;lt;input type=&amp;quot;text&amp;quot;&amp;gt;&lt;/code&gt;에 자동 완성 기능이 활성화 되지 않음&lt;/h3&gt;
 &lt;p&gt;보통 Text Input 태그에는 이전에 작성했던 텍스트가 기본으로 자동완성 되는 줄 알았다. 마치 아래 예제처럼 말이다. (스크린샷에 까만색 팝업 레이어가 바로 자동완성된 텍스트가 출력된 모습이다)&lt;/p&gt;
 &lt;p&gt;
   &lt;span
@@ -94,7 +94,6 @@
 &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;form&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;span aria-hidden=&quot;true&quot; class=&quot;line-numbers-rows&quot; style=&quot;white-space: normal; width: auto; left: 0;&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://triki.net/prgm/126&quot;&gt;http://triki.net/prgm/126&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.w3schools.com/Tags/att_input_autocomplete.asp&quot;&gt;https://www.w3schools.com/Tags/att&lt;em&gt;input&lt;/em&gt;autocomplete.asp&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;이런 글들은 반은 맞고 반은 틀렸다. autocomplete 프로퍼티만 추가하면 되는게 아니라 submit을 해줘야만 input 태그에 입력한 값이 브라우저에 사이트 별로 저장이 되기 때문이다. 그런데 글에는 submit에 관한 내용이 빠져있다. 아무리 autocomplete 프로퍼티를 추가해도 submit을 하지 않으면 자동 완성 기능을 사용할 수 없다.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;html&quot;&gt;&lt;pre style=&quot;counter-reset: linenumber NaN&quot; class=&quot;language-html line-numbers&quot;&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;Form.Control
@@ -270,7 +269,7 @@
 &lt;h3&gt;결론&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;input 태그에 자동완성(auto complete) 기능을 사용하려면 form 태그와 그 form 태그 안에 submit button을 추가하여 input의 값을 submit 해야 한다.&lt;/li&gt;
-&lt;li&gt;input 자동완성 기능 지원은 브라우저 별로 상이할 수 있으니 확인해보고 사용하자.&lt;/li&gt;
+&lt;li&gt;input 자동완성 기능 지원은 브라우저 별로 상이할 수 있으니 확인해보고 사용하자. (&lt;a href=&quot;https://www.w3schools.com/Tags/att_input_autocomplete.asp&quot;&gt;https://www.w3schools.com/Tags/att&lt;em&gt;input&lt;/em&gt;autocomplete.asp&lt;/a&gt;)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;
   &lt;span
